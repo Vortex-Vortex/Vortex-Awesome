@@ -1,0 +1,38 @@
+local dir = os.getenv('HOME') .. '/.config/awesome/theme/icons'
+
+return {
+  --tags
+  coding = dir .. '/coding.svg',
+  firefox = dir .. '/firefox.svg',
+  brave = dir .. '/brave.svg',
+  chrome = dir .. '/google-chrome.svg',
+  code = dir .. '/code-braces.svg',
+  social = dir .. '/forum.svg',
+  folder = dir .. '/folder.svg',
+  music = dir .. '/music.svg',
+  game = dir .. '/google-controller.svg',
+  lab = dir .. '/flask.svg',
+  --others
+  menu = dir .. '/menu.svg',
+  close = dir .. '/close.svg',
+  logout = dir .. '/logout.svg',
+  sleep = dir .. '/power-sleep.svg',
+  power = dir .. '/power.svg',
+  lock = dir .. '/lock.svg',
+  restart = dir .. '/restart.svg',
+  search = dir .. '/magnify.svg',
+  volume = dir .. '/volume-high.svg',
+  brightness = dir .. '/brightness-7.svg',
+  chart = dir .. '/chart-areaspline.svg',
+  memory = dir .. '/memory.svg',
+  harddisk = dir .. '/harddisk.svg',
+  thermometer = dir .. '/thermometer.svg',
+  plus = dir .. '/plus.svg',
+  checkbox = dir .. '/checkbox-checked.svg',
+  half_arrow_up = dir .. '/half-arrow-up.svg',
+  half_arrow_down = dir .. '/half-arrow-down.svg',
+  half_arrow_left = dir .. '/half-arrow-left.svg',
+  arrow_up = dir .. '/arrow-up.svg',
+  arrow_down = dir .. '/arrow-down.svg',
+  translate = dir .. '/google-translate.svg'
+}
