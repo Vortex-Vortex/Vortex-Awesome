@@ -34,10 +34,10 @@ local function create_slider()
             [[bash -c "df -h /home|grep '^/' | awk '{print $5}'"]],
             function(stdout)
                 local space_consumed = stdout:match('(%d+)%%')
-                local total, used, avail = stdout:match('(%d+G)%s*(%d+G)%s*(%d+G)%s*')
+                local total, used, avail = stdout:match('(%d+G)%s*(%d+)%.?%d*G%s*(%d+)%.?%d*G%s*')
 
                 slider_bar.value = tonumber(space_consumed)
-                harddrive_text.text = used .. '/' .. total
+                harddrive_text.text = used .. 'G/' .. total
             end
         )
     end

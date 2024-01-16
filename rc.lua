@@ -37,14 +37,15 @@ _G.client.connect_signal(
         end
     end
 )
---[[
+---[[
 _G.client.connect_signal(
   'mouse::enter',
   function(c)
         -- Focus follows mouse
     c:emit_signal('request::activate', 'mouse_enter', {raise = true})
   end
-)]]
+)
+-- ]]
     -- Glowing border for focused windows
 _G.client.connect_signal(
   'focus',

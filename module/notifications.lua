@@ -7,7 +7,7 @@ local dpi = beautiful.xresources.apply_dpi
 naughty.config.padding = dpi(4)
 naughty.config.spacing = dpi(4)
 
-naughty.config.defaults.timeout       = 5
+naughty.config.defaults.timeout       = 10
 naughty.config.defaults.screen        = 1
 naughty.config.defaults.position      = 'bottom_left'
 naughty.config.defaults.margin        = dpi(8)

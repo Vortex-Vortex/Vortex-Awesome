@@ -39,7 +39,7 @@ local clientButtons = awful.util.table.join(
         {'Control', modkey},
         4,
         function()
-            awful.spawn('amixer -D pulse sset Master 2%+')
+            awful.spawn('amixer -D pulse sset Master 10%+')
         end,
         {description = 'Volume up', group = 'Hotkeys'}
     ),
@@ -47,7 +47,7 @@ local clientButtons = awful.util.table.join(
         {'Control', modkey},
         5,
         function()
-            awful.spawn('amixer -D pulse sset Master 2%-')
+            awful.spawn('amixer -D pulse sset Master 10%-')
         end,
         {description = 'Volume down', group = 'Hotkeys'}
     )

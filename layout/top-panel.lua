@@ -116,7 +116,7 @@ local TopPanel = function(s)
         {
             ontop   = true,
             screen  = s,
-            height  = dpi(30),
+            height  = 30,
             width   = s.geometry.width,
             x       = s.geometry.x,
             y       = s.geometry.y,
@@ -127,7 +127,7 @@ local TopPanel = function(s)
     )
     panel:struts(
         {
-            top = dpi(30)
+            top = 30
         }
     )
 
