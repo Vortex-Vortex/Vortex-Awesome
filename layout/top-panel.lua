@@ -59,7 +59,7 @@ local systray_widget = wibox.widget{
         layout = wibox.layout.fixed.horizontal
     },
     widget = wibox.container.background,
-    visible = false
+    visible = true
 }
 
 systray_button:buttons(
@@ -78,10 +78,11 @@ systray_button:buttons(
 local textclock = wibox.widget.textclock('<span font="Roboto Mono bold 12">%H:%M:%S</span>', 1)
 
 local TaskList = function(s)
+    width = s.geometry.width
     return wibox.widget{
         Tasklist(s),
         widget = wibox.container.margin,
-        forced_width = 598,
+        forced_width = math.floor(width * 31 / 100),
         margins      = 1
     }
 end
