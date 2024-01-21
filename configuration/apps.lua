@@ -9,7 +9,7 @@ return{
         lock = 'sh /home/vortex/.config/i3lock-blur/lock.sh',
         terminal = 'terminator',
         code = 'terminator',
-        browser = 'waterfox-g4',
+        browser = 'waterfox',
         editor = 'kate',
         social = 'telegram-desktop',
         game = rofi_command,
