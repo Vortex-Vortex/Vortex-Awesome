@@ -29,7 +29,7 @@ awful.rules.rules = {
         rule_any = {
             name = { 'Picture-in-Picture' },
             type = { 'dialog' },
-            class = { 'Lxpolkit', 'lxpolkit', 'mpv', 'kcalc', 'kruler', 'huiontablet' }
+            class = { 'Lxpolkit', 'lxpolkit', 'mediainfo-gui', 'Mediainfo-gui', 'mpv', 'kcalc', 'kruler', 'huiontablet' }
         },
         properties = {
             floating = true,

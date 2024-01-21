@@ -12,6 +12,7 @@ local function hardware_monitor()
         },
         require('widget.ram-panel.ram-bar'),
         require('widget.harddrive-panel.harddrive-bar'),
+        require('widget.bluetooth-battery-panel.bluetooth-bar'),
         require('widget.cpu-panel.cpu-panel'),
         layout = wibox.layout.fixed.vertical
     }

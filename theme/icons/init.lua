@@ -34,5 +34,6 @@ return {
   half_arrow_left = dir .. '/half-arrow-left.svg',
   arrow_up = dir .. '/arrow-up.svg',
   arrow_down = dir .. '/arrow-down.svg',
-  translate = dir .. '/google-translate.svg'
+  translate = dir .. '/google-translate.svg',
+  bluetooth_battery = dir .. '/bluetooth-battery.svg'
 }
