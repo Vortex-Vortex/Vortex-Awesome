@@ -54,7 +54,7 @@ local function create_slider()
 
     local function update_slider()
         awful.spawn.easy_async(
-            [[bash -c "amixer -D pulse sget Master"]],
+            [[bash -c "amixer -D pipewire sget Master"]],
             function(stdout)
                 local volume = string.match(stdout, '(%d?%d?%d)%%')
                 slider_handle.value = tonumber(volume)
