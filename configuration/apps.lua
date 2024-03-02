@@ -14,8 +14,9 @@ return{
         social = 'telegram-desktop',
         game = rofi_command,
         files = 'nemo',
-        music = 'clementine',
+        music = 'pragha',
         quake = 'alacritty --title QuakeTerminal',
+        notes = 'rnote',
         screenshot = 'flameshot screen -p ~/Pictures',
         region_screenshot = 'flameshot gui --clipboard -p ~/Pictures',
         delayed_screenshot = 'flameshot screen -p ~/Pictures -d 5000',
@@ -35,6 +36,5 @@ return{
         "xmodmap -e 'add mod3 = Scroll_Lock'",
         'flameshot',
         'feh --randomize --bg-fill ~/.wallpapers/*',
---         'clementine',
     }
 }

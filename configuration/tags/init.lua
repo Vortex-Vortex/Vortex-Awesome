@@ -41,6 +41,12 @@ local tags = {
         screen = 1
     },
     {
+        icon = icons.edit,
+        type = 'notes',
+        defaultApp = apps.default.notes,
+        screen = 1
+    },
+    {
         icon = icons.music,
         type = 'music',
         defaultApp = apps.default.music,

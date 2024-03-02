@@ -110,6 +110,18 @@ local globalKeys = awful.util.table.join(
         awful.tag.history.restore,
         {description = 'Go back', group = 'Tag'}
     ),
+    awful.key(
+        {modkey},
+        '#86',
+        awful.tag.viewnext,
+        {description = 'View next', group = 'Tag'}
+    ),
+    awful.key(
+        {modkey},
+        '#82',
+        awful.tag.viewprev,
+        {description = 'View previous', group = 'Tag'}
+    ),
 
         -- Client/Window management
     awful.key(
@@ -157,8 +169,8 @@ local globalKeys = awful.util.table.join(
         {description = 'Switch to previous window', group = 'Client'}
     ),
     awful.key(
-        {modkey, 'Control'},
-        'n',
+        {modkey},
+        'Up',
         function()
             local c = awful.client.restore()
             if c then
@@ -178,6 +190,17 @@ local globalKeys = awful.util.table.join(
             end
         end,
         {description = "Toggle always on top", group = 'Client'}
+    ),
+    awful.key(
+        {modkey},
+        "Down",
+        function ()
+            local c = client.focus
+            if c then
+                c.minimized = true
+            end
+        end,
+        {description = "Minimize client", group = "Client"}
     ),
     awful.key(
         {modkey, "Control"},
@@ -414,7 +437,7 @@ local globalKeys = awful.util.table.join(
         {'Control', modkey},
         'Up',
         function()
-            awful.spawn('amixer -D pulse sset Master 5%+')
+            awful.spawn('amixer -D pipewire sset Master 5%+')
         end,
         {description = 'Volume up', group = 'Hotkeys'}
     ),
@@ -422,7 +445,7 @@ local globalKeys = awful.util.table.join(
         {'Control', modkey},
         'Down',
         function()
-            awful.spawn('amixer -D pulse sset Master 5%-')
+            awful.spawn('amixer -D pipewire sset Master 5%-')
         end,
         {description = 'Volume down', group = 'Hotkeys'}
     ),
@@ -430,7 +453,7 @@ local globalKeys = awful.util.table.join(
         {'Control', modkey},
         'm',
         function()
-            awful.spawn('amixer -D pulse set Master 1+ toggle')
+            awful.spawn('amixer -D pipewire set Master 1+ toggle')
         end,
         {description = 'Toggle mute', group = 'Hotkeys'}
     )
@@ -526,6 +549,67 @@ for i = 1, 9 do
                 end
             end,
             descr_toggle_focus
+        )
+    )
+end
+
+local strings = {"87", "88", "89", "83", "84", "85", "79", "80", "81"}
+for i, key in ipairs(strings) do
+    globalKeys = awful.util.table.join(
+        globalKeys,
+            -- View tag only.
+        awful.key(
+            {modkey},
+            '#' .. key,
+            function()
+                local screen = awful.screen.focused()
+                local tag = screen.tags[i]
+                if tag then
+                    tag:view_only()
+                end
+            end,
+            {description = "", group = ""}
+        ),
+            -- Toggle tag display.
+        awful.key(
+            {modkey, 'Control'},
+            '#' .. key,
+            function()
+                local screen = awful.screen.focused()
+                local tag = screen.tags[i]
+                if tag then
+                    awful.tag.viewtoggle(tag)
+                end
+            end,
+            {description = "", group = ""}
+        ),
+            -- Move client to tag.
+        awful.key(
+            {modkey, 'Shift'},
+            '#' .. key,
+            function()
+                if _G.client.focus then
+                    local tag = _G.client.focus.screen.tags[i]
+                    if tag then
+                        _G.client.focus:move_to_tag(tag)
+                    end
+                end
+            end,
+            {description = "", group = ""}
+        ),
+            -- Toggle tag on focused client.
+        awful.key(
+            {modkey, 'Control', 'Shift'},
+            '#' .. key,
+            function()
+                if _G.client.focus then
+                    local tag = _G.client.focus.screen.tags[i]
+                    if tag then
+                        _G.client.focus:toggle_tag(tag)
+                    end
+                end
+            end,
+            {description = "", group = ""}
         )
     )
 end

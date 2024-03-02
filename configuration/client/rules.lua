@@ -8,6 +8,9 @@ local client_buttons = require('configuration.client.buttons')
 awful.rules.rules = {
     {
         rule = {},
+        except_any = {
+            instance = { "Microsoft", "Microsoft Word", "Microsoft Excel", "Microsoft Powerpoint", "RAIL" }
+        },
         properties = {
             focus                = awful.client.focus.filter,
             raise                = true,
@@ -23,6 +26,68 @@ awful.rules.rules = {
             sticky               = false,
             maximized_horizontal = false,
             maximized_vertical   = false
+        }
+    },
+    {
+        rule_any = {
+            instance = { "Microsoft", "Microsoft Word", "Microsoft Excel", "Microsoft Powerpoint", "RAIL" }
+        },
+        properties = {
+            focus                = false,
+            raise                = true,
+            keys                 = client_keys,
+            buttons              = client_buttons,
+            screen               = awful.screen.preferred,
+            placement            = awful.placement.no_offscreen,
+            floating             = false,
+            maximized            = false,
+            above                = false,
+            below                = false,
+            ontop                = false,
+            sticky               = false,
+            maximized_horizontal = false,
+            maximized_vertical   = false,
+            skip_decoration      = true
+        }
+    },
+    {
+        rule = {
+            instance = "SpawnOn1"
+        },
+        properties = {
+            tag = "1"
+        }
+    },
+    {
+        rule = {
+            role = "SpawnOn2"
+        },
+        properties = {
+            tag = "2"
+        }
+    },
+    {
+        rule = {
+            class = "TelegramDesktop"
+        },
+        properties = {
+            tag = "3"
+        }
+    },
+    {
+        rule = {
+            class = "SpawnOn5"
+        },
+        properties = {
+            tag = "5"
+        }
+    },
+    {
+        rule_any = {
+            instance = { "pragha", "Pragha" }
+        },
+        properties = {
+            tag = "8"
         }
     },
     {
@@ -46,190 +111,6 @@ awful.rules.rules = {
             c:keys(
                 gears.table.join(
                     keys,
-                    awful.key(
-                        {},
-                        "b",
-                        function()
-                            awful.spawn.with_shell('xdotool mousemove 780 1030 click 1 sleep 0.01 mousemove restore')
-                        end,
-                        {description = 'Brush', group = 'Rnote Exclusive'}
-                    ),
-                    awful.key(
-                        {"Shift"},
-                        "b",
-                        function()
-                            awful.spawn.with_shell('xdotool mousemove 780 1030 click 1 sleep 0.25 mousemove 1870 335 click 1 sleep 0.001 mousemove 1550 350 click 1 mousemove 960 540 click 1')
-                        end,
-                        {description = 'Set Standard Brush', group = 'Rnote Exclusive'}
-                    ),
-                    awful.key(
-                        {},
-                        "m",
-                        function()
-                            awful.spawn.with_shell('xdotool mousemove 780 1030 click 1 sleep 0.25 mousemove 1870 335 click 1 sleep 0.001 mousemove 1550 300 click 1 mousemove 960 540 click 1')
-                        end,
-                        {description = 'Marker Brush', group = 'Rnote Exclusive'}
-                    ),
-                    awful.key(
-                        {},
-                        "]",
-                        function()
-                            awful.spawn.with_shell('xdotool mousemove 1870 415 click 1')
-                        end,
-                        {description = 'Increase Brush Size', group = 'Rnote Exclusive'}
-                    ),
-                    awful.key(
-                        {},
-                        "[",
-                        function()
-                            awful.spawn.with_shell('xdotool mousemove 1870 480 click 1')
-                        end,
-                        {description = 'Decrease Brush Size', group = 'Rnote Exclusive'}
-                    ),
-                    awful.key(
-                        {},
-                        "#87",
-                        function()
-                            awful.spawn.with_shell('xdotool mousemove 1870 525 click 1')
-                        end,
-                        {description = 'Small Brush Size', group = 'Rnote Exclusive'}
-                    ),
-                    awful.key(
-                        {},
-                        "#88",
-                        function()
-                            awful.spawn.with_shell('xdotool mousemove 1870 575 click 1')
-                        end,
-                        {description = 'Medium Brush Size', group = 'Rnote Exclusive'}
-                    ),
-                    awful.key(
-                        {},
-                        "#89",
-                        function()
-                            awful.spawn.with_shell('xdotool mousemove 1870 615 click 1')
-                        end,
-                        {description = 'Big Brush Size', group = 'Rnote Exclusive'}
-                    ),
-                    awful.key(
-                        {},
-                        "s",
-                        function()
-                            awful.spawn.with_shell('xdotool mousemove 840 1030 click 1 sleep 0.01 mousemove restore')
-                        end,
-                        {description = 'Shaper', group = 'Rnote Exclusive'}
-                    ),
-                    awful.key(
-                        {},
-                        "l",
-                        function()
-                            awful.spawn.with_shell('xdotool mousemove 840 1030 click 1 sleep 0.25 mousemove 1870 670 click 1 sleep 0.001 mousemove 1600 590 click 1 mousemove 780 1030 click 1 mousemove 780 1030 click 1 mousemove 960 540')
-                        end,
-                        {description = 'Line Shape', group = 'Rnote Exclusive'}
-                    ),
-                    awful.key(
-                        {},
-                        "a",
-                        function()
-                            awful.spawn.with_shell('xdotool mousemove 840 1030 click 1 sleep 0.25 mousemove 1870 670 click 1 sleep 0.001 mousemove 1655 590 click 1 mousemove 780 1030 click 1 mousemove 780 1030 click 1 mousemove 960 540')
-                        end,
-                        {description = 'Arrow Shape', group = 'Rnote Exclusive'}
-                    ),
-                    awful.key(
-                        {},
-                        "r",
-                        function()
-                            awful.spawn.with_shell('xdotool mousemove 840 1030 click 1 sleep 0.25 mousemove 1870 670 click 1 sleep 0.001 mousemove 1690 590 click 1 mousemove 780 1030 click 1 mousemove 780 1030 click 1 mousemove 960 540')
-                        end,
-                        {description = 'Rectangle Shape', group = 'Rnote Exclusive'}
-                    ),
-                    awful.key(
-                        {},
-                        "t",
-                        function()
-                            awful.spawn.with_shell('xdotool mousemove 840 1030 click 1 sleep 0.25 mousemove 1870 670 click 1 sleep 0.001 mousemove 1745 590 click 1 mousemove 780 1030 click 1 mousemove 780 1030 click 1 mousemove 960 540')
-                        end,
-                        {description = 'Table Shape', group = 'Rnote Exclusive'}
-                    ),
-                    awful.key(
-                        {},
-                        "g",
-                        function()
-                            awful.spawn.with_shell('xdotool mousemove 840 1030 click 1 sleep 0.25 mousemove 1870 670 click 1 sleep 0.001 mousemove 1600 670 click 1 mousemove 780 1030 click 1 mousemove 780 1030 click 1 mousemove 960 540')
-                        end,
-                        {description = 'Graph Shape', group = 'Rnote Exclusive'}
-                    ),
-                    awful.key(
-                        {},
-                        "e",
-                        function()
-                            awful.spawn.with_shell('xdotool mousemove 840 1030 click 1 sleep 0.25 mousemove 1870 670 click 1 sleep 0.001 mousemove 1600 740 click 1 mousemove 780 1030 click 1 mousemove 780 1030 click 1 mousemove 960 540')
-                        end,
-                        {description = 'Circle Shape', group = 'Rnote Exclusive'}
-                    ),
-                    awful.key(
-                        {},
-                        "c",
-                        function()
-                            awful.spawn.with_shell('xdotool mousemove 840 1030 click 1 sleep 0.25 mousemove 1870 670 click 1 sleep 0.001 mousemove 1655 800 click 1 mousemove 780 1030 click 1 mousemove 780 1030 click 1 mousemove 960 540')
-                        end,
-                        {description = 'Curve Shape', group = 'Rnote Exclusive'}
-                    ),
-                    awful.key(
-                        {},
-                        "\\",
-                        function()
-                            awful.spawn.with_shell('xdotool mousemove 945 1030 click 1 sleep 0.01 mousemove restore')
-                        end,
-                        {description = 'Eraser', group = 'Rnote Exclusive'}
-                    ),
-                    awful.key(
-                        {},
-                        "#82",
-                        function()
-                            awful.spawn.with_shell('xdotool mousemove 1870 335 click 1 sleep 0.01 mousemove restore')
-                        end,
-                        {description = 'Toolbar OPT 1', group = 'Rnote Exclusive'}
-                    ),
-                    awful.key(
-                        {},
-                        "#86",
-                        function()
-                            awful.spawn.with_shell('xdotool mousemove 1870 375 click 1 sleep 0.01 mousemove restore')
-                        end,
-                        {description = 'Toolbar OPT 2', group = 'Rnote Exclusive'}
-                    ),
-                    awful.key(
-                        {},
-                        "#129",
-                        function()
-                            awful.spawn.with_shell('xdotool mousemove 1870 415 click 1 sleep 0.01 mousemove restore')
-                        end,
-                        {description = 'Toolbar OPT 3', group = 'Rnote Exclusive'}
-                    ),
-                    awful.key(
-                        {},
-                        "#104",
-                        function()
-                            awful.spawn.with_shell('xdotool mousemove 1870 455 click 1 sleep 0.01 mousemove restore')
-                        end,
-                        {description = 'Toolbar OPT 4', group = 'Rnote Exclusive'}
-                    ),
-                    awful.key(
-                        {},
-                        "z",
-                        function()
-                            awful.spawn.with_shell('sleep 0.07; xdotool keydown Ctrl key z keyup Ctrl')
-                        end,
-                        {description = 'Undo', group = 'Rnote Exclusive'}
-                    ),
-                    awful.key(
-                        {},
-                        "x",
-                        function()
-                            awful.spawn('xdotool mousemove 1000 1030 click 1 sleep 0.01 mousemove restore')
-                        end,
-                        {description = 'Selection', group = 'Rnote Exclusive'}
-                    ),
                     awful.key(
                         {},
                         "1",
@@ -296,9 +177,193 @@ awful.rules.rules = {
                     ),
                     awful.key(
                         {},
+                        "b",
+                        function()
+                            awful.spawn.with_shell('xdotool mousemove 770 1030 click 1 sleep 0.01 mousemove restore')
+                        end,
+                        {description = 'Brush', group = 'Rnote Exclusive'}
+                    ),
+                    awful.key(
+                        {"Shift"},
+                        "b",
+                        function()
+                            awful.spawn.with_shell('xdotool mousemove 780 1030 click 1 sleep 0.25 mousemove 1870 335 click 1 sleep 0.001 mousemove 1550 350 click 1 mousemove 1880 335 click 1')
+                        end,
+                        {description = 'Set Standard Brush', group = 'Rnote Exclusive'}
+                    ),
+                    awful.key(
+                        {},
+                        "m",
+                        function()
+                            awful.spawn.with_shell('xdotool mousemove 780 1030 click 1 sleep 0.25 mousemove 1870 335 click 1 sleep 0.001 mousemove 1550 300 click 1 mousemove 960 540 click 1')
+                        end,
+                        {description = 'Marker Brush', group = 'Rnote Exclusive'}
+                    ),
+                    awful.key(
+                        {},
+                        "[",
+                        function()
+                            awful.spawn.with_shell('xdotool mousemove 1870 415 click 1')
+                        end,
+                        {description = 'Increase Brush Size', group = 'Rnote Exclusive'}
+                    ),
+                    awful.key(
+                        {},
+                        "]",
+                        function()
+                            awful.spawn.with_shell('xdotool mousemove 1870 480 click 1')
+                        end,
+                        {description = 'Decrease Brush Size', group = 'Rnote Exclusive'}
+                    ),
+                    awful.key(
+                        {},
+                        "#87",
+                        function()
+                            awful.spawn.with_shell('xdotool mousemove 1870 525 click 1')
+                        end,
+                        {description = 'Small Brush Size', group = 'Rnote Exclusive'}
+                    ),
+                    awful.key(
+                        {},
+                        "#88",
+                        function()
+                            awful.spawn.with_shell('xdotool mousemove 1870 575 click 1')
+                        end,
+                        {description = 'Medium Brush Size', group = 'Rnote Exclusive'}
+                    ),
+                    awful.key(
+                        {},
+                        "#89",
+                        function()
+                            awful.spawn.with_shell('xdotool mousemove 1870 615 click 1')
+                        end,
+                        {description = 'Big Brush Size', group = 'Rnote Exclusive'}
+                    ),
+                    awful.key(
+                        {},
+                        "s",
+                        function()
+                            awful.spawn.with_shell('xdotool mousemove 840 1030 click 1 sleep 0.01 mousemove restore')
+                        end,
+                        {description = 'Shaper', group = 'Rnote Exclusive'}
+                    ),
+                    awful.key(
+                        {},
+                        "l",
+                        function()
+                            awful.spawn.with_shell('xdotool mousemove 840 1030 click 1 sleep 0.25 mousemove 1870 330 click 1 sleep 0.001 mousemove 1600 250 click 1 mousemove 770 1030 click 1 mousemove 770 1030 click 1 mousemove 960 540')
+                        end,
+                        {description = 'Line Shape', group = 'Rnote Exclusive'}
+                    ),
+                    awful.key(
+                        {},
+                        "a",
+                        function()
+                            awful.spawn.with_shell('xdotool mousemove 840 1030 click 1 sleep 0.25 mousemove 1870 330 click 1 sleep 0.001 mousemove 1655 250 click 1 mousemove 770 1030 click 1 mousemove 770 1030 click 1 mousemove 960 540')
+                        end,
+                        {description = 'Arrow Shape', group = 'Rnote Exclusive'}
+                    ),
+                    awful.key(
+                        {},
+                        "r",
+                        function()
+                            awful.spawn.with_shell('xdotool mousemove 840 1030 click 1 sleep 0.25 mousemove 1870 330 click 1 sleep 0.001 mousemove 1690 250 click 1 mousemove 770 1030 click 1 mousemove 770 1030 click 1 mousemove 960 540')
+                        end,
+                        {description = 'Rectangle Shape', group = 'Rnote Exclusive'}
+                    ),
+                    awful.key(
+                        {},
+                        "t",
+                        function()
+                            awful.spawn.with_shell('xdotool mousemove 840 1030 click 1 sleep 0.25 mousemove 1870 330 click 1 sleep 0.001 mousemove 1745 250 click 1 mousemove 770 1030 click 1 mousemove 770 1030 click 1 mousemove 960 540')
+                        end,
+                        {description = 'Table Shape', group = 'Rnote Exclusive'}
+                    ),
+                    awful.key(
+                        {},
+                        "g",
+                        function()
+                            awful.spawn.with_shell('xdotool mousemove 840 1030 click 1 sleep 0.25 mousemove 1870 330 click 1 sleep 0.001 mousemove 1600 330 click 1 mousemove 770 1030 click 1 mousemove 770 1030 click 1 mousemove 960 540')
+                        end,
+                        {description = 'Graph Shape', group = 'Rnote Exclusive'}
+                    ),
+                    awful.key(
+                        {},
+                        "e",
+                        function()
+                            awful.spawn.with_shell('xdotool mousemove 840 1030 click 1 sleep 0.25 mousemove 1870 330 click 1 sleep 0.001 mousemove 1600 405 click 1 mousemove 770 1030 click 1 mousemove 770 1030 click 1 mousemove 960 540')
+                        end,
+                        {description = 'Circle Shape', group = 'Rnote Exclusive'}
+                    ),
+                    awful.key(
+                        {},
+                        "c",
+                        function()
+                            awful.spawn.with_shell('xdotool mousemove 840 1030 click 1 sleep 0.25 mousemove 1870 330 click 1 sleep 0.001 mousemove 1655 470 click 1 mousemove 770 1030 click 1 mousemove 770 1030 click 1 mousemove 960 540')
+                        end,
+                        {description = 'Curve Shape', group = 'Rnote Exclusive'}
+                    ),
+                    awful.key(
+                        {},
+                        "\\",
+                        function()
+                            awful.spawn.with_shell('xdotool mousemove 945 1030 click 1 sleep 0.01 mousemove restore')
+                        end,
+                        {description = 'Eraser', group = 'Rnote Exclusive'}
+                    ),
+                    awful.key(
+                        {},
+                        "#82",
+                        function()
+                            awful.spawn.with_shell('xdotool mousemove 1870 335 click 1 sleep 0.01 mousemove restore')
+                        end,
+                        {description = 'Toolbar OPT 1', group = 'Rnote Exclusive'}
+                    ),
+                    awful.key(
+                        {},
+                        "#86",
+                        function()
+                            awful.spawn.with_shell('xdotool mousemove 1870 375 click 1 sleep 0.01 mousemove restore')
+                        end,
+                        {description = 'Toolbar OPT 2', group = 'Rnote Exclusive'}
+                    ),
+                    awful.key(
+                        {},
+                        "#129",
+                        function()
+                            awful.spawn.with_shell('xdotool mousemove 1870 415 click 1 sleep 0.01 mousemove restore')
+                        end,
+                        {description = 'Toolbar OPT 3', group = 'Rnote Exclusive'}
+                    ),
+                    awful.key(
+                        {},
+                        "#104",
+                        function()
+                            awful.spawn.with_shell('xdotool mousemove 1870 455 click 1 sleep 0.01 mousemove restore')
+                        end,
+                        {description = 'Toolbar OPT 4', group = 'Rnote Exclusive'}
+                    ),
+                    awful.key(
+                        {},
+                        "z",
+                        function()
+                            awful.spawn.with_shell('sleep 0.04; xdotool keydown Ctrl key z keyup Ctrl')
+                        end,
+                        {description = 'Undo', group = 'Rnote Exclusive'}
+                    ),
+                    awful.key(
+                        {},
+                        "x",
+                        function()
+                            awful.spawn('xdotool mousemove 1000 1030 click 1 sleep 0.01 mousemove restore')
+                        end,
+                        {description = 'Selection', group = 'Rnote Exclusive'}
+                    ),
+                    awful.key(
+                        {},
                         "d",
                         function()
-                            awful.spawn('xdotool mousemove 1060 1030 click 1')
+                            awful.spawn('xdotool mousemove 1060 1030 click 1 mousemove restore')
                         end,
                         {description = 'Drag Vertical Space', group = 'Rnote Exclusive'}
                     )
@@ -383,9 +448,17 @@ awful.rules.rules = {
                     keys,
                     awful.key(
                         {},
+                        "#82",
+                        function()
+                            awful.spawn.with_shell('sh /home/vortex/Downloads/Arras/tanks "-"')
+                        end,
+                        {description = '', group = ''}
+                    ),
+                    awful.key(
+                        {},
                         "#87",
                         function()
-                            awful.spawn.with_shell('sh /home/vortex/Downloads/Arras/finger')
+                            awful.spawn.with_shell('sh /home/vortex/Downloads/Arras/tanks 1')
                         end,
                         {description = '', group = ''}
                     ),
@@ -393,7 +466,7 @@ awful.rules.rules = {
                         {},
                         "#88",
                         function()
-                            awful.spawn.with_shell('sh /home/vortex/Downloads/Arras/scatterer')
+                            awful.spawn.with_shell('sh /home/vortex/Downloads/Arras/tanks 2')
                         end,
                         {description = '', group = ''}
                     ),
@@ -401,7 +474,7 @@ awful.rules.rules = {
                         {},
                         "#89",
                         function()
-                            awful.spawn.with_shell('sh /home/vortex/Downloads/Arras/basher')
+                            awful.spawn.with_shell('sh /home/vortex/Downloads/Arras/tanks 3')
                         end,
                         {description = '', group = ''}
                     ),
@@ -409,7 +482,7 @@ awful.rules.rules = {
                         {},
                         "#83",
                         function()
-                            awful.spawn.with_shell('sh /home/vortex/Downloads/Arras/leviathan')
+                            awful.spawn.with_shell('sh /home/vortex/Downloads/Arras/tanks 4')
                         end,
                         {description = '', group = ''}
                     ),
@@ -417,7 +490,7 @@ awful.rules.rules = {
                         {},
                         "#84",
                         function()
-                            awful.spawn.with_shell('sh /home/vortex/Downloads/Arras/chisel')
+                            awful.spawn.with_shell('sh /home/vortex/Downloads/Arras/tanks 5')
                         end,
                         {description = '', group = ''}
                     ),
@@ -425,7 +498,7 @@ awful.rules.rules = {
                         {},
                         "#85",
                         function()
-                            awful.spawn.with_shell('sh /home/vortex/Downloads/Arras/designer')
+                            awful.spawn.with_shell('sh /home/vortex/Downloads/Arras/tanks 6')
                         end,
                         {description = '', group = ''}
                     ),
@@ -433,7 +506,7 @@ awful.rules.rules = {
                         {},
                         "#79",
                         function()
-                            awful.spawn.with_shell('sh /home/vortex/Downloads/Arras/pincer')
+                            awful.spawn.with_shell('sh /home/vortex/Downloads/Arras/tanks 7')
                         end,
                         {description = '', group = ''}
                     ),
@@ -441,7 +514,7 @@ awful.rules.rules = {
                         {},
                         "#80",
                         function()
-                            awful.spawn.with_shell('sh /home/vortex/Downloads/Arras/rigger')
+                            awful.spawn.with_shell('sh /home/vortex/Downloads/Arras/tanks 8')
                         end,
                         {description = '', group = ''}
                     ),
@@ -449,7 +522,7 @@ awful.rules.rules = {
                         {},
                         "#81",
                         function()
-                            awful.spawn.with_shell('sh /home/vortex/Downloads/Arras/vortex')
+                            awful.spawn.with_shell('sh /home/vortex/Downloads/Arras/tanks 9')
                         end,
                         {description = '', group = ''}
                     ),
@@ -457,32 +530,32 @@ awful.rules.rules = {
                         {},
                         "#90",
                         function()
-                            awful.spawn.with_shell('sh /home/vortex/Downloads/Arras/random')
-                        end,
-                        {description = '', group = ''}
-                    ),
-                    awful.key(
-                        {},
-                        "c",
-                        function()
-                            if not state then
-                                awful.spawn.with_shell('sh /home/vortex/Downloads/Arras/spin')
-                                state = true -- Update state to running
-                            else
-                                -- Stop the script
-                                os.execute("pkill -f '/home/vortex/Downloads/Arras/spin'")
-                                state = false -- Update state to stopped
-                            end
+                            awful.spawn.with_shell('sh /home/vortex/Downloads/Arras/tanks 0')
                         end,
                         {description = '', group = ''}
                     )
+--                     awful.key(
+--                         {},
+--                         "c",
+--                         function()
+--                             if not state then
+--                                 awful.spawn.with_shell('sh /home/vortex/Downloads/Arras/spin')
+--                                 state = true -- Update state to running
+--                             else
+--                                 -- Stop the script
+--                                 os.execute("pkill -f '/home/vortex/Downloads/Arras/spin'")
+--                                 state = false -- Update state to stopped
+--                             end
+--                         end,
+--                         {description = '', group = ''}
+--                     )
                 )
             )
         end
     },
     {
         rule_any = {
-            name = { 'QuakeTerminal' }
+            name = { 'QuakeTerminal' },
         },
         properties = {
             skip_decoration = true

@@ -16,10 +16,10 @@ local LayoutBox        = require('widget.layoutbox.layoutbox')
 local todo_widget      = require("widget.todo-widget.todo")
 local net_speed_widget = require("widget.net-speed-widget.net-speed")
 local pomodoro_widget  = require('widget.pomodoro.pomodoro')
+local music_widget     = require("widget.music-control.music_widget")
 local left_button      = require("widget.material.left-button")
 local add_button       = require('widget.material.add-button')
 local menu_widget      = require('layout.left-panel')
-
 
 local powerline_separator = wibox.widget{
     widget = wibox.widget.separator,
@@ -78,7 +78,7 @@ systray_button:buttons(
 local textclock = wibox.widget.textclock('<span font="Roboto Mono bold 12">%H:%M:%S</span>', 1)
 
 local TaskList = function(s)
-    width = (s.geometry.width / 2) - 350
+    width = (s.geometry.width / 2) - 375
     return wibox.widget{
         Tasklist(s),
         widget = wibox.container.margin,
@@ -148,6 +148,8 @@ local TopPanel = function(s)
                 layout = wibox.layout.fixed.horizontal,
                 systray_widget,
                 systray_button,
+                powerline_separator,
+                music_widget,
                 powerline_separator,
                 pomodoro_widget(s),
                 powerline_separator,

@@ -117,7 +117,7 @@ local widget_template = {
 
 
 local TaskList = function(s)
-    width = (s.geometry.width / 2) - 350
+    width = (s.geometry.width / 2) - 375
     return wibox.widget{
         awful.widget.tasklist{
             screen = s,

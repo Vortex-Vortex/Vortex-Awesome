@@ -31,9 +31,9 @@ local function create_slider()
 
     local function update_slider()
         awful.spawn.easy_async_with_shell(
-            [[bash -c "bluetoothctl show | grep PowerState | sed 's/.*PowerState: \(.*\)/\1/'"]],
+            [[bash -c "bluetoothctl show | grep Powered | sed 's/.*Powered: \(.*\)/\1/'"]],
             function(stdout)
-                if string.find(stdout, "on") then
+                if string.find(stdout, "yes") then
                     awful.spawn.easy_async_with_shell(
                         [[bash -c "upower --dump"]],
                         function(stdout)
