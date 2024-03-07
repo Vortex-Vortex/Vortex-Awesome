@@ -149,7 +149,7 @@ local TopPanel = function(s)
                 systray_widget,
                 systray_button,
                 powerline_separator,
-                music_widget,
+                music_widget(s),
                 powerline_separator,
                 pomodoro_widget(s),
                 powerline_separator,

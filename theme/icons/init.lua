@@ -37,5 +37,8 @@ return {
   arrow_down        = dir .. '/arrow-down.svg',
   translate         = dir .. '/google-translate.svg',
   bluetooth_battery = dir .. '/bluetooth-battery.svg',
-  edit              = dir .. '/pencil.svg'
+  edit              = dir .. '/pencil.svg',
+  paused            = dir .. '/paused.svg',
+  playing           = dir .. '/playing.svg',
+  stopped           = dir .. '/stopped.svg'
 }
