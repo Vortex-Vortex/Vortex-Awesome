@@ -52,26 +52,121 @@ local function music_widget_call(s)
                 {
                     wibox.widget{
                         widget = wibox.widget.imagebox,
-                        image = icons.music
+                        image  = icons.music
                     },
                     widget = wibox.container.place,
-                    align = 'center',
+                    align  = 'center',
                     valign = 'center'
                 },
-                widget = wibox.container.margin,
+                widget        = wibox.container.margin,
                 forced_height = 40,
-                forced_width = 50,
-                margins = 7
+                forced_width  = 50,
+                margins       = 7
             },
             spacing = 8,
             layout  = wibox.layout.fixed.horizontal
         },
-        bg = beautiful.bg_normal,
+        bg                 = beautiful.bg_normal,
         shape              = gears.shape.rectangle,
         shape_border_color = beautiful.border_normal,
         shape_border_width = beautiful.border_width + 1,
-        widget = wibox.container.background
+        widget             = wibox.container.background
     }
+
+    local function create_textbox(args)
+        return wibox.widget{
+            widget        = wibox.widget.textbox,
+            text          = args.text or '--',
+            font          = args.font or nil,
+            align         = args.align or 'center',
+            forced_height = args.forced_height or nil,
+            forced_width  = args.forced_width or nil,
+        }
+    end
+
+    local function encapsulate_left_box(given_widget)
+        return wibox.widget{
+            {
+                given_widget,
+                shape              = gears.shape.rectangle,
+                shape_border_color = beautiful.border_normal,
+                shape_border_width = beautiful.border_width + 1,
+                widget             = wibox.container.background
+            },
+            bg = beautiful.bg_normal,
+            shape              = gears.shape.rectangle,
+            shape_border_color = beautiful.border_focus,
+            shape_border_width = beautiful.border_width - 1,
+            widget             = wibox.container.background
+        }
+    end
+
+    local function encapsulate_right_box(given_widget)
+        return wibox.widget{
+            given_widget,
+            widget             = wibox.container.background,
+            bg                 = beautiful.bg_primary_subtle,
+            shape              = gears.shape.rectangle,
+            shape_border_color = beautiful.border_secondary,
+            shape_border_width = beautiful.border_width -1
+        }
+    end
+    table.insert(rows, first_row)
+
+    row_status_icon = wibox.widget.imagebox()
+    row_status_text = create_textbox({})
+    row_status_icon_closed = wibox.widget{
+        {
+            row_status_icon,
+            widget = wibox.container.place,
+            align  = 'center',
+            valign = 'center'
+        },
+        widget        = wibox.container.margin,
+        forced_height = 40,
+        forced_width  = 80,
+        margins       = 7
+    }
+
+    row_status = wibox.widget{
+        encapsulate_left_box(row_status_icon_closed),
+        encapsulate_right_box(row_status_text),
+        layout = wibox.layout.align.horizontal
+    }
+    table.insert(rows, row_status)
+
+    row_music_text = create_textbox({})
+    row_music = wibox.widget{
+        encapsulate_left_box(
+            create_textbox({
+                text = '  Music:  ',
+                font  = 'Roboto Mono bold 12',
+                align = 'center',
+                forced_height = 40,
+                forced_width  = 80,
+            })
+        ),
+        encapsulate_right_box(row_music_text),
+        layout = wibox.layout.align.horizontal
+    }
+    table.insert(rows, row_music)
+
+    row_length_text = create_textbox({})
+    row_length = wibox.widget{
+        encapsulate_left_box(
+            create_textbox({
+                text = '  Length:  ',
+                font  = 'Roboto Mono bold 12',
+                align = 'center',
+                forced_height = 40,
+                forced_width  = 80,
+            })
+        ),
+        encapsulate_right_box(row_length_text),
+        layout = wibox.layout.align.horizontal
+    }
+    table.insert(rows, row_length)
+    popup:setup(rows)
 
     local function formatDuration(seconds)
         local seconds = seconds or 0
@@ -81,147 +176,24 @@ local function music_widget_call(s)
     end
 
     local function update_widget()
-        for i = 0, #rows do
-            rows[i] = nil
-        end
-        table.insert(rows, first_row)
-
-        awful.spawn.easy_async_with_shell([[sleep 0.1; pragha -c | grep -E "state|file|length" | sed 's/^.\+:\s//;s/.*\///;s/\..*$//;s/^/|/;s/$/|/' | tr -d '\n']], function(stdout)
+        awful.spawn.easy_async_with_shell([[sleep 0.1; pragha -c | grep -E "state|file|length" | sed 's/^.\+:\s//;s/.*\///;s/\.[^\.]*$//;s/^/|/;s/$/|/' | tr -d '\n']], function(stdout)
             local state, music, length = stdout:match("|(.+)||(.+)||(.+)|")
             if not music and not length then
-                status_icon = icons.stopped
-                status_info = "No Music Playing"
-                music       = "--"
+                row_status_icon.image = icons.stopped
+                row_status_text.text = "No Music Playing"
+                row_music_text.text = '--'
+                row_length_text.text = '--'
             elseif state == "Paused" then
-                status_icon = icons.paused
-                status_info = "Music Is Paused:"
+                row_status_icon.image = icons.paused
+                row_status_text.text = "Music Is Paused"
+                row_music_text.text = music
+                row_length_text.text = formatDuration(length)
             elseif state == "Playing" then
-                status_icon = icons.playing
-                status_info = "Music Is Playing"
+                row_status_icon.image = icons.playing
+                row_status_text.text = "Music Is Playing"
+                row_music_text.text = music
+                row_length_text.text = formatDuration(length)
             end
-            local status_row = wibox.widget{
-                {
-                    {
-                        {
-                            {
-                                wibox.widget{
-                                    widget = wibox.widget.imagebox,
-                                    image  = status_icon
-                                },
-                                widget = wibox.container.place,
-                                align  = 'center',
-                                valign = 'center'
-                            },
-                            widget        = wibox.container.margin,
-                            forced_height = 40,
-                            forced_width  = 80,
-                            margins       = 7
-                        },
-                        shape              = gears.shape.rectangle,
-                        shape_border_color = beautiful.border_normal,
-                        shape_border_width = beautiful.border_width + 1,
-                        widget = wibox.container.background
-                    },
-                    bg                 = beautiful.bg_normal,
-                    shape              = gears.shape.rectangle,
-                    shape_border_color = beautiful.border_focus,
-                    shape_border_width = beautiful.border_width -1,
-                    widget             = wibox.container.background
-                },
-                {
-                    {
-                        text   = status_info,
-                        align  = 'center',
-                        widget = wibox.widget.textbox
-                    },
-                    widget = wibox.container.background,
-                    bg     = beautiful.bg_primary_subtle,
-                    shape              = gears.shape.rectangle,
-                    shape_border_color = beautiful.border_secondary,
-                    shape_border_width = beautiful.border_width -1
-                },
-                spacing = 5,
-                layout = wibox.layout.align.horizontal
-            }
-            table.insert(rows, status_row)
-
-            local music_row = wibox.widget{
-                {
-                    {
-                        {
-                            text  = '  Music:  ',
-                            font  = 'Roboto Mono bold 12',
-                            align = 'center',
-                            forced_height = 40,
-                            forced_width  = 80,
-                            widget        = wibox.widget.textbox
-                        },
-                        shape              = gears.shape.rectangle,
-                        shape_border_color = beautiful.border_normal,
-                        shape_border_width = beautiful.border_width + 1,
-                        widget = wibox.container.background
-                    },
-                    bg                 = beautiful.bg_normal,
-                    shape              = gears.shape.rectangle,
-                    shape_border_color = beautiful.border_focus,
-                    shape_border_width = beautiful.border_width -1,
-                    widget             = wibox.container.background
-                },
-                {
-                    {
-                        text = music,
-                        align = 'center',
-                        widget = wibox.widget.textbox
-                    },
-                    bg     = beautiful.bg_primary_subtle,
-                    shape              = gears.shape.rectangle,
-                    shape_border_color = beautiful.border_secondary,
-                    shape_border_width = beautiful.border_width -1,
-                    widget = wibox.container.background
-                },
-                layout = wibox.layout.align.horizontal
-            }
-            table.insert(rows, music_row)
-
-            local length_row = wibox.widget{
-                {
-                    {
-                        {
-                            text  = '  Length:  ',
-                            font  = 'Roboto Mono bold 12',
-                            align = 'center',
-                            forced_height = 40,
-                            forced_width  = 80,
-                            widget        = wibox.widget.textbox
-                        },
-                        shape              = gears.shape.rectangle,
-                        shape_border_color = beautiful.border_normal,
-                        shape_border_width = beautiful.border_width + 1,
-                        widget = wibox.container.background
-                    },
-                    bg                 = beautiful.bg_normal,
-                    shape              = gears.shape.rectangle,
-                    shape_border_color = beautiful.border_focus,
-                    shape_border_width = beautiful.border_width -1,
-                    widget             = wibox.container.background
-                },
-                {
-                    {
-                        text = formatDuration(length),
-                        align = 'center',
-                        widget = wibox.widget.textbox
-                    },
-                    bg     = beautiful.bg_primary_subtle,
-                    shape              = gears.shape.rectangle,
-                    shape_border_color = beautiful.border_secondary,
-                    shape_border_width = beautiful.border_width -1,
-                    widget = wibox.container.background
-                },
-                layout = wibox.layout.align.horizontal
-            }
-            table.insert(rows, length_row)
-
-            popup:setup(rows)
         end)
     end
 

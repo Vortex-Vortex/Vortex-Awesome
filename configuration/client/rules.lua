@@ -99,7 +99,8 @@ awful.rules.rules = {
         properties = {
             floating = true,
             ontop = true,
-            skip_decoration = true
+            skip_decoration = true,
+            placement = awful.placement.centered
         }
     },
     {

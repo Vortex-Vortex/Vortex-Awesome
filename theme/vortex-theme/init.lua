@@ -15,7 +15,10 @@ theme.icons = theme_dir .. '/icons/'
 theme.font = 'Roboto medium 10'
 
     -- Primary
-theme.primary = mat_colors.Cyan
+
+--         -- Choose Random From Table:
+-- local colors = { "Red", "Green", "Blue", "Silver", "Yellow", "Orange", "Magenta", "Pink", "Coral" }
+theme.primary = mat_colors.cyan
 
     -- Accent
 theme.accent = mat_colors.Red
