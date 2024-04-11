@@ -38,7 +38,7 @@ local function create_progress_bar()
         widget           = wibox.widget.progressbar,
         max_value        = 100,
         value            = 100,
-        height           = 5,
+        forced_height    = 5,
         forced_width     = 320,
         shape            = gears.shape.rounded_rect,
         background_color = beautiful.bg_focus,

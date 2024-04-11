@@ -1,7 +1,12 @@
 /** Basic config file **/
 
 configuration {
+  modes:              "drun,window";
+  display-drun:       "Drun: ";
+  drun-display-format:"{name}";
+  window-format:      "{t}";
+  max-history-size:   36;
   show-icons:         true;
   icon-theme:         "Papirus";
 }
-@import "$HOME/.config/awesome/theme/sidebar.rasi"
+@import "/home/vortex/.config/awesome/theme/sidebar.rasi"

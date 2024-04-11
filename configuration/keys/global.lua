@@ -7,11 +7,22 @@ local altkey = require('configuration.keys.mod').altKey
 local apps   = require('configuration.apps')
 
 local translate = require("widget.translate-widget.translate")
+local top_panel = require('layout.top-panel')
 
 -- Key Bindings
 local globalKeys = awful.util.table.join(
 
         -- Hotkeys
+    awful.key(
+        {modkey},
+        'z',
+        function()
+            for s in screen do
+                s.top_panel.visible = not s.top_panel.visible
+            end
+        end,
+        {description = "Toggle On/Off Top Bar", group = "Awesome WM"}
+    ),
     awful.key(
         {modkey},
         'F1',
@@ -22,7 +33,7 @@ local globalKeys = awful.util.table.join(
         {modkey},
         'r',
         function()
-            awful.spawn('rofi -combi-modi window,drun -show combi -modi combi')
+            awful.spawn(apps.default.rofi)
         end,
         {description = 'Show main menu', group = 'Awesome WM'}
     ),
@@ -199,6 +210,17 @@ local globalKeys = awful.util.table.join(
     ),
     awful.key(
         {modkey},
+        'y',
+        function ()
+            local c = client.focus
+            if c then
+                c.sticky = not c.sticky
+            end
+        end,
+        {description = "Toggle always on top", group = 'Client'}
+    ),
+    awful.key(
+        {modkey},
         "Down",
         function ()
             local c = client.focus
@@ -223,7 +245,7 @@ local globalKeys = awful.util.table.join(
         {modkey},
         'Print',
         function()
-            awful.util.spawn_with_shell(apps.default.delayed_screenshot)
+            awful.spawn.with_shell(apps.default.delayed_screenshot)
         end,
         {description = 'Screenshot with 10 seconds delay', group = 'Screenshots'}
     ),
@@ -231,7 +253,7 @@ local globalKeys = awful.util.table.join(
         {modkey},
         'p',
         function()
-            awful.util.spawn_with_shell(apps.default.screenshot)
+            awful.spawn.with_shell(apps.default.screenshot)
         end,
         {description = 'Take a screenshot of your active monitor', group = 'Screenshots'}
     ),
@@ -239,7 +261,7 @@ local globalKeys = awful.util.table.join(
         {},
         'Print',
         function()
-            awful.util.spawn_with_shell(apps.default.region_screenshot)
+            awful.spawn.with_shell(apps.default.region_screenshot)
         end,
         {description = 'Mark an area and screenshot it', group = 'Screenshots'}
     ),
@@ -277,7 +299,7 @@ local globalKeys = awful.util.table.join(
         {modkey},
         'c',
         function()
-            awful.util.spawn(apps.default.editor)
+            awful.spawn(apps.default.editor)
         end,
         {description = 'Open a text/code editor', group = 'Launcher'}
     ),
@@ -285,7 +307,7 @@ local globalKeys = awful.util.table.join(
         {modkey},
         'b',
         function()
-            awful.util.spawn(apps.default.browser)
+            awful.spawn(apps.default.browser)
         end,
         {description = 'Open a browser', group = 'Launcher'}
     ),
@@ -315,7 +337,7 @@ local globalKeys = awful.util.table.join(
         {modkey},
         'e',
         function()
-            awful.util.spawn(apps.default.files)
+            awful.spawn(apps.default.files)
         end,
         {description = 'Filebrowser', group = 'Launcher'}
     ),
@@ -574,7 +596,7 @@ for i, key in ipairs(strings) do
                     tag:view_only()
                 end
             end,
-            {description = "", group = ""}
+            {description = nil, group = nil}
         ),
             -- Toggle tag display.
         awful.key(
@@ -587,7 +609,7 @@ for i, key in ipairs(strings) do
                     awful.tag.viewtoggle(tag)
                 end
             end,
-            {description = "", group = ""}
+            {description = nil, group = nil}
         ),
             -- Move client to tag.
         awful.key(
@@ -601,7 +623,7 @@ for i, key in ipairs(strings) do
                     end
                 end
             end,
-            {description = "", group = ""}
+            {description = nil, group = nil}
         ),
             -- Toggle tag on focused client.
         awful.key(
@@ -615,7 +637,7 @@ for i, key in ipairs(strings) do
                     end
                 end
             end,
-            {description = "", group = ""}
+            {description = nil, group = nil}
         )
     )
 end

@@ -146,6 +146,13 @@ left_panel = function(screen)
             ),
             awful.button(
                 {},
+                3,
+                function()
+                    awful.tag.history.restore()
+                end
+            ),
+            awful.button(
+                {},
                 4,
                 function(t)
                     awful.tag.viewprev(t.screen)

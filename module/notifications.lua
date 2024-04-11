@@ -9,7 +9,7 @@ naughty.config.spacing = dpi(4)
 
 naughty.config.defaults.timeout       = 5
 naughty.config.defaults.screen        = 1
-naughty.config.defaults.position      = 'bottom_right'
+naughty.config.defaults.position      = 'bottom_middle'
 naughty.config.defaults.margin        = dpi(8)
 naughty.config.defaults.ontop         = true
 naughty.config.defaults.font          = 'Roboto Regular 8'

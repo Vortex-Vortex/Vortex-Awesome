@@ -121,6 +121,7 @@ local TopPanel = function(s)
             width   = s.geometry.width,
             x       = s.geometry.x,
             y       = s.geometry.y,
+--             y       = s.geometry.height - 30,
             stretch = false,
             bg      = beautiful.bg_normal,
             fg      = beautiful.fg_focus
@@ -129,6 +130,7 @@ local TopPanel = function(s)
     panel:struts(
         {
             top = 30
+--             bottom = 30
         }
     )
 

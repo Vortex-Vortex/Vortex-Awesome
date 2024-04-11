@@ -4,12 +4,16 @@ local naughty = require('naughty')
 
 local client_keys = require('configuration.client.keys')
 local client_buttons = require('configuration.client.buttons')
+local modkey = require('configuration.keys.mod').modKey
+local altkey = require('configuration.keys.mod').altKey
 
 awful.rules.rules = {
     {
         rule = {},
         except_any = {
-            instance = { "Microsoft", "Microsoft Word", "Microsoft Excel", "Microsoft Powerpoint", "RAIL" }
+            instance = { "Microsoft", "Microsoft Excel", "Microsoft PowerPoint", "Microsoft Word", "Microsoft Visio", "Microsoft Project", "Autodesk AutoCAD", "RAIL" },
+            class = { "sketchbook.exe" },
+            name = { "PanelWindow", "Autodesk SketchBook" }
         },
         properties = {
             focus                = awful.client.focus.filter,
@@ -30,7 +34,7 @@ awful.rules.rules = {
     },
     {
         rule_any = {
-            instance = { "Microsoft", "Microsoft Word", "Microsoft Excel", "Microsoft Powerpoint", "RAIL" }
+            instance = { "Microsoft", "Microsoft Excel", "Microsoft PowerPoint", "Microsoft Word", "Microsoft Visio", "Microsoft Project", "Autodesk AutoCAD", "RAIL" }
         },
         properties = {
             focus                = false,
@@ -39,6 +43,8 @@ awful.rules.rules = {
             buttons              = client_buttons,
             screen               = awful.screen.preferred,
             placement            = awful.placement.no_offscreen,
+            opacity              = 1,
+            focusable            = true,
             floating             = false,
             maximized            = false,
             above                = false,
@@ -49,6 +55,103 @@ awful.rules.rules = {
             maximized_vertical   = false,
             skip_decoration      = true
         }
+    },
+    {
+        rule = {
+            class = "Microsoft Excel",
+            name = "Temporary c"
+        },
+        properties = {
+            focus                = false,
+            raise                = false,
+            keys                 = nil,
+            buttons              = nil,
+            screen               = awful.screen.preferred,
+            placement            = awful.placement.no_offscreen,
+            opacity              = 0,
+            focusable            = false,
+            floating             = true,
+            maximized            = false,
+            above                = false,
+            below                = true,
+            ontop                = false,
+            sticky               = false,
+            maximized_horizontal = false,
+            maximized_vertical   = false,
+            skip_decoration      = true,
+            skip_taskbar         = true
+        }
+    },
+    {
+        rule = {
+            class = "Microsoft Excel",
+            type = "dialog"
+        },
+        properties = {
+            focus                = true,
+            raise                = true,
+            keys                 = nil,
+            buttons              = nil,
+            screen               = awful.screen.preferred,
+            placement            = awful.placement.no_offscreen,
+            opacity              = 1,
+            focusable            = false,
+            floating             = true,
+            maximized            = false,
+            above                = false,
+            below                = false,
+            ontop                = false,
+            sticky               = false,
+            maximized_horizontal = false,
+            maximized_vertical   = false,
+            skip_decoration      = true,
+            skip_taskbar         = true
+        }
+    },
+    {
+        rule_any = {
+            class = { "Microsoft Excel", "Microsoft PowerPoint", "Microsoft Word", "Microsoft Visio", "Microsoft Project" }
+        },
+        callback = function(c)
+            local buttons = c:buttons()
+            c:buttons(
+                gears.table.join(
+                    buttons,
+                    awful.button(
+                        {"Shift", altkey},
+                        3,
+                        function()
+                            awful.spawn.with_shell('xdotool mousedown 1; xdotool mousemove_relative -- 75 0; xdotool mouseup 1')
+                        end,
+                        {description = 'Mouse Drag right', group = 'Excel'}
+                    ),
+                    awful.button(
+                        {"Shift", altkey},
+                        1,
+                        function()
+                            awful.spawn.with_shell('xdotool mousedown 1; xdotool mousemove_relative -- -75 0; xdotool mouseup 1')
+                        end,
+                        {description = 'Mouse Drag left', group = 'Excel'}
+                    ),
+                    awful.button(
+                        {"Shift", altkey},
+                        9,
+                        function()
+                            awful.spawn.with_shell('xdotool mousedown 1; xdotool mousemove_relative -- 0 -35; xdotool mouseup 1')
+                        end,
+                        {description = 'Mouse Drag up', group = 'Excel'}
+                    ),
+                    awful.button(
+                        {"Shift", altkey},
+                        8,
+                        function()
+                            awful.spawn.with_shell('xdotool mousedown 1; xdotool mousemove_relative -- 0 35; xdotool mouseup 1')
+                        end,
+                        {description = 'Mouse Drag down', group = 'Excel'}
+                    )
+                )
+            )
+        end
     },
     {
         rule = {
@@ -96,11 +199,33 @@ awful.rules.rules = {
             type = { 'dialog' },
             class = { 'Lxpolkit', 'lxpolkit', 'mediainfo-gui', 'Mediainfo-gui', 'mpv', 'kcalc', 'kruler', 'huiontablet' }
         },
+        except_any = {
+            instance = { "Microsoft", "Microsoft Word", "Microsoft Excel", "Microsoft PowerPoint", "Autodesk AutoCAD", "RAIL", "PanelWindow" }
+        },
         properties = {
             floating = true,
+            opacity = 1,
             ontop = true,
             skip_decoration = true,
             placement = awful.placement.centered
+        }
+    },
+    {
+        rule_any = {
+            class = { "sketchbook.exe" },
+            name = { "PanelWindow", "Autodesk SketchBook" }
+        },
+        properties = {
+            focus                = false,
+            raise                = false,
+            keys                 = client_keys,
+            buttons              = client_buttons,
+            floating             = true,
+            ontop                = false,
+            sticky               = false,
+            maximized_horizontal = false,
+            maximized_vertical   = false,
+            skip_decoration      = true
         }
     },
     {
@@ -116,7 +241,7 @@ awful.rules.rules = {
                         {},
                         "1",
                         function()
-                            awful.spawn('xdotool mousemove 840 125 click 1')
+                            awful.spawn('xdotool mousemove 820 125 click 1')
                         end,
                         {description = 'Color 1', group = 'Rnote Exclusive'}
                     ),
@@ -124,7 +249,7 @@ awful.rules.rules = {
                         {},
                         "2",
                         function()
-                            awful.spawn('xdotool mousemove 880 125 click 1')
+                            awful.spawn('xdotool mousemove 860 125 click 1')
                         end,
                         {description = 'Color 2', group = 'Rnote Exclusive'}
                     ),
@@ -132,7 +257,7 @@ awful.rules.rules = {
                         {},
                         "3",
                         function()
-                            awful.spawn('xdotool mousemove 920 125 click 1')
+                            awful.spawn('xdotool mousemove 900 125 click 1')
                         end,
                         {description = 'Color 3', group = 'Rnote Exclusive'}
                     ),
@@ -140,7 +265,7 @@ awful.rules.rules = {
                         {},
                         "4",
                         function()
-                            awful.spawn('xdotool mousemove 960 125 click 1')
+                            awful.spawn('xdotool mousemove 940 125 click 1')
                         end,
                         {description = 'Color 4', group = 'Rnote Exclusive'}
                     ),
@@ -148,7 +273,7 @@ awful.rules.rules = {
                         {},
                         "5",
                         function()
-                            awful.spawn('xdotool mousemove 1000 125 click 1')
+                            awful.spawn('xdotool mousemove 980 125 click 1')
                         end,
                         {description = 'Color 5', group = 'Rnote Exclusive'}
                     ),
@@ -156,7 +281,7 @@ awful.rules.rules = {
                         {},
                         "6",
                         function()
-                            awful.spawn('xdotool mousemove 1040 125 click 1')
+                            awful.spawn('xdotool mousemove 1020 125 click 1')
                         end,
                         {description = 'Color 6', group = 'Rnote Exclusive'}
                     ),
@@ -164,7 +289,7 @@ awful.rules.rules = {
                         {},
                         "7",
                         function()
-                            awful.spawn('xdotool mousemove 1080 125 click 1')
+                            awful.spawn('xdotool mousemove 1060 125 click 1')
                         end,
                         {description = 'Color 7', group = 'Rnote Exclusive'}
                     ),
@@ -172,9 +297,17 @@ awful.rules.rules = {
                         {},
                         "8",
                         function()
-                            awful.spawn('xdotool mousemove 1120 125 click 1')
+                            awful.spawn('xdotool mousemove 1100 125 click 1')
                         end,
                         {description = 'Color 8', group = 'Rnote Exclusive'}
+                    ),
+                    awful.key(
+                        {},
+                        "9",
+                        function()
+                            awful.spawn('xdotool mousemove 1140 125 click 1')
+                        end,
+                        {description = 'Color 9', group = 'Rnote Exclusive'}
                     ),
                     awful.key(
                         {},
@@ -348,9 +481,17 @@ awful.rules.rules = {
                         {},
                         "z",
                         function()
-                            awful.spawn.with_shell('sleep 0.04; xdotool keydown Ctrl key z keyup Ctrl')
+                            awful.spawn('xdotool mousemove 1125 1030 click 1')
                         end,
                         {description = 'Undo', group = 'Rnote Exclusive'}
+                    ),
+                    awful.key(
+                        {'Shift'},
+                        "z",
+                        function()
+                            awful.spawn('xdotool mousemove 1160 1030 click 1')
+                        end,
+                        {description = 'Redo', group = 'Rnote Exclusive'}
                     ),
                     awful.key(
                         {},
@@ -379,71 +520,6 @@ awful.rules.rules = {
         callback = function(c)
             local keys = c:keys()
             local buttons = c:buttons()
-            c:buttons(
-                gears.table.join(
-                    buttons,
-                    awful.button(
-                        {},
-                        4,
-                        function()
-                            local filename = "/tmp/ARRAS_CIRCLE"
-                            local value = 0.1
-
-                            awful.spawn.easy_async_with_shell(
-                                "test -f " .. filename,
-                                function(_, _, _, exit_code)
-                                    if exit_code == 0 then
-                                        -- File exists
-                                        awful.spawn.easy_async_with_shell(
-                                            "cat " .. filename,
-                                            function(stdout)
-                                                value = tonumber(stdout) + 0.01
-                                                awful.spawn.with_shell('dbus-send --type=method_call --dest="org.freedesktop.Notifications" /org/freedesktop/Notifications org.freedesktop.Notifications.Notify string:"String" uint32:1 string:"" string:"Circle_Angle" string:"' .. tostring(value) .. '" array:string:"" dict:string:string:"",""')
-                                                awful.spawn.with_shell("echo " .. tostring(value) .. " > " .. filename)
-                                            end
-                                        )
-                                    else
-                                        -- File does not exist
-                                        awful.spawn.easy_async_with_shell("echo " .. tostring(value) .. " > " .. filename)
-                                        naughty.notify{text = "Creating File"}
-                                    end
-                                end
-                            )
-                        end,
-                        {description = '', group = ''}
-                    ),
-                    awful.button(
-                        {},
-                        5,
-                        function()
-                            local filename = "/tmp/ARRAS_CIRCLE"
-                            local value = 0.1
-
-                            awful.spawn.easy_async_with_shell(
-                                "test -f " .. filename,
-                                function(_, _, _, exit_code)
-                                    if exit_code == 0 then
-                                        -- File exists
-                                        awful.spawn.easy_async_with_shell(
-                                            "cat " .. filename,
-                                            function(stdout)
-                                                value = tonumber(stdout) - 0.01
-                                                awful.spawn.with_shell('dbus-send --type=method_call --dest="org.freedesktop.Notifications" /org/freedesktop/Notifications org.freedesktop.Notifications.Notify string:"String" uint32:1 string:"" string:"Circle_Angle" string:"' .. tostring(value) .. '" array:string:"" dict:string:string:"",""')
-                                                awful.spawn.with_shell("echo " .. tostring(value) .. " > " .. filename)
-                                            end
-                                        )
-                                    else
-                                        -- File does not exist
-                                        awful.spawn.easy_async_with_shell("echo " .. tostring(value) .. " > " .. filename)
-                                        naughty.notify{text = "Creating File"}
-                                    end
-                                end
-                            )
-                        end,
-                        {description = '', group = ''}
-                    )
-                )
-            )
             c:keys(
                 gears.table.join(
                     keys,
@@ -535,21 +611,6 @@ awful.rules.rules = {
                         end,
                         {description = '', group = ''}
                     )
---                     awful.key(
---                         {},
---                         "c",
---                         function()
---                             if not state then
---                                 awful.spawn.with_shell('sh /home/vortex/Downloads/Arras/spin')
---                                 state = true -- Update state to running
---                             else
---                                 -- Stop the script
---                                 os.execute("pkill -f '/home/vortex/Downloads/Arras/spin'")
---                                 state = false -- Update state to stopped
---                             end
---                         end,
---                         {description = '', group = ''}
---                     )
                 )
             )
         end
