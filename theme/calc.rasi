@@ -5,16 +5,8 @@
  */
 
 configuration {
-    hover-select: true;
-    me-select-entry: "";
-    me-accept-entry: [ MousePrimary ];
-    ml-row-up: "";
-    ml-row-down: "";
-    kb-page-next: "ScrollDown";
-    kb-page-prev: "ScrollUp";
-    window {
-        close-on-delete: false;
-    }
+    modes:              "calc";
+    display-calc:       "Calculate: ";
 }
 
 * {
@@ -33,11 +25,11 @@ configuration {
 
 window {
     transparency:                "real";
-    location:                    west;
-    anchor:                      west;
+    location:                    center;
+    anchor:                      center;
     fullscreen:                  false;
-    width:                       500px;
-    height:                      100%;
+    width:                       50%;
+    height:                      50%;
     x-offset:                    0px;
     y-offset:                    0px;
 
@@ -53,13 +45,23 @@ window {
 
 mainbox {
     enabled:                     true;
-    spacing:                     20px;
+    spacing:                     10px;
     margin:                      0px;
     padding:                     0px;
     border:                      0px;
     border-color:                @bordercolor;
     background-color:            transparent;
-    children:                    [ "inputbar", "listview" ];
+    children:                    [ "inputbar", "message", "listview" ];
+}
+
+message {
+    enabled:                     true;
+    spacing:                     0px;
+    margin:                      0px;
+    padding:                     0px;
+    border:                      0px;
+    border-color:                @bordercolor;
+    background-color:            @background-subtle-1;
 }
 
 inputbar {
@@ -92,13 +94,13 @@ entry {
     background-color:            inherit;
     text-color:                  inherit;
     cursor:                      text;
-    placeholder:                 "Search Apps";
+    placeholder:                 "Enter Prompt";
     placeholder-color:           inherit;
 }
 
 listview {
     enabled:                     true;
-    columns:                     4;
+    columns:                     2;
     lines:                       10;
     cycle:                       true;
     dynamic:                     true;
@@ -107,7 +109,7 @@ listview {
     reverse:                     false;
     fixed-height:                true;
     fixed-columns:               true;
-    spacing:                     5px;
+    spacing:                     8px;
     margin:                      0px;
     padding:                     0px;
     border:                      0px solid;
@@ -128,7 +130,7 @@ scrollbar {
 
 element {
     enabled:                     true;
-    spacing:                     10px;
+    spacing:                     1px;
     margin:                      0px;
     padding:                     10px;
     border:                      0px solid;

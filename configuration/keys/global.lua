@@ -14,6 +14,22 @@ local globalKeys = awful.util.table.join(
 
         -- Hotkeys
     awful.key(
+        {},
+        'Num_Lock',
+        function()
+            awful.spawn.with_shell('sleep 0.1; brightnessctl -d "*scrolllock" set 100%')
+        end,
+        {description = nil, group = nil}
+    ),
+    awful.key(
+        {},
+        'Caps_Lock',
+        function()
+            awful.spawn.with_shell('sleep 0.1; brightnessctl -d "*scrolllock" set 100%')
+        end,
+        {description = nil, group = nil}
+    ),
+    awful.key(
         {modkey},
         'z',
         function()
@@ -38,10 +54,34 @@ local globalKeys = awful.util.table.join(
         {description = 'Show main menu', group = 'Awesome WM'}
     ),
     awful.key(
+        {modkey},
+        '.',
+        function()
+            awful.spawn(apps.default.rofi_emoji)
+        end,
+        {description = 'Show emoji picker', group = 'Awesome WM'}
+    ),
+    awful.key(
+        {modkey},
+        ',',
+        function()
+            awful.spawn(apps.default.rofi_calc)
+        end,
+        {description = 'Show calculator', group = 'Awesome WM'}
+    ),
+    awful.key(
+        {modkey},
+        'g',
+        function()
+            awful.spawn(apps.default.rofi_internet)
+        end,
+        {description = 'Show internet menu', group = 'Awesome WM'}
+    ),
+    awful.key(
         {altkey},
         'space',
         function()
-            awful.spawn('rofi -combi-modi window,drun -show combi -modi combi')
+            awful.spawn(apps.default.rofi)
         end,
         {description = 'Show main menu', group = 'Awesome WM'}
     ),

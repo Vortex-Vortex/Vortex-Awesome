@@ -7,7 +7,7 @@ local dpi = beautiful.xresources.apply_dpi
 naughty.config.padding = dpi(4)
 naughty.config.spacing = dpi(4)
 
-naughty.config.defaults.timeout       = 5
+naughty.config.defaults.timeout       = 10
 naughty.config.defaults.screen        = 1
 naughty.config.defaults.position      = 'bottom_middle'
 naughty.config.defaults.margin        = dpi(8)
@@ -18,7 +18,7 @@ naughty.config.defaults.icon_size     = dpi(50)
 naughty.config.defaults.shape         = gears.shape.rectangle
 naughty.config.defaults.border_width  = beautiful.border_width
 naughty.config.defaults.border_color  = beautiful.border_focus
-naughty.config.defaults.hover_timeout = 0.2
+naughty.config.defaults.hover_timeout = 0
 
     -- Error handling
 if _G.awesome.startup_errors then

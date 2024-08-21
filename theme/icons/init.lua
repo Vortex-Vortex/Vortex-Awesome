@@ -40,5 +40,7 @@ return {
   edit              = dir .. '/pencil.svg',
   paused            = dir .. '/paused.svg',
   playing           = dir .. '/playing.svg',
-  stopped           = dir .. '/stopped.svg'
+  stopped           = dir .. '/stopped.svg',
+  album_placeholder = dir .. '/music-album.svg',
+  alarm_clock       = dir .. '/alarm-clock.svg'
 }

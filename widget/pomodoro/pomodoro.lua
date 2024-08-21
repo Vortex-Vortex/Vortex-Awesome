@@ -2,12 +2,14 @@ local awful               = require('awful')
 local gears               = require('gears')
 local beautiful           = require('beautiful')
 local wibox               = require('wibox')
+local icons               = require('theme.icons')
+local naughty             = require('naughty')
 local clickable_container = require('widget.material.clickable-container')
 
 local function pomodoro_widget_call(s)
     local width = s.geometry.width
-    local work_time  = 45 * 60
-    local break_time = 5 * 60
+    local work_time = 60 * 45
+    local break_time = 60 * 7
 
     local function create_textbox(args)
         return wibox.widget{
@@ -34,21 +36,19 @@ local function pomodoro_widget_call(s)
 
     local status_text = create_textbox(
         {
-            text          = 'Start pomodoro?',
-            font          = 'monospace bold 10',
+            text = 'Start Pomodoro?',
+            font = 'monospace bold 10',
             forced_height = 25
         }
     )
-    local clock_text = create_textbox({ text = '--:--' })
+    local clock_text = create_textbox(
+        {
+            text = '--:--'
+        }
+    )
 
     local status_container = create_container(status_text)
     local clock_container = create_container(clock_text)
-
-    local popup_text = {
-        status_container,
-        clock_container,
-        layout = wibox.layout.fixed.vertical
-    }
 
     local popup = awful.popup{
         bg           = beautiful.bg_normal,
@@ -62,37 +62,42 @@ local function pomodoro_widget_call(s)
         widget       = {}
     }
 
-    popup:setup(popup_text)
-
-    local text = wibox.widget{
-        font   = 'monospace bold 10',
-        text   = '' .. math.floor( work_time / 60 ) .. '',
-        align  = 'center',
-        valign = 'center',
-        widget = wibox.widget.textbox
+    local popup_content = {
+        status_container,
+        clock_container,
+        layout = wibox.layout.fixed.vertical
     }
 
-    local pomodoroarc = wibox.widget{
+    popup:setup(popup_content)
+
+    local pomodoro_text = create_textbox(
+        {
+            text = '' .. math.floor( work_time / 60 ) .. '',
+            font = 'monospace bold 10',
+        }
+    )
+
+    local pomodoro_arc = wibox.widget{
         wibox.container.background(
-            text
+            pomodoro_text
         ),
         max_value     = 1,
         value         = 0.5,
-        thickness     = 3,
+        thickness     = 4,
         start_angle   = 4.71238898,
         forced_height = 28,
         forced_width  = 28,
-        rounded_edge  = true,
-        bg            = "#ffffff11",
+        rounded_edge  = false,
+        bg            = '#ffffff11',
         paddings      = 0,
         widget        = wibox.container.arcchart
     }
 
     local pomodoro_widget = wibox.widget{
         {
-            pomodoroarc,
-            widget       = wibox.container.margin,
-            margins      = 2,
+            pomodoro_arc,
+            widget = wibox.container.margin,
+            margins = 2,
             border_width = 1,
             border_color = beautiful.border_focus
         },
@@ -100,107 +105,69 @@ local function pomodoro_widget_call(s)
         shape = gears.shape.circle
     }
 
+    local is_on_break = false
+    local is_on_pause = false
+    local timerValue = -1
+    local remaining_time = '45:00'
 
-    local function formatTime(seconds, workbreak)
-        local seconds = workbreak - seconds
-        local minutes = math.floor((seconds % 3600) / 60)
-        local secs    = seconds % 60
-        return string.format("%02d:%02d", minutes, secs)
+    local function formatTime(counter_seconds)
+        if is_on_break then
+            total_reference = break_time
+        else
+            total_reference = work_time
+        end
+        seconds_remaining = total_reference - counter_seconds
+        minutes = math.floor((seconds_remaining) / 60)
+        seconds = seconds_remaining % 60
+        return minutes, seconds
     end
 
-    local is_on_break = false
-    local timerValue = 0
-    local remaining_time = ' W' .. math.floor( work_time / 60 ) .. ':00'
-
-
-    local update_graphic = function(widget, value)
-        remaining_time = value or remaining_time
-        local pomostatus = string.match(remaining_time, "(%D?%D?):%D?%D?")
-        text.font = 'monospace bold 10'
-        if pomostatus == "--" then
-            text.text        = '' .. math.floor( work_time / 60 ) .. ''
-            widget.colors    = beautiful.border_focus
-            widget.value     = 0.5
-            status_text.text = 'Start pomodoro?'
-            clock_text.text  = '--:--'
+    local function update_graphic(minutes, seconds)
+        if timerValue == -1 then
+            status_text.text = "Start Pomodoro?"
+            pomodoro_text.text = '' .. math.floor(work_time / 60) .. ''
+            pomodoro_arc.colors = {beautiful.border_focus}
+            pomodoro_arc.value = 0.5
+            clock_text.text = '--:--'
         else
-            local pomomin   = string.match(remaining_time, "[ P]?[BW](%d?%d?):%d?%d?")
-            local pomosec   = string.match(remaining_time, "[ P]?[BW]%d?%d?:(%d?%d?)")
-            local pomodoro  = pomomin * 60 + pomosec
-
-            local status    = string.match(remaining_time, "([ P]?)[BW]%d?%d?:%d?%d?")
-            local workbreak = string.match(remaining_time, "[ P]?([BW])%d?%d?:%d?%d?")
-
-            text.text = pomomin
-            clock_text.text = pomomin .. ':' .. pomosec
-
-            if status == " " then
-                if workbreak == "W" then
-                    widget.value     = tonumber(pomodoro/(work_time))
-                    status_text.text = '(W) Work!'
-                    if tonumber(pomomin) < 5 then
-                        widget.colors = {"#ff0000"}
-                    else
-                        widget.colors = {beautiful.border_focus}
-                    end
-                elseif workbreak == "B" then
-                    status_text.text = '(B) Rest!'
-                    widget.colors    = {"#00ff00"}
-                    widget.value     = tonumber(pomodoro/(break_time))
+            pomodoro_text.text = minutes
+            clock_text.text = minutes .. ':' .. string.format("%02d", seconds)
+            if is_on_break then
+                pomodoro_arc.value = tonumber((break_time - timerValue)/break_time)
+            else
+                if minutes < 5 then
+                    pomodoro_arc.colors = {'#ff0000'}
+                else
+                    pomodoro_arc.colors = {beautiful.border_focus}
                 end
-            elseif status == "P" then
-                widget.colors = {"#ffff00"}
-                clock_text.text = pomomin .. ':' .. pomosec
-                if     workbreak == "W" then
-                    status_text.text = '(PW) Work Paused'
-                    widget.value     = tonumber(pomodoro/(work_time))
-                    text.text        = "PW"
-                elseif workbreak == "B" then
-                    status_text.text = '(PB) Rest Paused'
-                    widget.value     = tonumber(pomodoro/(break_time))
-                    text.text        = "PB"
-                end
+                pomodoro_arc.value = tonumber((work_time - timerValue)/work_time)
             end
         end
     end
-
-    local function call_update()
-        update_graphic(pomodoroarc)
-    end
-
 
     local pomodoro_timer = gears.timer{
         timeout = 1,
         callback = function()
             timerValue = timerValue + 1
-            if not is_on_break then
-                formatted_time = formatTime(timerValue, work_time)
-                if formatted_time == "00:00" then
-                    is_on_break = true
-                    timerValue  = 0
-                else
-                    remaining_time = ' W' .. formatted_time
-                end
-            elseif is_on_break then
-                formatted_time = formatTime(timerValue, break_time)
-                if formatted_time == "00:00" then
+            minutes, seconds = formatTime(timerValue)
+            if minutes == 0 and seconds == 0 then
+                if is_on_break then
+                    naughty.notify{ text = "          Work Time          ", title = "          Pomodoro Timer          ", icon = icons.alarm_clock, icon_size = 128, timeout = 0 }
                     is_on_break = false
-                    timerValue  = 0
+                    pomodoro_arc.colors = {beautiful.border_focus}
+                    pomodoro_text.text = 'Break!'
                 else
-                    remaining_time = ' B' .. formatted_time
+                    naughty.notify{ text = "          Break Time          ", title = "          Pomodoro Timer          ", icon = icons.alarm_clock, icon_size = 128, timeout = 0 }
+                    is_on_break = true
+                    pomodoro_arc.colors = {'#00ff00'}
+                    pomodoro_text.text = 'Work!'
                 end
+                timerValue = 0
+                minutes, seconds = formatTime(timerValue)
             end
+            update_graphic(minutes, seconds)
         end
     }
-
-    local timer = gears.timer{
-        timeout = 1,
-        callback = function()
-            call_update()
-        end
-    }
-
-    local is_paused = false
 
     pomodoro_widget:buttons(
         gears.table.join(
@@ -208,43 +175,45 @@ local function pomodoro_widget_call(s)
                 {},
                 1,
                 function()
-                    if is_paused then
-                        pomodoro_timer:stop()
-                        timer:stop()
-                        is_paused = false
+                    if is_on_pause then
+                        is_on_pause = false
                     end
                     is_on_break = false
-                    status_text.text = '(W) Work!'
-                    clock_text.text  = '' .. math.floor( work_time / 60 ) .. ':00'
-                    timerValue       = 0
+                    status_text.text = 'Work!'
+                    clock_text.text = math.floor( work_time / 60 ) .. ':00'
+                    pomodoro_arc.colors = {beautiful.border_focus}
+                    timerValue = 0
                     pomodoro_timer:start()
-                    timer:start()
                 end
             ),
             awful.button(
                 {},
                 2,
                 function()
-                    if status_text.text ~= 'Start pomodoro?' then
-                        if is_paused then
+                    if timerValue ~= -1 then
+                        if is_on_pause then
                             if is_on_break then
-                                status_text.text = '(B) Rest!'
+                                status_text.text = 'Break!'
+                                pomodoro_arc.colors = {'#00ff00'}
                             else
-                                status_text.text = '(W) Work!'
+                                status_text.text = 'Work!'
+                                pomodoro_arc.colors = {beautiful.border_focus}
                             end
-                            remaining_time = ' ' .. string.sub(remaining_time, 2)
                             pomodoro_timer:start()
-                            is_paused = false
+                            is_on_pause = false
                         else
                             if is_on_break then
-                                status_text.text = '(PB) Rest Paused'
+                                status_text.text = 'Break Paused!'
+                                pomodoro_text.text = 'PB'
                             else
-                                status_text.text = '(PW) Work Paused'
+                                status_text.text = 'Work Paused'
+                                pomodoro_text.text = 'PW'
                             end
-                            remaining_time = 'P' .. string.sub(remaining_time, 2)
                             pomodoro_timer:stop()
-                            is_paused = true
+                            is_on_pause = true
+                            pomodoro_arc.colors = {'#ffff00'}
                         end
+                        update_graphic(formatTime(timerValue))
                     end
                 end
             ),
@@ -253,25 +222,18 @@ local function pomodoro_widget_call(s)
                 3,
                 function()
                     pomodoro_timer:stop()
-                    timerValue = 0
-                    timer:stop()
-                    remaining_time    = ' W' .. math.floor( work_time / 60 ) .. ':00'
-                    status_text.text  = 'Start pomodoro?'
-                    clock_text.text   = '--:--'
-                    text.text         = '' .. math.floor( work_time / 60 ) .. ''
-                    pomodoroarc.value = 0.5
+                    timerValue = -1
+                    update_graphic()
                 end
             ),
             awful.button(
                 {},
                 4,
                 function()
-                    if status_text.text == '(W) Work!' then
-                        if timerValue > 60 then
-                            timerValue = timerValue - 60
-                            operation = string.format("%02d", tonumber(string.match(remaining_time, " W(%d?%d?):%d?%d?")) + 1)
-                            update_graphic(pomodoroarc, ' W' .. operation .. ':' .. string.match(remaining_time, " W%d?%d?:(%d?%d?)" ))
-                        end
+                    if timerValue > 60 then
+                        timerValue = timerValue - 60
+                        minutes, seconds = formatTime(timerValue)
+                        update_graphic(minutes, seconds)
                     end
                 end
             ),
@@ -279,11 +241,17 @@ local function pomodoro_widget_call(s)
                 {},
                 5,
                 function()
-                    if status_text.text == '(W) Work!' then
+                    if is_on_break then
+                        if timerValue < (break_time - 60) then
+                            timerValue = timerValue + 60
+                            minutes, seconds = formatTime(timerValue)
+                            update_graphic(minutes, seconds)
+                        end
+                    else
                         if timerValue < (work_time - 60) then
                             timerValue = timerValue + 60
-                            operation = string.format("%02d", tonumber(string.match(remaining_time, " W(%d?%d?):%d?%d?")) - 1)
-                            update_graphic(pomodoroarc, ' W' .. operation .. ':' .. string.match(remaining_time, " W%d?%d?:(%d?%d?)" ))
+                            minutes, seconds = formatTime(timerValue)
+                            update_graphic(minutes, seconds)
                         end
                     end
                 end

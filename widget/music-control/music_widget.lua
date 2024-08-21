@@ -6,6 +6,8 @@ local icons               = require('theme.icons')
 local naughty             = require('naughty')
 local clickable_container = require('widget.material.clickable-container')
 
+local ALBUM_COVER_DIR = os.getenv('HOME') .. '/.cache/pragha/'
+
 local function music_widget_call(s)
     local width = s.geometry.width
     local rows = {
@@ -79,6 +81,7 @@ local function music_widget_call(s)
             text          = args.text or '--',
             font          = args.font or nil,
             align         = args.align or 'center',
+            valign        = args.valign or 'center',
             forced_height = args.forced_height or nil,
             forced_width  = args.forced_width or nil,
         }
@@ -135,6 +138,23 @@ local function music_widget_call(s)
     }
     table.insert(rows, row_status)
 
+    row_artist_text = create_textbox({})
+    row_artist = wibox.widget{
+        encapsulate_left_box(
+            create_textbox({
+                text = '  Artist:  ',
+                font  = 'Roboto Mono bold 12',
+                align = 'center',
+                valign = 'center',
+                forced_height = 40,
+                forced_width  = 80,
+            })
+        ),
+        encapsulate_right_box(row_artist_text),
+        layout = wibox.layout.align.horizontal
+    }
+    table.insert(rows, row_artist)
+
     row_music_text = create_textbox({})
     row_music = wibox.widget{
         encapsulate_left_box(
@@ -142,6 +162,7 @@ local function music_widget_call(s)
                 text = '  Music:  ',
                 font  = 'Roboto Mono bold 12',
                 align = 'center',
+                valign = 'center',
                 forced_height = 40,
                 forced_width  = 80,
             })
@@ -158,6 +179,7 @@ local function music_widget_call(s)
                 text = '  Length:  ',
                 font  = 'Roboto Mono bold 12',
                 align = 'center',
+                valign = 'center',
                 forced_height = 40,
                 forced_width  = 80,
             })
@@ -165,7 +187,60 @@ local function music_widget_call(s)
         encapsulate_right_box(row_length_text),
         layout = wibox.layout.align.horizontal
     }
-    table.insert(rows, row_length)
+    row_track_text = create_textbox({})
+    row_track = wibox.widget{
+        encapsulate_left_box(
+            create_textbox({
+                text = '  Track:  ',
+                font  = 'Roboto Mono bold 12',
+                align = 'center',
+                valign = 'center',
+                forced_height = 40,
+                forced_width  = 80,
+            })
+        ),
+        encapsulate_right_box(row_track_text),
+        layout = wibox.layout.align.horizontal
+    }
+    row_length_track = wibox.widget{
+        row_length,
+        row_track,
+        layout = wibox.layout.flex.horizontal
+    }
+    table.insert(rows, row_length_track)
+
+    row_album_cover = wibox.widget.imagebox()
+    row_album_cover.forced_height = 120
+    row_album_text = create_textbox({})
+    row_album_cover_closed = wibox.widget{
+        {
+            row_album_cover,
+            widget = wibox.container.place,
+            align  = 'center',
+            valign = 'center'
+        },
+        widget        = wibox.container.margin,
+        margins       = 0
+    }
+
+    row_album = wibox.widget{
+        encapsulate_left_box(row_album_cover_closed),
+        {
+            encapsulate_left_box(
+                create_textbox({
+                    text = '  Album:  ',
+                    font  = 'Roboto Mono bold 12',
+                    align = 'center',
+                    forced_height = 40,
+                    forced_width  = 80,
+                })
+            ),
+            encapsulate_right_box(row_album_text),
+            layout = wibox.layout.align.vertical
+        },
+        layout = wibox.layout.align.horizontal
+    }
+    table.insert(rows, row_album)
     popup:setup(rows)
 
     local function formatDuration(seconds)
@@ -175,24 +250,45 @@ local function music_widget_call(s)
         return string.format("%02d:%02d", minutes, remainingSeconds)
     end
 
-    local function update_widget()
-        awful.spawn.easy_async_with_shell([[sleep 0.1; pragha -c | grep -E "state|file|length" | sed 's/^.\+:\s//;s/.*\///;s/\.[^\.]*$//;s/^/|/;s/$/|/' | tr -d '\n']], function(stdout)
-            local state, music, length = stdout:match("|(.+)||(.+)||(.+)|")
+    local function update_widget(arg)
+        if arg then
+            command = 'pragha -' .. arg .. '&& sleep 0.05 && '
+        else
+            command = ''
+        end
+            awful.spawn.easy_async_with_shell(command .. [[pragha -c | grep -E "state|title|artist|album|length|track_no"]], function(stdout)
+            local state, music, artist, album, track, length = stdout:match('state: ([^\n]*).*title: ([^\n]*).*artist: ([^\n]*).*album: ([^\n]*).*track_no: ([^\n]*).*length: ([^\n]*)')
             if not music and not length then
                 row_status_icon.image = icons.stopped
-                row_status_text.text = "No Music Playing"
-                row_music_text.text = '--'
-                row_length_text.text = '--'
+                row_status_text.text  = "No Music Playing"
+                row_artist_text.text  = '--'
+                row_music_text.text   = '--'
+                row_length_text.text  = '--'
+                row_track_text.text   = '--'
+                row_album_text.text   = '--'
+                row_album_cover.image = icons.album_placeholder
             elseif state == "Paused" then
                 row_status_icon.image = icons.paused
-                row_status_text.text = "Music Is Paused"
-                row_music_text.text = music
-                row_length_text.text = formatDuration(length)
+                row_status_text.text  = "Music Is Paused"
+                row_artist_text.text  = artist or '--'
+                row_music_text.text   = music
+                row_length_text.text  = formatDuration(length)
+                row_track_text.text   = track
+                row_album_text.text   = album or '--'
+                cover_art_path        = ALBUM_COVER_DIR .. 'album-' .. artist .. '-' .. album .. '.jpeg'
+                cover_art             = gears.filesystem.file_readable(cover_art_path) and cover_art_path or icons.album_placeholder
+                row_album_cover.image = cover_art
             elseif state == "Playing" then
                 row_status_icon.image = icons.playing
-                row_status_text.text = "Music Is Playing"
-                row_music_text.text = music
-                row_length_text.text = formatDuration(length)
+                row_status_text.text  = "Music Is Playing"
+                row_artist_text.text  = artist or '--'
+                row_music_text.text   = music
+                row_length_text.text  = formatDuration(length)
+                row_track_text.text   = track
+                row_album_text.text   = album or '--'
+                cover_art_path        = ALBUM_COVER_DIR .. 'album-' .. artist .. '-' .. album .. '.jpeg'
+                cover_art             = gears.filesystem.file_readable(cover_art_path) and cover_art_path or icons.album_placeholder
+                row_album_cover.image = cover_art
             end
         end)
     end
@@ -203,24 +299,21 @@ local function music_widget_call(s)
                 {},
                 1,
                 function()
-                    awful.spawn.with_shell('pragha -r')
-                    update_widget()
+                    update_widget('r')
                 end
             ),
             awful.button(
                 {},
                 2,
                 function()
-                    awful.spawn.with_shell('pragha -t')
-                    update_widget()
+                    update_widget('t')
                 end
             ),
             awful.button(
                 {},
                 3,
                 function()
-                    awful.spawn.with_shell('pragha -n')
-                    update_widget()
+                    update_widget('n')
                 end
             ),
             awful.button(

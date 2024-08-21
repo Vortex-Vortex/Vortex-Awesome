@@ -7,6 +7,9 @@ return{
     -- List of apps to start by default
     default = {
         rofi = rofi_command,
+        rofi_emoji = 'rofi -show emoji -config ~/.config/awesome/theme/emoji.rasi  -emoji-format \'{emoji}\' -emoji-mode copy',
+        rofi_calc = 'rofi -show calc -modi calc -no-show-match -no-sort -config ~/.config/awesome/theme/calc.rasi',
+        rofi_internet = 'sh /home/vortex/.config/awesome/widget/rofi_internet/rofi_internet.sh',
         lock = 'sh /home/vortex/.config/i3lock-blur/lock.sh',
         terminal = 'terminator',
         code = 'terminator',

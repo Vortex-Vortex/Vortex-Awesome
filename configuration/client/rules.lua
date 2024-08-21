@@ -197,7 +197,7 @@ awful.rules.rules = {
         rule_any = {
             name = { 'Picture-in-Picture' },
             type = { 'dialog' },
-            class = { 'Lxpolkit', 'lxpolkit', 'mediainfo-gui', 'Mediainfo-gui', 'mpv', 'kcalc', 'kruler', 'huiontablet' }
+            class = { 'Lxpolkit', 'lxpolkit', 'mediainfo-gui', 'Mediainfo-gui', 'mpv', 'kcalc', 'kruler', 'huiontablet', 'shotwell', 'Shotwell' }
         },
         except_any = {
             instance = { "Microsoft", "Microsoft Word", "Microsoft Excel", "Microsoft PowerPoint", "Autodesk AutoCAD", "RAIL", "PanelWindow" }
@@ -508,108 +508,6 @@ awful.rules.rules = {
                             awful.spawn('xdotool mousemove 1060 1030 click 1 mousemove restore')
                         end,
                         {description = 'Drag Vertical Space', group = 'Rnote Exclusive'}
-                    )
-                )
-            )
-        end
-    },
-    {
-        rule_any = {
-            name = { 'arras.io' }
-        },
-        callback = function(c)
-            local keys = c:keys()
-            local buttons = c:buttons()
-            c:keys(
-                gears.table.join(
-                    keys,
-                    awful.key(
-                        {},
-                        "#82",
-                        function()
-                            awful.spawn.with_shell('sh /home/vortex/Downloads/Arras/tanks "-"')
-                        end,
-                        {description = '', group = ''}
-                    ),
-                    awful.key(
-                        {},
-                        "#87",
-                        function()
-                            awful.spawn.with_shell('sh /home/vortex/Downloads/Arras/tanks 1')
-                        end,
-                        {description = '', group = ''}
-                    ),
-                    awful.key(
-                        {},
-                        "#88",
-                        function()
-                            awful.spawn.with_shell('sh /home/vortex/Downloads/Arras/tanks 2')
-                        end,
-                        {description = '', group = ''}
-                    ),
-                    awful.key(
-                        {},
-                        "#89",
-                        function()
-                            awful.spawn.with_shell('sh /home/vortex/Downloads/Arras/tanks 3')
-                        end,
-                        {description = '', group = ''}
-                    ),
-                    awful.key(
-                        {},
-                        "#83",
-                        function()
-                            awful.spawn.with_shell('sh /home/vortex/Downloads/Arras/tanks 4')
-                        end,
-                        {description = '', group = ''}
-                    ),
-                    awful.key(
-                        {},
-                        "#84",
-                        function()
-                            awful.spawn.with_shell('sh /home/vortex/Downloads/Arras/tanks 5')
-                        end,
-                        {description = '', group = ''}
-                    ),
-                    awful.key(
-                        {},
-                        "#85",
-                        function()
-                            awful.spawn.with_shell('sh /home/vortex/Downloads/Arras/tanks 6')
-                        end,
-                        {description = '', group = ''}
-                    ),
-                    awful.key(
-                        {},
-                        "#79",
-                        function()
-                            awful.spawn.with_shell('sh /home/vortex/Downloads/Arras/tanks 7')
-                        end,
-                        {description = '', group = ''}
-                    ),
-                    awful.key(
-                        {},
-                        "#80",
-                        function()
-                            awful.spawn.with_shell('sh /home/vortex/Downloads/Arras/tanks 8')
-                        end,
-                        {description = '', group = ''}
-                    ),
-                    awful.key(
-                        {},
-                        "#81",
-                        function()
-                            awful.spawn.with_shell('sh /home/vortex/Downloads/Arras/tanks 9')
-                        end,
-                        {description = '', group = ''}
-                    ),
-                    awful.key(
-                        {},
-                        "#90",
-                        function()
-                            awful.spawn.with_shell('sh /home/vortex/Downloads/Arras/tanks 0')
-                        end,
-                        {description = '', group = ''}
                     )
                 )
             )
