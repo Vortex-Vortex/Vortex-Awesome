@@ -21,7 +21,7 @@ urlencode() {
 # Here should be the png name only:
 key_value_pair=(
     "arch"
-    "twitter,.tw,x"
+    "x,twitter,.tw,.x"
     "tradingview,.tv"
     "youtube,.yt"
     "whatsapp,.wp"
@@ -34,6 +34,11 @@ key_value_pair=(
     "tetris,.js,game"
     "minesweeper,.mn,game"
     "sudoku,game"
+    "tetrio,game"
+    "lua,script"
+    "bash,script"
+    "awesome,script"
+    "bybit"
 )
 
 chosen=$(for prompt in "${key_value_pair[@]}"; do
@@ -45,7 +50,7 @@ case "${chosen/,*/}" in
     "arch")
         site=wiki.archlinux.org
         ;;
-    "twitter")
+    "x")
         site=x.com
         ;;
     "tradingview")
@@ -83,6 +88,21 @@ case "${chosen/,*/}" in
         ;;
     "sudoku")
         site=sudoku.com
+        ;;
+    "tetrio")
+        site=tetr.io
+        ;;
+    "lua")
+        site=www.lua.org/manual/5.4/
+        ;;
+    "bash")
+        site=www.gnu.org/software/bash/manual/bash.html
+        ;;
+    "awesome")
+        site=awesomewm.org/doc/api/
+        ;;
+    "bybit")
+        site=bybit.com
         ;;
     '\s'*|'/s'*)
         engine=$(cut -d' ' -f 2 <(echo "$chosen"))

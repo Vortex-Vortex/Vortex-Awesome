@@ -11,15 +11,18 @@ local Tasklist = require('widget.task-list')
 local TagList  = require('widget.tag-list')
 local icons    = require('theme.icons')
 
-local calendar_widget  = require('widget.calendar-widget.calendar')
-local LayoutBox        = require('widget.layoutbox.layoutbox')
-local todo_widget      = require("widget.todo-widget.todo")
-local net_speed_widget = require("widget.net-speed-widget.net-speed")
-local pomodoro_widget  = require('widget.pomodoro.pomodoro')
-local music_widget     = require("widget.music-control.music_widget")
-local left_button      = require("widget.material.left-button")
-local add_button       = require('widget.material.add-button')
-local menu_widget      = require('layout.left-panel')
+local calendar_widget     = require('widget.calendar-widget.calendar')
+local LayoutBox           = require('widget.layoutbox.layoutbox')
+local todo_widget         = require("widget.todo-widget.todo")
+local net_speed_widget    = require("widget.net-speed-widget.net-speed")
+local pomodoro_widget     = require('widget.pomodoro.pomodoro')
+local music_widget        = require("widget.music-control.music_widget")
+local volume_widget       = require('widget.volume-control.volume_widget')
+local left_button         = require("widget.material.left-button")
+local add_button          = require('widget.material.add-button')
+local translate           = require("widget.translate-widget.translate")
+local notification_center = require("widget.notification-center.notification_center")
+local menu_widget         = require('layout.left-panel')
 
 local powerline_separator = wibox.widget{
     widget = wibox.widget.separator,
@@ -59,7 +62,7 @@ local systray_widget = wibox.widget{
         layout = wibox.layout.fixed.horizontal
     },
     widget = wibox.container.background,
-    visible = true
+    visible = false
 }
 
 systray_button:buttons(
@@ -151,6 +154,8 @@ local TopPanel = function(s)
                 systray_widget,
                 systray_button,
                 powerline_separator,
+                volume_widget(s),
+                powerline_separator,
                 music_widget(s),
                 powerline_separator,
                 pomodoro_widget(s),
@@ -161,7 +166,8 @@ local TopPanel = function(s)
                 powerline_separator,
                 LayoutBox(s),
                 powerline_separator,
-                calendar_widget
+                calendar_widget,
+                notification_center(s)
             }
         },
         {

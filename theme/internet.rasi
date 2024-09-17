@@ -8,6 +8,10 @@ configuration {
     modes:              "dmenu";
     show-icons:         true;
     hover-select: true;
+    ml-row-up: "";
+    ml-row-down: "";
+    kb-page-next: "ScrollDown";
+    kb-page-prev: "ScrollUp";
     me-select-entry: "";
     me-accept-entry: [ MousePrimary ];
 }

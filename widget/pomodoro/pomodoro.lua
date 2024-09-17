@@ -155,12 +155,12 @@ local function pomodoro_widget_call(s)
                     naughty.notify{ text = "          Work Time          ", title = "          Pomodoro Timer          ", icon = icons.alarm_clock, icon_size = 128, timeout = 0 }
                     is_on_break = false
                     pomodoro_arc.colors = {beautiful.border_focus}
-                    pomodoro_text.text = 'Break!'
+                    status_text.text = 'Work!'
                 else
                     naughty.notify{ text = "          Break Time          ", title = "          Pomodoro Timer          ", icon = icons.alarm_clock, icon_size = 128, timeout = 0 }
                     is_on_break = true
                     pomodoro_arc.colors = {'#00ff00'}
-                    pomodoro_text.text = 'Work!'
+                    status_text.text = 'Break!'
                 end
                 timerValue = 0
                 minutes, seconds = formatTime(timerValue)

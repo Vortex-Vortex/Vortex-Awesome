@@ -5,8 +5,6 @@ local hotkeys_popup = require('awful.hotkeys_popup').widget
 local modkey = require('configuration.keys.mod').modKey
 local altkey = require('configuration.keys.mod').altKey
 local apps   = require('configuration.apps')
-
-local translate = require("widget.translate-widget.translate")
 local top_panel = require('layout.top-panel')
 
 -- Key Bindings
@@ -395,10 +393,35 @@ local globalKeys = awful.util.table.join(
         {modkey},
         "k",
         function()
-            translate.launch()
+            _G.launch_translate()
         end,
         {description = "Run translate prompt", group = "Widgets"}
     ),
+    awful.key(
+        {modkey},
+        "#112",
+        function()
+            _G.music_control('r')
+        end,
+        {description = "Play Previous Music", group = "Widgets"}
+    ),
+    awful.key(
+        {modkey},
+        "#117",
+        function()
+            _G.music_control('n')
+        end,
+        {description = "Play Next Music", group = "Widgets"}
+    ),
+    awful.key(
+        {modkey},
+        'n',
+        function()
+            _G.toggle_notification_center()
+        end,
+        {description = "Show/Hide Notification Center", group = "Widgets"}
+    ),
+
 
         -- Layout Management
     awful.key(
@@ -505,7 +528,7 @@ local globalKeys = awful.util.table.join(
         {'Control', modkey},
         'Up',
         function()
-            awful.spawn('amixer -D pipewire sset Master 5%+')
+            _G.volume_control('up', 5)
         end,
         {description = 'Volume up', group = 'Hotkeys'}
     ),
@@ -513,7 +536,7 @@ local globalKeys = awful.util.table.join(
         {'Control', modkey},
         'Down',
         function()
-            awful.spawn('amixer -D pipewire sset Master 5%-')
+            _G.volume_control('down', 5)
         end,
         {description = 'Volume down', group = 'Hotkeys'}
     ),
@@ -521,7 +544,7 @@ local globalKeys = awful.util.table.join(
         {'Control', modkey},
         'm',
         function()
-            awful.spawn('amixer -D pipewire set Master 1+ toggle')
+            awful.spawn('amixer -D pipewire set Master toggle')
         end,
         {description = 'Toggle mute', group = 'Hotkeys'}
     )

@@ -154,7 +154,7 @@ input_widget:setup{
     }
 }
 
-local function launch()
+launch_translate = function()
     awful.placement.top(input_widget, { margins = {top = 40}, parent = awful.screen.focused()})
     input_widget.visible = true
 
@@ -181,7 +181,3 @@ local function launch()
         end
     }
 end
-
-return {
-    launch = launch
-}

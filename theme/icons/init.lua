@@ -42,5 +42,6 @@ return {
   playing           = dir .. '/playing.svg',
   stopped           = dir .. '/stopped.svg',
   album_placeholder = dir .. '/music-album.svg',
-  alarm_clock       = dir .. '/alarm-clock.svg'
+  alarm_clock       = dir .. '/alarm-clock.svg',
+  notification_icon = dir .. '/notification.svg'
 }

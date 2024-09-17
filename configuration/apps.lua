@@ -33,7 +33,7 @@ return{
     run_on_start_up = {
         'numlockx on',
         'nm-applet --indicator',
-        'pasystray',
+--         'pasystray',
         'setxkbmap br',
         'picom --config ' .. filesystem.get_configuration_dir() .. '/configuration/picom.conf',
         'lxsession',

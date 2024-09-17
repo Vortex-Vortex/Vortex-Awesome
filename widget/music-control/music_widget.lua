@@ -3,7 +3,6 @@ local gears               = require('gears')
 local beautiful           = require('beautiful')
 local wibox               = require('wibox')
 local icons               = require('theme.icons')
-local naughty             = require('naughty')
 local clickable_container = require('widget.material.clickable-container')
 
 local ALBUM_COVER_DIR = os.getenv('HOME') .. '/.cache/pragha/'
@@ -14,16 +13,16 @@ local function music_widget_call(s)
         layout = wibox.layout.fixed.vertical
     }
     local popup = awful.popup{
-            ontop   = true,
-            visible = false,
-            shape   = gears.shape.rectangle,
-            x       = width - 450,
-            y       = 50,
-            maximum_width = 400,
-            border_width  = beautiful.border_width,
-            border_color  = beautiful.border_focus,
-            widget = {}
-        }
+        ontop   = true,
+        visible = false,
+        shape   = gears.shape.rectangle,
+        x       = width - 450,
+        y       = 50,
+        maximum_width = 400,
+        border_width  = beautiful.border_width,
+        border_color  = beautiful.border_focus,
+        widget = {}
+    }
 
     music_widget = clickable_container(wibox.widget{
         {
@@ -293,6 +292,14 @@ local function music_widget_call(s)
         end)
     end
 
+    local popup_timer = gears.timer{
+        timeout = 1,
+        callback = function()
+            popup.visible = false
+        end,
+        single_shot = true
+    }
+
     music_widget:buttons(
         gears.table.join(
             awful.button(
@@ -334,13 +341,27 @@ local function music_widget_call(s)
     )
 
     music_widget:connect_signal("mouse::enter", function()
-        popup.visible = true
         update_widget()
+        popup.visible = true
+        popup_timer:stop()
     end)
     music_widget:connect_signal("mouse::leave", function()
-        popup.visible = false
+        if popup_timer.started == true then
+            popup_timer:again()
+        else
+            popup_timer:start()
+        end
     end)
 
+    music_control = function(command)
+        update_widget(command)
+        popup.visible = true
+        if popup_timer.started == true then
+            popup_timer:again()
+        else
+            popup_timer:start()
+        end
+    end
 
     return music_widget
 end

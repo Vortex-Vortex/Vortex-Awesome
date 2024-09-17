@@ -26,6 +26,7 @@ left_panel = function(screen)
         }),
         bg = beautiful.border_focus .. '55'
     }
+    local home_menu_hover = false
 
     local void = wibox.widget {
         widget = wibox.container.background,
@@ -146,6 +147,14 @@ left_panel = function(screen)
             ),
             awful.button(
                 {},
+                2,
+                nil,
+                function()
+                    home_menu_hover = not home_menu_hover
+                end
+            ),
+            awful.button(
+                {},
                 3,
                 function()
                     awful.tag.history.restore()
@@ -167,6 +176,13 @@ left_panel = function(screen)
             )
         )
     )
+
+    home_menu:connect_signal("mouse::leave", function()
+        if home_menu_hover then
+            awful.tag.history.restore()
+        end
+    end)
+
     return menu_widget
 end
 return left_panel

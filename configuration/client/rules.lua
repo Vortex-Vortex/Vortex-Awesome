@@ -197,7 +197,7 @@ awful.rules.rules = {
         rule_any = {
             name = { 'Picture-in-Picture' },
             type = { 'dialog' },
-            class = { 'Lxpolkit', 'lxpolkit', 'mediainfo-gui', 'Mediainfo-gui', 'mpv', 'kcalc', 'kruler', 'huiontablet', 'shotwell', 'Shotwell' }
+            class = { 'Lxpolkit', 'lxpolkit', 'mediainfo-gui', 'Mediainfo-gui', 'mpv', 'kcalc', 'kruler', 'huiontablet', 'shotwell', 'Shotwell', 'feh' }
         },
         except_any = {
             instance = { "Microsoft", "Microsoft Word", "Microsoft Excel", "Microsoft PowerPoint", "Autodesk AutoCAD", "RAIL", "PanelWindow" }

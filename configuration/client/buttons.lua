@@ -1,5 +1,4 @@
 local awful = require('awful')
-
 local modkey = require('configuration.keys.mod').modKey
 
 local clientButtons = awful.util.table.join(
@@ -39,17 +38,17 @@ local clientButtons = awful.util.table.join(
         {'Control', modkey},
         4,
         function()
-            awful.spawn('amixer -D pulse sset Master 10%+')
+            _G.volume_control('up', 5)
         end,
-        {description = 'Volume up', group = 'Hotkeys'}
+        nil
     ),
     awful.button(
         {'Control', modkey},
         5,
         function()
-            awful.spawn('amixer -D pulse sset Master 10%-')
+            _G.volume_control('down', 5)
         end,
-        {description = 'Volume down', group = 'Hotkeys'}
+        nil
     )
 )
 
