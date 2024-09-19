@@ -11,20 +11,36 @@ local close_button = require('widget.material.close-button')
 local function notification_center_call(s)
     local width = s.geometry.width
     local notification_data = {}
+    local current_callback = nil
+
+    local count_textbox = wibox.widget{
+        widget = wibox.widget.textbox,
+        font   = 'Roboto Mono bold 11',
+        text   = 0
+    }
 
     local notification_center = clickable_container(wibox.widget{
         {
-            wibox.widget{
-                widget = wibox.widget.imagebox,
-                image = icons.notification_icon
+            {
+                {
+                    wibox.widget{
+                        widget = wibox.widget.imagebox,
+                        image = icons.notification_icon
+                    },
+                    widget = wibox.container.place,
+                    align = 'center',
+                    valign = 'center'
+                },
+                widget        = wibox.container.margin,
+                forced_height = 25,
+                forced_width  = 25
             },
-            widget = wibox.container.place,
-            align = 'center',
-            valign = 'center'
+            count_textbox,
+            layout = wibox.layout.fixed.horizontal
         },
-        widget        = wibox.container.margin,
-        forced_height = 25,
-        forced_width  = 25,
+        left = 5,
+        right = 5,
+        widget = wibox.container.margin
     })
 
     local popup = awful.popup{
@@ -42,16 +58,6 @@ local function notification_center_call(s)
     local rows = {
         layout = wibox.layout.fixed.vertical
     }
-
-    local count_textbox = wibox.widget{
-        widget = wibox.widget.textbox,
-        font   = 'Roboto Mono bold 11',
-        text   = 0
-    }
-
---     local function update_counter(notifications)
---         ...
---     end
 
     local first_row = wibox.widget{
         {
@@ -77,20 +83,59 @@ local function notification_center_call(s)
         table.insert(rows, first_row)
 
         for i, notification_object in ipairs(notification_data) do
+            if string.find(notification_object.title, "^Flameshot") then
+                goto continue
+            end
             local trash_button = close_button()
             trash_button:connect_signal("button::press", function()
                 table.remove(notification_data, i)
                 update_notification_center()
             end)
 
+            local notification_text = wibox.widget{
+                text  = notification_object.text,
+                font  = 'Roboto Mono 10',
+                align = 'center',
+                forced_height = 40,
+                forced_width = 315,
+                widget        = wibox.widget.textbox
+            }
+
+            local notification_body = clickable_container(wibox.widget{
+                {
+                    text  = notification_object.title,
+                    font  = 'Roboto Mono bold 12',
+                    align = 'center',
+                    forced_height = 20,
+                    forced_width = 315,
+                    widget        = wibox.widget.textbox
+                },
+                notification_text,
+                layout = wibox.layout.fixed.vertical
+            })
+            notification_body:connect_signal("button::press", function()
+                if notification_text.forced_height == 40 then
+                    notification_text.forced_height = notification_text:get_height_for_width(315)
+                else
+                    notification_text.forced_height = 40
+                end
+            end)
+
             local row = wibox.widget{
                 {
                     {
                         {
+                            {
+                                forced_height = 45,
+                                forced_width = 45,
+                                image = notification_object.icon or icons.notification_icon,
+                                widget = wibox.widget.imagebox
+                            },
                             forced_height = 60,
                             forced_width = 60,
-                            image = notification_object.icon or icons.notification_icon,
-                            widget = wibox.widget.imagebox
+                            valign = 'center',
+                            halign = 'center',
+                            widget = wibox.container.place
                         },
                         shape              = gears.shape.rectangle,
                         shape_border_color = beautiful.border_normal,
@@ -105,25 +150,7 @@ local function notification_center_call(s)
                 },
                 {
                     {
-                        {
-                            {
-                                text  = notification_object.title,
-                                font  = 'Roboto Mono bold 12',
-                                align = 'center',
-                                forced_height = 20,
-                                forced_width = 315,
-                                widget        = wibox.widget.textbox
-                            },
-                            {
-                                text  = notification_object.text,
-                                font  = 'Roboto Mono 10',
-                                align = 'center',
-                                forced_height = 40,
-                                forced_width = 315,
-                                widget        = wibox.widget.textbox
-                            },
-                            layout = wibox.layout.fixed.vertical
-                        },
+                        notification_body,
                         {
                             {
                                 trash_button,
@@ -146,8 +173,10 @@ local function notification_center_call(s)
                 layout = wibox.layout.align.horizontal
             }
             table.insert(rows, row)
+            ::continue::
         end
         popup:setup(rows)
+        count_textbox.text = tostring(#rows - 1)
     end
 
     local popup_clicked_on = false
@@ -162,6 +191,15 @@ local function notification_center_call(s)
                         popup.visible = not popup.visible
                     end
                     popup_clicked_on = popup.visible
+                end
+            ),
+            awful.button(
+                {},
+                3,
+                function()
+                    if current_callback then
+                        current_callback()
+                    end
                 end
             )
         )
@@ -185,6 +223,7 @@ local function notification_center_call(s)
             text = args.text or "",
             icon = args.icon
         })
+        current_callback = args.callback or args.run
         update_notification_center()
         return n
     end
@@ -193,6 +232,8 @@ local function notification_center_call(s)
         update_notification_center()
         popup.visible = not popup.visible
     end
+
+    update_notification_center()
 
     return notification_center
 end

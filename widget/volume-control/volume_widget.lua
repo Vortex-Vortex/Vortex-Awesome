@@ -20,13 +20,15 @@ local function volume_widget_call(s)
         widget = {}
     }
 
+    icon_widget = wibox.widget{
+        widget = wibox.widget.imagebox,
+        image = icons.volume
+    }
+
     local volume_widget = wibox.widget{
         {
             {
-                wibox.widget{
-                    widget = wibox.widget.imagebox,
-                    image = icons.volume
-                },
+                icon_widget,
                 widget = wibox.container.place,
                 align = 'center',
                 valign = 'center'
@@ -80,9 +82,16 @@ local function volume_widget_call(s)
     popup.widget = volume_bar_container
 
     local update_bar = function(new_value)
-        value = string.match(new_value, "(%d?%d?%d)%%")
-        volume_bar.value = tonumber(value)
-        volume_text.text = tostring(value)
+        if string.find(new_value, "off") then
+            icon_widget.image = icons.no_volume
+            volume_bar.value = 0
+            volume_text.text = 'X'
+        else
+            value = string.match(new_value, "(%d?%d?%d)%%")
+            icon_widget.image = icons.volume
+            volume_bar.value = tonumber(value)
+            volume_text.text = tostring(value)
+        end
     end
 
     local popup_timer = gears.timer{
@@ -94,7 +103,7 @@ local function volume_widget_call(s)
     }
 
     volume_widget:connect_signal("mouse::enter", function()
-        awful.spawn.easy_async_with_shell([[amixer -D pipewire sget Master]], function(stdout)
+        awful.spawn.easy_async_with_shell([[amixer -D pipewire sget Master | sed -n '7p']], function(stdout)
             update_bar(stdout)
         end)
         popup.visible = true
@@ -114,7 +123,7 @@ local function volume_widget_call(s)
                 {},
                 1,
                 function()
-                    awful.spawn.easy_async_with_shell([[amixer -D pipewire set Master toggle]], function(stdout)
+                    awful.spawn.easy_async_with_shell([[amixer -D pipewire set Master toggle | sed -n '7p']], function(stdout)
                         update_bar(stdout)
                     end)
                 end
@@ -123,7 +132,7 @@ local function volume_widget_call(s)
                 {},
                 4,
                 function()
-                    awful.spawn.easy_async_with_shell([[amixer -D pipewire sset Master 2%+]], function(stdout)
+                    awful.spawn.easy_async_with_shell([[amixer -D pipewire sset Master 2%+ | sed -n '7p']], function(stdout)
                         update_bar(stdout)
                     end)
                 end
@@ -132,7 +141,7 @@ local function volume_widget_call(s)
                 {},
                 5,
                 function()
-                    awful.spawn.easy_async_with_shell([[amixer -D pipewire sset Master 2%-]], function(stdout)
+                    awful.spawn.easy_async_with_shell([[amixer -D pipewire sset Master 2%- | sed -n '7p']], function(stdout)
                         update_bar(stdout)
                     end)
                 end
@@ -142,11 +151,11 @@ local function volume_widget_call(s)
 
     volume_control = function(updown, value)
         if updown == 'up' then
-            awful.spawn.easy_async_with_shell('amixer -D pipewire sset Master ' .. value .. '%+', function(stdout)
+            awful.spawn.easy_async_with_shell('amixer -D pipewire sset Master ' .. value .. '%+ | sed -n "7p"', function(stdout)
                 update_bar(stdout)
             end)
         else
-            awful.spawn.easy_async_with_shell('amixer -D pipewire sset Master ' .. value .. '%-', function(stdout)
+            awful.spawn.easy_async_with_shell('amixer -D pipewire sset Master ' .. value .. '%- | sed -n "7p"', function(stdout)
                 update_bar(stdout)
             end)
         end
