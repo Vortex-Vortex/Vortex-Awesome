@@ -43,6 +43,10 @@ local function notification_center_call(s)
         widget = wibox.container.margin
     })
 
+    local update_notification_counter = function()
+        count_textbox.text = tostring(#notification_data)
+    end
+
     local popup = awful.popup{
         ontop   = true,
         visible = false,
@@ -90,6 +94,7 @@ local function notification_center_call(s)
             trash_button:connect_signal("button::press", function()
                 table.remove(notification_data, i)
                 update_notification_center()
+                update_notification_counter()
             end)
 
             local notification_text = wibox.widget{
@@ -176,7 +181,6 @@ local function notification_center_call(s)
             ::continue::
         end
         popup:setup(rows)
-        count_textbox.text = tostring(#rows - 1)
     end
 
     local popup_clicked_on = false
@@ -186,7 +190,6 @@ local function notification_center_call(s)
                 {},
                 1,
                 function()
-                    update_notification_center()
                     if not popup.visible or popup_clicked_on then
                         popup.visible = not popup.visible
                     end
@@ -206,6 +209,7 @@ local function notification_center_call(s)
     )
     notification_center:connect_signal("mouse::enter", function()
         if not popup_clicked_on then
+            update_notification_center()
             popup.visible = true
         end
     end)
@@ -224,7 +228,12 @@ local function notification_center_call(s)
             icon = args.icon
         })
         current_callback = args.callback or args.run
-        update_notification_center()
+        if popup.visible then
+            update_notification_center()
+            update_notification_counter()
+        else
+            update_notification_counter()
+        end
         return n
     end
 
