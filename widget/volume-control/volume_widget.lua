@@ -58,7 +58,7 @@ local function volume_widget_call(s)
         widget           = wibox.widget.progressbar,
     }
 
-    local volume_bar_container = wibox.widget{
+    local volume_bar_container = {
         {
             {
                 volume_bar,
@@ -79,7 +79,7 @@ local function volume_widget_call(s)
         layout = wibox.layout.fixed.vertical
     }
 
-    popup.widget = volume_bar_container
+    popup:setup(volume_bar_container)
 
     local update_bar = function(new_value)
         if string.find(new_value, "off") then

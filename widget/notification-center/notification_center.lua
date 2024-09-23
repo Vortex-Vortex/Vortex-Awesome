@@ -10,20 +10,22 @@ local close_button = require('widget.material.close-button')
 
 local function notification_center_call(s)
     local width = s.geometry.width
-    local notification_data = {}
+    local notification_queue = {}
     local current_callback = nil
+    local update_queue = false
+    local notif_counter = 0
 
     local count_textbox = wibox.widget{
         widget = wibox.widget.textbox,
-        font   = 'Roboto Mono bold 11',
-        text   = 0
+        font = 'Roboto Mono bold 11',
+        text = 0
     }
 
     local notification_center = clickable_container(wibox.widget{
         {
             {
                 {
-                    wibox.widget{
+                    {
                         widget = wibox.widget.imagebox,
                         image = icons.notification_icon
                     },
@@ -31,9 +33,9 @@ local function notification_center_call(s)
                     align = 'center',
                     valign = 'center'
                 },
-                widget        = wibox.container.margin,
+                widget = wibox.container.margin,
                 forced_height = 25,
-                forced_width  = 25
+                forced_width = 25
             },
             count_textbox,
             layout = wibox.layout.fixed.horizontal
@@ -43,81 +45,78 @@ local function notification_center_call(s)
         widget = wibox.container.margin
     })
 
-    local update_notification_counter = function()
-        count_textbox.text = tostring(#notification_data)
-    end
-
     local popup = awful.popup{
-        ontop   = true,
+        ontop = true,
         visible = false,
-        shape   = gears.shape.rectangle,
-        x       = width - 450,
-        y       = 50,
+        shape = gears.shape.rectangle,
+        x = width - 450,
+        y = 50,
         maximum_width = 400,
-        border_width  = beautiful.border_width,
-        border_color  = beautiful.border_focus,
+        border_width = beautiful.border_width,
+        border_color = beautiful.border_focus,
         widget = {}
-    }
-
-    local rows = {
-        layout = wibox.layout.fixed.vertical
     }
 
     local first_row = wibox.widget{
         {
-            text  = 'Notification Center',
-            font  = 'Roboto Mono bold 14',
+            widget = wibox.widget.textbox,
+            text = 'Notification Center',
+            font = 'Roboto Mono bold 14',
             align = 'center',
             forced_height = 40,
-            forced_width = 400,
-            widget        = wibox.widget.textbox
+            forced_width = 400
         },
+        widget = wibox.container.background,
         bg = beautiful.bg_normal,
-        shape              = gears.shape.rectangle,
+        shape = gears.shape.rectangle,
         shape_border_color = beautiful.border_normal,
-        shape_border_width = beautiful.border_width + 1,
-        widget = wibox.container.background
+        shape_border_width = beautiful.border_width + 1
     }
 
-    local function update_notification_center()
-        for i = 0, #rows do
-            rows[i] = nil
+    local rows = {
+        id = "idrows",
+        layout = wibox.layout.fixed.vertical
+    }
+
+    table.insert(rows, first_row)
+    popup:setup(rows)
+
+    local add_to_queue = function(args)
+        table.insert(notification_queue, {
+            title = args.title or "",
+            text = args.text or "",
+            icon = args.icon or icons.notification_icon,
+        })
+    end
+
+    local update_notification_center = function()
+        if not update_queue then
+            return
         end
-
-        table.insert(rows, first_row)
-
-        for i, notification_object in ipairs(notification_data) do
-            if string.find(notification_object.title, "^Flameshot") then
-                goto continue
-            end
+        for _, notification_object in ipairs(notification_queue) do
             local trash_button = close_button()
-            trash_button:connect_signal("button::press", function()
-                table.remove(notification_data, i)
-                update_notification_center()
-                update_notification_counter()
-            end)
 
             local notification_text = wibox.widget{
-                text  = notification_object.text,
-                font  = 'Roboto Mono 10',
+                widget = wibox.widget.textbox,
+                text = notification_object.text,
+                font = 'Roboto Mono 10',
                 align = 'center',
                 forced_height = 40,
-                forced_width = 315,
-                widget        = wibox.widget.textbox
+                forced_width = 315
             }
 
-            local notification_body = clickable_container(wibox.widget{
+            local notification_body = wibox.widget{
                 {
-                    text  = notification_object.title,
-                    font  = 'Roboto Mono bold 12',
+                    widget = wibox.widget.textbox,
+                    text = notification_object.title,
+                    font = 'Roboto Mono bold 12',
                     align = 'center',
                     forced_height = 20,
-                    forced_width = 315,
-                    widget        = wibox.widget.textbox
+                    forced_width = 315
                 },
                 notification_text,
                 layout = wibox.layout.fixed.vertical
-            })
+            }
             notification_body:connect_signal("button::press", function()
                 if notification_text.forced_height == 40 then
                     notification_text.forced_height = notification_text:get_height_for_width(315)
@@ -131,29 +130,29 @@ local function notification_center_call(s)
                     {
                         {
                             {
-                                forced_height = 45,
-                                forced_width = 45,
-                                image = notification_object.icon or icons.notification_icon,
-                                widget = wibox.widget.imagebox
+                                {
+                                    forced_height = 45,
+                                    forced_width = 45,
+                                    image = notification_object.icon,
+                                    widget = wibox.widget.imagebox
+                                },
+                                forced_height = 60,
+                                forced_width = 60,
+                                valign = 'center',
+                                halign = 'center',
+                                widget = wibox.container.place
                             },
-                            forced_height = 60,
-                            forced_width = 60,
-                            valign = 'center',
-                            halign = 'center',
-                            widget = wibox.container.place
+                            shape              = gears.shape.rectangle,
+                            shape_border_color = beautiful.border_normal,
+                            shape_border_width = beautiful.border_width + 1,
+                            widget             = wibox.container.background
                         },
+                        bg = beautiful.bg_normal,
                         shape              = gears.shape.rectangle,
-                        shape_border_color = beautiful.border_normal,
-                        shape_border_width = beautiful.border_width + 1,
+                        shape_border_color = beautiful.border_focus,
+                        shape_border_width = beautiful.border_width - 1,
                         widget             = wibox.container.background
                     },
-                    bg = beautiful.bg_normal,
-                    shape              = gears.shape.rectangle,
-                    shape_border_color = beautiful.border_focus,
-                    shape_border_width = beautiful.border_width - 1,
-                    widget             = wibox.container.background
-                },
-                {
                     {
                         notification_body,
                         {
@@ -169,18 +168,38 @@ local function notification_center_call(s)
                         },
                         layout = wibox.layout.align.horizontal
                     },
-                    widget             = wibox.container.background,
-                    bg                 = beautiful.bg_primary_subtle,
-                    shape              = gears.shape.rectangle,
-                    shape_border_color = beautiful.border_secondary,
-                    shape_border_width = beautiful.border_width -1
+                    layout = wibox.layout.align.horizontal
                 },
-                layout = wibox.layout.align.horizontal
+                widget = clickable_container(
+                    nil,
+                    {
+                        leave = beautiful.bg_primary_subtle
+                    }
+                ),
+                bg = beautiful.bg_primary_subtle,
+                shape              = gears.shape.rectangle,
+                shape_border_color = beautiful.border_focus,
+                shape_border_width = 0
             }
-            table.insert(rows, row)
-            ::continue::
+            row:connect_signal("mouse::enter", function(c)
+                c.shape_border_width = beautiful.border_width
+            end)
+            row:connect_signal("mouse::leave", function(c)
+                c.shape_border_width = 0
+            end)
+            table.insert(rows, 2, row)
+            popup.idrows:insert(2, row)
+
+            trash_button:connect_signal("button::press", function()
+                popup.idrows:remove_widgets(row)
+                popup:emit_signal("widget::updated")
+
+                notif_counter = notif_counter - 1
+                count_textbox.text = notif_counter
+            end)
         end
-        popup:setup(rows)
+        notification_queue = {}
+        update_queue = false
     end
 
     local popup_clicked_on = false
@@ -207,6 +226,7 @@ local function notification_center_call(s)
             )
         )
     )
+
     notification_center:connect_signal("mouse::enter", function()
         if not popup_clicked_on then
             update_notification_center()
@@ -219,30 +239,23 @@ local function notification_center_call(s)
         end
     end)
 
-    local old_notify = naughty.notify
-    naughty.notify = function(args)
-        local n = old_notify(args)
-        table.insert(notification_data, 1, {
-            title = args.title or "",
-            text = args.text or "",
-            icon = args.icon
-        })
-        current_callback = args.callback or args.run
-        if popup.visible then
-            update_notification_center()
-            update_notification_counter()
-        else
-            update_notification_counter()
-        end
-        return n
-    end
-
     toggle_notification_center = function()
-        update_notification_center()
         popup.visible = not popup.visible
     end
 
-    update_notification_center()
+    local old_notify = naughty.notify
+    naughty.notify = function(args)
+        local n = old_notify(args)
+            update_queue = true
+            add_to_queue(args)
+            current_callback = args.callback or args.run
+            if popup.visible then
+                update_notification_center()
+            end
+            notif_counter = notif_counter + 1
+            count_textbox.text = notif_counter
+        return n
+    end
 
     return notification_center
 end
