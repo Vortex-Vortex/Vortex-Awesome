@@ -160,13 +160,17 @@ local globalKeys = awful.util.table.join(
     awful.key(
         {modkey},
         'Escape',
-        awful.tag.history.restore,
+        function()
+            _G.clients_on_tag_change(function() awful.tag.history.restore() end)
+        end,
         {description = 'Go back', group = 'Tag'}
     ),
     awful.key(
         {modkey},
         '#90',
-        awful.tag.history.restore,
+        function()
+            _G.clients_on_tag_change(function() awful.tag.history.restore() end)
+        end,
         {description = 'Go back', group = 'Tag'}
     ),
     awful.key(
