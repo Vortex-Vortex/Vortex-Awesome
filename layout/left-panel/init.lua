@@ -178,7 +178,9 @@ left_panel = function(screen)
     )
 
     home_menu:connect_signal("mouse::leave", function()
-        _G.clients_on_tag_change(function() awful.tag.history.restore() end)
+        if home_menu_hover then
+            _G.clients_on_tag_change(function() awful.tag.history.restore() end)
+        end
     end)
 
     return menu_widget
