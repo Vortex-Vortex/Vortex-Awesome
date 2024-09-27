@@ -132,13 +132,17 @@ local globalKeys = awful.util.table.join(
     awful.key(
         {modkey},
         'w',
-        awful.tag.viewprev,
+        function()
+            _G.clients_on_tag_change(function() awful.tag.viewprev() end)
+        end,
         {description = 'View previous', group = 'Tag'}
     ),
     awful.key(
         {modkey},
         's',
-        awful.tag.viewnext,
+        function()
+            _G.clients_on_tag_change(function() awful.tag.viewnext() end)
+        end,
         {description = 'View next', group = 'Tag'}
     ),
     awful.key(
@@ -595,7 +599,7 @@ for i = 1, 9 do
                 local screen = awful.screen.focused()
                 local tag = screen.tags[i]
                 if tag then
-                    tag:view_only()
+                    _G.clients_on_tag_change(function() tag:view_only() end)
                 end
             end,
             descr_view
@@ -656,7 +660,7 @@ for i, key in ipairs(strings) do
                 local screen = awful.screen.focused()
                 local tag = screen.tags[i]
                 if tag then
-                    tag:view_only()
+                    _G.clients_on_tag_change(function() tag:view_only() end)
                 end
             end,
             {description = nil, group = nil}

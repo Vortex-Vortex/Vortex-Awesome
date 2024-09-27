@@ -4,6 +4,7 @@ local dpi = require('beautiful').xresources.apply_dpi
 local capi = {button = _G.button}
 local clickable_container = require('widget.material.clickable-container')
 local modkey = require('configuration.keys.mod').modKey
+local naughty = require('naughty')
 --- Common method to create buttons.
 -- @tab buttons
 -- @param object
@@ -108,6 +109,20 @@ local function list_update(w, buttons, label, data, objects)
     end
 end
 
+clients_on_tag_change = function(action)
+    for _, prev_tag in ipairs(screen[1].selected_tags) do
+        for _, c in ipairs(prev_tag:clients()) do
+            c.minimized = true
+        end
+    end
+    action()
+    for _, cur_tag in ipairs(screen[1].selected_tags) do
+        for _, c in ipairs(cur_tag:clients()) do
+            c.minimized = false
+        end
+    end
+end
+
 local TagList = function(s)
     return awful.widget.taglist(
         s,
@@ -117,7 +132,7 @@ local TagList = function(s)
                 {},
                 1,
                 function(t)
-                    t:view_only()
+                    clients_on_tag_change(function() t:view_only() end)
                 end
             ),
             awful.button(
@@ -144,14 +159,14 @@ local TagList = function(s)
                 {},
                 4,
                 function(t)
-                    awful.tag.viewprev(t.screen)
+                    clients_on_tag_change(function() awful.tag.viewprev(t.screen) end)
                 end
             ),
             awful.button(
                 {},
                 5,
                 function(t)
-                    awful.tag.viewnext(t.screen)
+                    clients_on_tag_change(function() awful.tag.viewnext(t.screen) end)
                 end
             )
         ),

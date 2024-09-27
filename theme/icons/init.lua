@@ -43,5 +43,6 @@ return {
   stopped           = dir .. '/stopped.svg',
   album_placeholder = dir .. '/music-album.svg',
   alarm_clock       = dir .. '/alarm-clock.svg',
-  notification_icon = dir .. '/notification.svg'
+  notification_icon = dir .. '/notification.svg',
+  no_volume         = dir .. '/no-volume.svg'
 }

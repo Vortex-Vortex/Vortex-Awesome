@@ -157,30 +157,28 @@ left_panel = function(screen)
                 {},
                 3,
                 function()
-                    awful.tag.history.restore()
+                    _G.clients_on_tag_change(function() awful.tag.history.restore() end)
                 end
             ),
             awful.button(
                 {},
                 4,
                 function(t)
-                    awful.tag.viewprev(t.screen)
+                    _G.clients_on_tag_change(function() awful.tag.viewprev(t.screen) end)
                 end
             ),
             awful.button(
                 {},
                 5,
                 function(t)
-                    awful.tag.viewnext(t.screen)
+                    _G.clients_on_tag_change(function() awful.tag.viewnext(t.screen) end)
                 end
             )
         )
     )
 
     home_menu:connect_signal("mouse::leave", function()
-        if home_menu_hover then
-            awful.tag.history.restore()
-        end
+        _G.clients_on_tag_change(function() awful.tag.history.restore() end)
     end)
 
     return menu_widget
