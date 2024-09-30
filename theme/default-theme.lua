@@ -89,11 +89,17 @@ local awesome_overrides = function(theme)
             -- Tasklist
     theme.tasklist_font      = 'Roboto medium 11'
     theme.tasklist_bg_normal = theme.background.shaden_100
-    theme.tasklist_bg_focus  = theme.background.shaden_90
+    theme.tasklist_bg_focus  = theme.primary.shaden_85
     theme.tasklist_bg_urgent = theme.primary.shaden_30
+    theme.tasklist_fg_normal = theme.background.lighten_15
     theme.tasklist_fg_focus  = theme.background.lighten_100
     theme.tasklist_fg_urgent = theme.fg_normal
-    theme.tasklist_fg_normal = theme.background.lighten_70
+    theme.tasklist_fg_minimize = theme.background.shaden_40
+
+    theme.tasklist_shape = gears.shape.powerline
+    theme.tasklist_shape_border_width = theme.border_width - 1
+    theme.tasklist_shape_border_color = theme.primary.true_color
+    theme.tasklist_shape_border_color_minimized = theme.primary.shaden_60
 end
 return {
     theme = theme,

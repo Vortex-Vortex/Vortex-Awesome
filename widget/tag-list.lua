@@ -112,13 +112,21 @@ end
 clients_on_tag_change = function(action)
     for _, prev_tag in ipairs(screen[1].selected_tags) do
         for _, c in ipairs(prev_tag:clients()) do
+            if c.name == 'QuakeTerminal' then
+                goto continue
+            end
             c.minimized = true
+            ::continue::
         end
     end
     action()
     for _, cur_tag in ipairs(screen[1].selected_tags) do
         for _, c in ipairs(cur_tag:clients()) do
+            if c.name == 'QuakeTerminal' then
+                goto continue
+            end
             c.minimized = false
+            ::continue::
         end
     end
 end

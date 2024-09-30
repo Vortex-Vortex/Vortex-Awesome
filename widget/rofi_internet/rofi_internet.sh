@@ -45,7 +45,7 @@ chosen=$(for prompt in "${key_value_pair[@]}"; do
     echo -en "${prompt}\0icon\x1f${icons_location}${prompt/,*/}.png\n"
 done | rofi -config ~/.config/awesome/theme/internet.rasi \
            -dmenu \
-           -p " ")
+           -p "Internet: ")
 case "${chosen/,*/}" in
     "arch")
         site=wiki.archlinux.org

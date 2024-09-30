@@ -8,6 +8,13 @@ configuration {
     modes:              "emoji";
     display-emoji:       "Emoji: ";
     drun-display-format:"{name}";
+    hover-select: true;
+    ml-row-up: "";
+    ml-row-down: "";
+    kb-page-next: "ScrollDown";
+    kb-page-prev: "ScrollUp";
+    me-select-entry: "";
+    me-accept-entry: [ MousePrimary ];
 }
 
 * {
@@ -21,7 +28,7 @@ configuration {
     active:         #FFFFFFFF;
     urgentbg:       #FF0000FF;
     urgentfg:       #00FFFFFF;
-    font:           "monospace bold 22";
+    font:           "monospace bold 20";
 }
 
 window {
@@ -58,7 +65,7 @@ mainbox {
 inputbar {
     enabled:                     true;
     spacing:                     0px;
-    margin:                      3px;
+    margin:                      0px;
     padding:                     2px;
     border-color:                @bordercolor;
     background-color:            @background-alt;
@@ -70,6 +77,7 @@ prompt {
     enabled:                     true;
     background-color:            inherit;
     text-color:                  inherit;
+    font:                        "monospace bold 10";
 }
 
 textbox-prompt-colon {
@@ -87,12 +95,13 @@ entry {
     cursor:                      text;
     placeholder:                 "Search Emojis";
     placeholder-color:           inherit;
+    font:                        "monospace bold 10";
 }
 
 listview {
     enabled:                     true;
     columns:                     18;
-    lines:                       8;
+    // lines:                       8;
     cycle:                       true;
     dynamic:                     true;
     scrollbar:                   true;
@@ -100,7 +109,7 @@ listview {
     reverse:                     false;
     fixed-height:                true;
     fixed-columns:               true;
-    spacing:                     3px;
+    spacing:                     2px;
     margin:                      3px;
     padding:                     0px;
     border:                      0px solid;
@@ -122,7 +131,7 @@ scrollbar {
 element {
     enabled:                     true;
     spacing:                     4px;
-    margin:                      0px;
+    margin:                      1px;
     padding:                     3px;
     border:                      0px solid;
     border-radius:               0px;

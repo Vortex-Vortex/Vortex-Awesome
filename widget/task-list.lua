@@ -45,12 +45,6 @@ local tasklist_buttons = awful.util.table.join(
     )
 )
 
-local style = {
-    shape = gears.shape.powerline,
-    shape_border_width = beautiful.border_width - 1,
-    shape_border_color = beautiful.border_focus
-}
-
 local widget_template = {
     {
         {
@@ -79,10 +73,9 @@ local widget_template = {
     create_callback = function(self, c, index, objects)
         local tooltip = awful.tooltip{
             objects = { self },
-            text = c.name
         }
-
         self:connect_signal('mouse::enter', function()
+            tooltip.text = c.name
             if self.bg ~= '#ffffff22' then
                 self.backup     = self.bg
                 self.has_backup = true
@@ -123,8 +116,7 @@ local TaskList = function(s)
             screen = s,
             widget_template = widget_template,
             filter = awful.widget.tasklist.filter.currenttags,
-            buttons = tasklist_buttons,
-            style = style
+            buttons = tasklist_buttons
         },
         widget = wibox.container.margin,
         forced_width = width,
