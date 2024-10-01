@@ -101,7 +101,7 @@ local function notification_center_call(s)
                 text = notification_object.text,
                 font = 'Roboto Mono 10',
                 align = 'center',
-                forced_height = 40,
+                forced_height = 60,
                 forced_width = 315
             }
 
@@ -118,10 +118,10 @@ local function notification_center_call(s)
                 layout = wibox.layout.fixed.vertical
             }
             notification_body:connect_signal("button::press", function()
-                if notification_text.forced_height == 40 then
+                if notification_text.forced_height == 60 then
                     notification_text.forced_height = notification_text:get_height_for_width(315)
                 else
-                    notification_text.forced_height = 40
+                    notification_text.forced_height = 60
                 end
             end)
 
@@ -131,21 +131,40 @@ local function notification_center_call(s)
                         {
                             {
                                 {
-                                    forced_height = 45,
-                                    forced_width = 45,
-                                    image = notification_object.icon,
-                                    widget = wibox.widget.imagebox
+                                    {
+                                        forced_height = 45,
+                                        forced_width = 45,
+                                        image = notification_object.icon,
+                                        widget = wibox.widget.imagebox
+                                    },
+                                    forced_height = 60,
+                                    forced_width = 60,
+                                    valign = 'center',
+                                    halign = 'center',
+                                    widget = wibox.container.place
                                 },
-                                forced_height = 60,
+                                shape              = gears.shape.rectangle,
+                                shape_border_color = beautiful.border_normal,
+                                shape_border_width = beautiful.border_width + 1,
+                                widget             = wibox.container.background
+                            },
+                            {
+                                {
+                                    text = os.date("%H:%M:%S"),
+                                    font = 'Roboto Mono bold 9',
+                                    align = 'center',
+                                    valign = 'center',
+                                    forced_height = 20,
+                                    forced_width = 60,
+                                    widget = wibox.widget.textbox
+                                },
+                                forced_height = 20,
                                 forced_width = 60,
                                 valign = 'center',
                                 halign = 'center',
                                 widget = wibox.container.place
                             },
-                            shape              = gears.shape.rectangle,
-                            shape_border_color = beautiful.border_normal,
-                            shape_border_width = beautiful.border_width + 1,
-                            widget             = wibox.container.background
+                            layout = wibox.layout.fixed.vertical
                         },
                         bg = beautiful.bg_normal,
                         shape              = gears.shape.rectangle,
