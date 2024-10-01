@@ -109,26 +109,30 @@ local function list_update(w, buttons, label, data, objects)
     end
 end
 
+minimized_clients_per_tag = {}
+for i = 1,10 do
+    minimized_clients_per_tag[i] = {}
+end
+
+
 clients_on_tag_change = function(action)
-    for _, prev_tag in ipairs(screen[1].selected_tags) do
-        for _, c in ipairs(prev_tag:clients()) do
+    prev_tag = screen[1].selected_tag
+    for _, c in ipairs(prev_tag:clients()) do
+        if not c.minimized then
             if c.name == 'QuakeTerminal' then
                 goto continue
             end
+            table.insert(minimized_clients_per_tag[prev_tag.index], c)
             c.minimized = true
             ::continue::
         end
     end
     action()
-    for _, cur_tag in ipairs(screen[1].selected_tags) do
-        for _, c in ipairs(cur_tag:clients()) do
-            if c.name == 'QuakeTerminal' then
-                goto continue
-            end
-            c.minimized = false
-            ::continue::
-        end
+    cur_tag = screen[1].selected_tag
+    for _, c in ipairs(minimized_clients_per_tag[cur_tag.index]) do
+        c.minimized = false
     end
+    minimized_clients_per_tag[cur_tag.index] = {}
 end
 
 local TagList = function(s)
