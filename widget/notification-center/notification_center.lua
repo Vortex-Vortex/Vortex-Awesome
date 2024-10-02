@@ -86,6 +86,7 @@ local function notification_center_call(s)
             title = args.title or "",
             text = args.text or "",
             icon = args.icon or icons.notification_icon,
+            time = args.time or ""
         })
     end
 
@@ -150,7 +151,7 @@ local function notification_center_call(s)
                             },
                             {
                                 {
-                                    text = os.date("%H:%M:%S"),
+                                    text = notification_object.time,
                                     font = 'Roboto Mono bold 9',
                                     align = 'center',
                                     valign = 'center',
@@ -266,6 +267,7 @@ local function notification_center_call(s)
     naughty.notify = function(args)
         local n = old_notify(args)
             update_queue = true
+            args.time = os.date("%H:%M:%S")
             add_to_queue(args)
             current_callback = args.callback or args.run
             if popup.visible then
