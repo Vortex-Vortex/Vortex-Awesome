@@ -14,13 +14,13 @@ local function convert_to_h(bytes)
         dim = 'B/s'
     elseif bytes < 1000000 then
         speed = bytes/1000
-        dim = 'kB/s'
+        dim = 'KB/s'
     elseif bytes < 1000000000 then
         speed = bytes/1000000
-        dim = 'mB/s'
+        dim = 'MB/s'
     elseif bytes < 1000000000000 then
         speed = bytes/1000000000
-        dim = 'gB/s'
+        dim = 'GB/s'
     else
         speed = tonumber(bytes)
         dim = 'B/s'

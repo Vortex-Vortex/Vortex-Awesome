@@ -603,7 +603,7 @@ for i = 1, 9 do
                 local screen = awful.screen.focused()
                 local tag = screen.tags[i]
                 if tag then
-                    _G.clients_on_tag_change(function() tag:view_only() end)
+                    _G.clients_on_tag_change(function() tag:view_only() end, tag)
                 end
             end,
             descr_view
@@ -664,7 +664,7 @@ for i, key in ipairs(strings) do
                 local screen = awful.screen.focused()
                 local tag = screen.tags[i]
                 if tag then
-                    _G.clients_on_tag_change(function() tag:view_only() end)
+                    _G.clients_on_tag_change(function() tag:view_only() end, tag)
                 end
             end,
             {description = nil, group = nil}

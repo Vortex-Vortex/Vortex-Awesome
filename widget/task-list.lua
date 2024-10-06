@@ -3,9 +3,7 @@ local wibox     = require('wibox')
 local gears     = require('gears')
 local beautiful = require('beautiful')
 
-local dpi = beautiful.xresources.apply_dpi
-
-local tasklist_buttons = awful.util.table.join(
+local tasklist_buttons = gears.table.join(
     awful.button(
         {},
         1,

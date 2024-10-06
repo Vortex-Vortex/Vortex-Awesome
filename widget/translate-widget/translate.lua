@@ -162,7 +162,7 @@ launch_translate = function()
         prompt = "<b>Translate</b>: ",
         textbox = prompt.widget,
         history_path = gears.filesystem.get_dir('cache') .. '/translate_history',
-        bg_cursor = beautiful.bg_normal,
+        bg_cursor = beautiful.fg_normal,
         exe_callback = function(text)
             if not text or #text == 0 then return end
             local to_translate, lang1, lang2 = extract(text)

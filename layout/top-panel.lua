@@ -177,6 +177,10 @@ local TopPanel = function(s)
             textclock
         }
     }
+
+    awesome.register_xproperty("AWESOME", "string")
+    panel:set_xproperty("AWESOME", "TopPanel")
+
     return panel
 end
 

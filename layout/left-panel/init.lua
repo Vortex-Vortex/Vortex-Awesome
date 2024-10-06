@@ -135,6 +135,9 @@ left_panel = function(screen)
         }
     }
 
+    awesome.register_xproperty("AWESOME", "string")
+    panel:set_xproperty("AWESOME", "LeftPanel")
+
     home_menu:buttons(
         awful.util.table.join(
             awful.button(

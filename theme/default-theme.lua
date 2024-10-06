@@ -63,28 +63,48 @@ local awesome_overrides = function(theme)
         -- Taglist
     theme.taglist_bg_empty    = theme.background.shaden_100
     theme.taglist_bg_occupied = theme.background.shaden_95
-    theme.taglist_bg_urgent   =
-        'linear:0,0:' ..
-            dpi(40) ..
-                ',0:0,' ..
-                    theme.accent.true_color ..
-                        ':0.08,' ..
-                            theme.accent.true_color ..
-                                ':0.08,' ..
-                                    theme.background.shaden_100 ..
-                                        ':1,' ..
-                                            theme.background.shaden_100
-    theme.taglist_bg_focus    =
-        'linear:0,0:' ..
-            dpi(40) ..
-                ',0:0,' ..
-                    theme.primary.true_color ..
-                        ':0.08,' ..
-                            theme.primary.true_color ..
-                                ':0.08,' ..
-                                    theme.background.shaden_100 ..
-                                        ':1,' ..
-                                            theme.background.shaden_100
+    theme.taglist_bg_urgent = string.format(
+        'linear:0,0:%d,0:0,%s:0.08,%s:0.08,%s:1,%s',
+        dpi(40),
+        theme.accent.true_color,
+        theme.accent.true_color,
+        theme.background.shaden_100,
+        theme.background.shaden_100
+    )
+    theme.taglist_bg_urgent_hover = string.format(
+        'linear:0,0:%d,0:0,%s:0.08,%s:0.08,%s:1,%s',
+        dpi(40),
+        theme.accent.lighten_15,
+        theme.accent.lighten_15,
+        theme.background.shaden_70,
+        theme.background.shaden_70
+    )
+    theme.taglist_bg_focus = string.format(
+        'linear:0,0:%d,0:0,%s:0.08,%s:0.08,%s:1,%s',
+        dpi(40),
+        theme.primary.true_color,
+        theme.primary.true_color,
+        theme.background.shaden_100,
+        theme.background.shaden_100
+    )
+    theme.taglist_bg_focus_hover = string.format(
+        'linear:0,0:%d,0:0,%s:0.08,%s:0.08,%s:1,%s',
+        dpi(40),
+        theme.primary.lighten_15,
+        theme.primary.lighten_15,
+        theme.background.shaden_70,
+        theme.background.shaden_70
+    )
+    theme.taglist_bg_focus_click = string.format(
+        'linear:0,0:%d,0:0,%s:0.08,%s:0.08,%s:1,%s',
+        dpi(40),
+        theme.primary.lighten_30,
+        theme.primary.lighten_30,
+        theme.background.shaden_40,
+        theme.background.shaden_40
+    )
+    theme.taglist_bg_normal_hover = theme.background.shaden_70
+    theme.taglist_bg_normal_click = theme.background.shaden_40
 
             -- Tasklist
     theme.tasklist_font      = 'Roboto medium 11'
