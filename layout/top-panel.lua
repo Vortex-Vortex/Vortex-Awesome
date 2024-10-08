@@ -32,7 +32,7 @@ local powerline_separator = wibox.widget{
     opacity      = 1,
     visible      = true,
     shape        = function(cr, width, height)
-        local shape = gears.shape.powerline(cr, width, height, -16)
+        local shape = gears.shape.powerline(cr, width, height, -height/2)
         return shape
     end
 }
