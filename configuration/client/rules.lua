@@ -10,11 +10,6 @@ local altkey = require('configuration.keys.mod').altKey
 awful.rules.rules = {
     {
         rule = {},
-        except_any = {
-            instance = { "Microsoft", "Microsoft Excel", "Microsoft PowerPoint", "Microsoft Word", "Microsoft Visio", "Microsoft Project", "Autodesk AutoCAD", "RAIL" },
-            class = { "sketchbook.exe" },
-            name = { "PanelWindow", "Autodesk SketchBook" }
-        },
         properties = {
             focus                = awful.client.focus.filter,
             raise                = true,
@@ -31,127 +26,6 @@ awful.rules.rules = {
             maximized_horizontal = false,
             maximized_vertical   = false
         }
-    },
-    {
-        rule_any = {
-            instance = { "Microsoft", "Microsoft Excel", "Microsoft PowerPoint", "Microsoft Word", "Microsoft Visio", "Microsoft Project", "Autodesk AutoCAD", "RAIL" }
-        },
-        properties = {
-            focus                = false,
-            raise                = true,
-            keys                 = client_keys,
-            buttons              = client_buttons,
-            screen               = awful.screen.preferred,
-            placement            = awful.placement.no_offscreen,
-            opacity              = 1,
-            focusable            = true,
-            floating             = false,
-            maximized            = false,
-            above                = false,
-            below                = false,
-            ontop                = false,
-            sticky               = false,
-            maximized_horizontal = false,
-            maximized_vertical   = false,
-            skip_decoration      = true
-        }
-    },
-    {
-        rule = {
-            class = "Microsoft Excel",
-            name = "Temporary c"
-        },
-        properties = {
-            focus                = false,
-            raise                = false,
-            keys                 = nil,
-            buttons              = nil,
-            screen               = awful.screen.preferred,
-            placement            = awful.placement.no_offscreen,
-            opacity              = 0,
-            focusable            = false,
-            floating             = true,
-            maximized            = false,
-            above                = false,
-            below                = true,
-            ontop                = false,
-            sticky               = false,
-            maximized_horizontal = false,
-            maximized_vertical   = false,
-            skip_decoration      = true,
-            skip_taskbar         = true
-        }
-    },
-    {
-        rule = {
-            class = "Microsoft Excel",
-            type = "dialog"
-        },
-        properties = {
-            focus                = true,
-            raise                = true,
-            keys                 = nil,
-            buttons              = nil,
-            screen               = awful.screen.preferred,
-            placement            = awful.placement.no_offscreen,
-            opacity              = 1,
-            focusable            = false,
-            floating             = true,
-            maximized            = false,
-            above                = false,
-            below                = false,
-            ontop                = false,
-            sticky               = false,
-            maximized_horizontal = false,
-            maximized_vertical   = false,
-            skip_decoration      = true,
-            skip_taskbar         = true
-        }
-    },
-    {
-        rule_any = {
-            class = { "Microsoft Excel", "Microsoft PowerPoint", "Microsoft Word", "Microsoft Visio", "Microsoft Project" }
-        },
-        callback = function(c)
-            local buttons = c:buttons()
-            c:buttons(
-                gears.table.join(
-                    buttons,
-                    awful.button(
-                        {"Shift", altkey},
-                        3,
-                        function()
-                            awful.spawn.with_shell('xdotool mousedown 1; xdotool mousemove_relative -- 75 0; xdotool mouseup 1')
-                        end,
-                        {description = 'Mouse Drag right', group = 'Excel'}
-                    ),
-                    awful.button(
-                        {"Shift", altkey},
-                        1,
-                        function()
-                            awful.spawn.with_shell('xdotool mousedown 1; xdotool mousemove_relative -- -75 0; xdotool mouseup 1')
-                        end,
-                        {description = 'Mouse Drag left', group = 'Excel'}
-                    ),
-                    awful.button(
-                        {"Shift", altkey},
-                        9,
-                        function()
-                            awful.spawn.with_shell('xdotool mousedown 1; xdotool mousemove_relative -- 0 -35; xdotool mouseup 1')
-                        end,
-                        {description = 'Mouse Drag up', group = 'Excel'}
-                    ),
-                    awful.button(
-                        {"Shift", altkey},
-                        8,
-                        function()
-                            awful.spawn.with_shell('xdotool mousedown 1; xdotool mousemove_relative -- 0 35; xdotool mouseup 1')
-                        end,
-                        {description = 'Mouse Drag down', group = 'Excel'}
-                    )
-                )
-            )
-        end
     },
     {
         rule = {
@@ -208,24 +82,6 @@ awful.rules.rules = {
             ontop = true,
             skip_decoration = true,
             placement = awful.placement.centered
-        }
-    },
-    {
-        rule_any = {
-            class = { "sketchbook.exe" },
-            name = { "PanelWindow", "Autodesk SketchBook" }
-        },
-        properties = {
-            focus                = false,
-            raise                = false,
-            keys                 = client_keys,
-            buttons              = client_buttons,
-            floating             = true,
-            ontop                = false,
-            sticky               = false,
-            maximized_horizontal = false,
-            maximized_vertical   = false,
-            skip_decoration      = true
         }
     },
     {
