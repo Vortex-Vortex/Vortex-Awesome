@@ -263,7 +263,10 @@ local function notification_center_call(s)
         popup.visible = not popup.visible
     end
 
+    local notification_sound = os.getenv('HOME') .. '/.config/awesome/theme/notification.wav'
+
     notification_call = function(args)
+        awful.spawn('aplay ' .. notification_sound)
         update_queue = true
         args.time = os.date("%H:%M:%S")
         add_to_queue(args)
