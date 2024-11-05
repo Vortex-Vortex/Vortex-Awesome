@@ -6,6 +6,10 @@ local dpi = beautiful.xresources.apply_dpi
     -- Naughty Presets
 naughty.config.padding = dpi(4)
 naughty.config.spacing = dpi(4)
+function naughty.config.notify_callback(args)
+    _G.notification_call(args)
+    return args
+end
 
 naughty.config.defaults.timeout       = 10
 naughty.config.defaults.screen        = 1

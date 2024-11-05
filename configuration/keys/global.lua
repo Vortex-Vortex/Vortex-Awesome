@@ -1,4 +1,5 @@
 local awful = require('awful')
+local naughty = require('naughty')
 require('awful.autofocus')
 local hotkeys_popup = require('awful.hotkeys_popup').widget
 
@@ -407,7 +408,7 @@ local globalKeys = awful.util.table.join(
     ),
     awful.key(
         {modkey},
-        "#112",
+        "Prior",
         function()
             _G.music_control('r')
         end,
@@ -415,11 +416,27 @@ local globalKeys = awful.util.table.join(
     ),
     awful.key(
         {modkey},
-        "#117",
+        "Next",
         function()
             _G.music_control('n')
         end,
         {description = "Play Next Music", group = "Widgets"}
+    ),
+    awful.key(
+        {modkey},
+        "Home",
+        function()
+            _G.music_control('p')
+        end,
+        {description = "Play Music", group = "Widgets"}
+    ),
+    awful.key(
+        {modkey},
+        "End",
+        function()
+            _G.music_control('s')
+        end,
+        {description = "Stop Music", group = "Widgets"}
     ),
     awful.key(
         {modkey},

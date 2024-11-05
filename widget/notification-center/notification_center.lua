@@ -263,19 +263,16 @@ local function notification_center_call(s)
         popup.visible = not popup.visible
     end
 
-    local old_notify = naughty.notify
-    naughty.notify = function(args)
-        local n = old_notify(args)
-            update_queue = true
-            args.time = os.date("%H:%M:%S")
-            add_to_queue(args)
-            current_callback = args.callback or args.run
-            if popup.visible then
-                update_notification_center()
-            end
-            notif_counter = notif_counter + 1
-            count_textbox.text = notif_counter
-        return n
+    notification_call = function(args)
+        update_queue = true
+        args.time = os.date("%H:%M:%S")
+        add_to_queue(args)
+        current_callback = args.callback or args.run
+        if popup.visible then
+            update_notification_center()
+        end
+        notif_counter = notif_counter + 1
+        count_textbox.text = notif_counter
     end
 
     return notification_center
