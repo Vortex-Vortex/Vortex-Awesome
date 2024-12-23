@@ -1,8 +1,8 @@
 local awful = require('awful')
 local gears = require('gears')
 
-local modkey = require('configuration.keys.mod').modKey
-local altkey = require('configuration.keys.mod').altKey
+local modkey = require('configuration.keys.mod').modkey
+local altkey = require('configuration.keys.mod').altkey
 local apps = require('configuration.apps')
 
 local global_keys = gears.table.join(
