@@ -5,10 +5,13 @@ local wibox     = require('wibox')
 
 awesome.register_xproperty("AWESOME", "string")
 
+local clock = require('widget.clock')
+
 local function TopPanel(s)
     local Panel = wibox(
         {
             ontop = true,
+            visible = true,
             screen = s,
             height = beautiful.top_panel_height,
             width = s.geometry.width,
@@ -26,9 +29,10 @@ local function TopPanel(s)
         }
     )
 
---     Panel:setup{
---
---     }
+    Panel:setup{
+        layout = wibox.layout.stack,
+        clock
+    }
     Panel:set_xproperty("AWESOME", "TopPanel")
 
     return Panel
