@@ -16,6 +16,10 @@ require('configuration.client')
 require('configuration.tags')
 _G.root.keys(require('configuration.keys.global'))
 
+--
+gears.wallpaper.set('#ffffff')
+--
+
 gears.timer{
     timeout = 30,
     autostart = true,
