@@ -6,7 +6,7 @@ require('awful.autofocus')
 
 beautiful.init(require('theme'))
 
--- naughty
+require('module.notifications')
 require('layout')
 
 -- modules

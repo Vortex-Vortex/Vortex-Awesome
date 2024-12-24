@@ -12,5 +12,6 @@ return {
     music    = dir .. '/tags/music.svg',
     lab      = dir .. '/tags/flask.svg',
     -- others
-    menu = dir .. '/menu.svg'
+    menu = dir .. '/misc/menu.svg',
+    notification_icon = dir .. '/misc/notification.svg'
 }
