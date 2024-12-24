@@ -8,7 +8,8 @@ local icon_dir   = theme_dir .. '/icons'
 local theme = {}
 local pallet = {}
 
-theme.font = 'Roboto 10'
+theme.system_font = 'Roboto'
+theme.font = theme.system_font .. '10'
 
 -- Color Pallets
     -- Primary System Color
@@ -49,8 +50,8 @@ theme.hotkeys_border_color     = theme.border_focus
 theme.hotkeys_modifiers_fg     = theme.border_focus
 theme.hotkeys_label_bg         = theme.hotkeys_fg
 theme.hotkeys_label_fg         = theme.hotkeys_bg
-theme.hotkeys_font             = 'Roboto 12'
-theme.hotkeys_description_font = 'Roboto 8'
+theme.hotkeys_font             = theme.system_font .. '12'
+theme.hotkeys_description_font = theme.system_font .. '8'
 theme.hotkeys_group_margin     = 0
 
 -- Layouts
@@ -80,7 +81,7 @@ theme.snapper_gap       = 0
 -- Prompts
 theme.prompt_gg_cursor = theme.fg_color
 theme.prompt_fg_cursor = theme.bg_color
-theme.prompt_font      = 'Roboto Mono 10'
+theme.prompt_font      = theme.system_font .. 'Mono 10'
 
 -- Tooltips
 theme.tooltip_border_color = pallet.primary.lighten_50
@@ -111,7 +112,7 @@ theme.taglist_bg_occupied = pallet.background.shaden_90
 theme.taglist_bg_empty    = pallet.background.shaden_100
 
 -- Tasklist
-theme.tasklist_font        = 'Roboto 11'
+theme.tasklist_font        = theme.system_font .. '11'
 theme.tasklist_fg_normal   = pallet.background.lighten_15
 theme.tasklist_bg_normal   = pallet.background.shaden_100
 theme.tasklist_fg_focus    = pallet.background.lighten_100
