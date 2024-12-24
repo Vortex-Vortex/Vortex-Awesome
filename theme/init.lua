@@ -24,6 +24,8 @@ pallet.background = colors.Gray
 -- Widgets
 theme.bg_color = pallet.background.shaden_100
 theme.fg_color = pallet.background.lighten_100
+theme.bg_focus = theme.bg_color
+theme.fg_focus = theme.fg_color
 
 -- Top Panel
 theme.top_panel_height = 30
