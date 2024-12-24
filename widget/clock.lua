@@ -1,4 +1,5 @@
 wibox = require('wibox')
+beautiful = require('beautiful')
 
 local textclock = wibox.widget{
     widget = wibox.container.place,
