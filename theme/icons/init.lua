@@ -14,5 +14,6 @@ return {
     -- others
     menu_icon = dir .. '/misc/menu.svg',
     notification_icon = dir .. '/misc/notification.svg',
-    plus_icon = dir .. '/misc/plus.svg'
+    plus_icon = dir .. '/misc/plus.svg',
+    x_icon = dir .. '/misc/close.svg'
 }
