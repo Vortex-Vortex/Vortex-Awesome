@@ -28,6 +28,16 @@ for property, value in pairs(config) do
 end
 
     -- Error Handling
+if _G.awesome.startup_errors then
+    naughty.notify(
+        {
+            preset = naughty.config.presets.critical,
+            title = 'Oops, there were errors during startup!',
+            text = _G.awesome.startup_errors
+        }
+    )
+end
+
 do
     local in_error = false
     _G.awesome.connect_signal(
