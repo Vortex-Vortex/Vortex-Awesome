@@ -31,10 +31,14 @@ local function TopPanel(s)
     )
 
     Panel:setup{
-        layout = wibox.layout.align.horizontal,
-        taglist(s),
-        clock,
-        nil
+        layout = wibox.layout.stack,
+        {
+            layout = wibox.layout.align.horizontal,
+            taglist(s),
+            nil,
+            nil
+        },
+        clock
     }
     Panel:set_xproperty("AWESOME", "TopPanel")
 
