@@ -110,7 +110,7 @@ theme.taglist_bg_urgent   = string.format(
     pallet.background.shaden_100,
     pallet.background.shaden_100
 )
-theme.taglist_bg_occupied = pallet.background.shaden_90
+theme.taglist_bg_occupied = pallet.background.shaden_95
 theme.taglist_bg_empty    = pallet.background.shaden_100
 
 -- Tasklist
