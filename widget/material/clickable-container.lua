@@ -42,14 +42,14 @@ local function build_container(...)
     )
 
     container:connect_signal(
-        'mouse::press',
+        'button::press',
         function()
             container.bg = click_bg
         end
     )
 
     container:connect_signal(
-        'mouse::release',
+        'button::release',
         function()
             container.bg = enter_bg
         end
