@@ -4,6 +4,7 @@ local gears = require('gears')
 local wibox = require('wibox')
 
 local modkey = require('configuration.keys.mod').modkey
+local button_widget = require('widget.material.button-widget')
 local clickable_container = require('widget.material.clickable-container')
 
 local taglist_buttons = gears.table.join(
@@ -82,13 +83,41 @@ end
 
 
 local function Taglist(s)
-    return awful.widget.taglist{
+    taglist = awful.widget.taglist{
         screen = s,
         filter = awful.widget.taglist.filter.all,
         buttons = taglist_buttons,
         widget_template = {},
         update_function = list_update
     }
+
+    app_loader = button_widget('plus_icon')
+    app_loader:buttons(
+        awful.button(
+            {},
+            1,
+            nil,
+            function()
+                awful.spawn(
+                    awful.screen.focused().selected_tag.default_app
+                )
+            end
+        )
+    )
+
+    app_loader_widget = wibox.widget{
+        widget = wibox.container.margin,
+        app_loader,
+        margins = 4
+    }
+
+    taglist_widget = wibox.widget{
+        layout = wibox.layout.fixed.horizontal,
+        taglist,
+        app_loader_widget
+    }
+
+    return taglist_widget
 end
 
 return Taglist
