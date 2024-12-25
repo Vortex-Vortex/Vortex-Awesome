@@ -21,7 +21,6 @@ local function list_update(w, buttons, label, data, objects)
     w:reset()
     for _, tag_object in ipairs(objects) do
         local cache = data[tag_object]
-        local image_box, background_box, constrained_image_box
 
         if cache then
             image_box = cache.image_box
@@ -83,7 +82,7 @@ end
 
 
 local function Taglist(s)
-    taglist = awful.widget.taglist{
+    local taglist = awful.widget.taglist{
         screen = s,
         filter = awful.widget.taglist.filter.all,
         buttons = taglist_buttons,
@@ -91,7 +90,7 @@ local function Taglist(s)
         update_function = list_update
     }
 
-    app_loader = button_widget('plus_icon')
+    local app_loader = button_widget('plus_icon')
     app_loader:buttons(
         awful.button(
             {},
@@ -105,13 +104,13 @@ local function Taglist(s)
         )
     )
 
-    app_loader_widget = wibox.widget{
+    local app_loader_widget = wibox.widget{
         widget = wibox.container.margin,
         app_loader,
         margins = 4
     }
 
-    taglist_widget = wibox.widget{
+    local taglist_widget = wibox.widget{
         layout = wibox.layout.fixed.horizontal,
         taglist,
         app_loader_widget
