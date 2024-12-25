@@ -53,5 +53,7 @@ local function build_container(...)
             container.bg = enter_bg
         end
     )
-
+    return container
 end
+
+return build
