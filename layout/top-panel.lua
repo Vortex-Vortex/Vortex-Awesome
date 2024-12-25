@@ -8,6 +8,7 @@ awesome.register_xproperty("AWESOME", "string")
 local taglist = require('widget.tag-list')
 local tasklist = require('widget.task-list')
 local clock = require('widget.clock')
+local notification_center = require('widget.notification-center')
 
 local function TopPanel(s)
     local Panel = wibox(
@@ -41,7 +42,11 @@ local function TopPanel(s)
                 tasklist(s)
             },
             nil,
-            nil
+            {
+                layout = wibox.layout.fixed.horizontal,
+                nil,
+                notification_center(s)
+            }
         },
         clock
     }
