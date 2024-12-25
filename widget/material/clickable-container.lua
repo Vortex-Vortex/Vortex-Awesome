@@ -56,4 +56,4 @@ local function build_container(...)
     return container
 end
 
-return build
+return build_container
