@@ -16,46 +16,61 @@ local taglist_buttons = gears.table.join(
     )
 )
 
-local function list_update(w, buttons, label, _, objects)
+local function list_update(w, buttons, label, data, objects)
     w:reset()
     for _, tag_object in ipairs(objects) do
-        local image_box = wibox.widget{
-            widget = wibox.widget.imagebox
-        }
-        local constrained_image_box = wibox.widget{
-            widget = wibox.container.margin,
-            image_box,
-            margins = 6
-        }
+        local cache = data[tag_object]
+        local image_box, background_box, constrained_image_box
 
-        local background_box = wibox.widget{
-            widget = wibox.container.background,
-            constrained_image_box
-        }
-
-
-        local btns = {}
-        for _, b in ipairs(buttons) do
-            local button = _G.button{
-                modifiers = b.modifiers,
-                button = b.button
+        if cache then
+            image_box = cache.image_box
+            background_box = cache.background_box
+            constrained_image_box = cache.constrained_image_box
+        else
+            image_box = wibox.widget{
+                widget = wibox.widget.imagebox
             }
-            button:connect_signal(
-                'press',
-                function()
-                b:emit_signal('press', tag_object)
-                end
-            )
-            button:connect_signal(
-                'release',
-                function()
-                b:emit_signal('release', tag_object)
-                end
-            )
-            btns[#btns + 1] = button
-        end
-        background_box:buttons(btns)
+            constrained_image_box = wibox.widget{
+                widget = wibox.container.margin,
+                image_box,
+                margins = 6
+            }
 
+            local clickable_image = clickable_container(constrained_image_box)
+
+            background_box = wibox.widget{
+                widget = wibox.container.background,
+                clickable_image
+            }
+
+            local btns = {}
+            for _, b in ipairs(buttons) do
+                local button = _G.button{
+                    modifiers = b.modifiers,
+                    button = b.button
+                }
+                button:connect_signal(
+                    'press',
+                    function()
+                        b:emit_signal('press', tag_object)
+                    end
+                )
+                button:connect_signal(
+                    'release',
+                    function()
+                        b:emit_signal('release', tag_object)
+                    end
+                )
+                btns[#btns + 1] = button
+            end
+            background_box:buttons(btns)
+
+            data[tag_object] = {
+                image_box = image_box,
+                background_box = background_box,
+                constrained_image_box = constrained_image_box
+            }
+        end
         local text, bg, bg_image, icon = label(tag_object)
 
         background_box.bg = bg
@@ -64,6 +79,7 @@ local function list_update(w, buttons, label, _, objects)
         w:add(background_box)
     end
 end
+
 
 local function Taglist(s)
     return awful.widget.taglist{
