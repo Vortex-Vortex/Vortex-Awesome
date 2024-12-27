@@ -15,5 +15,10 @@ return {
     menu_icon = dir .. '/misc/menu.svg',
     notification_icon = dir .. '/misc/notification.svg',
     plus_icon = dir .. '/misc/plus.svg',
-    x_icon = dir .. '/misc/close.svg'
+    x_icon = dir .. '/misc/close.svg',
+    half_arrow_down = dir .. '/misc/half-arrow-down.svg',
+    half_arrow_up = dir .. '/misc/half-arrow-up.svg',
+    half_arrow_left = dir .. '/misc/half-arrow-left.svg',
+    half_arrow_right = dir .. '/misc/half-arrow-right.svg',
+    trash_icon = dir .. '/misc/trash.svg'
 }
