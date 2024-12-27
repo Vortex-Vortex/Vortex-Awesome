@@ -7,15 +7,19 @@ local function build_container(...)
 
     local enter_bg = args.enter or '#ffffff22'
     local leave_bg = '#ffffff00'
-    local click_bg = args.click or "#ffffff44"
+    local click_bg = args.click or '#ffffff44'
     local widget_shape = args.shape or gears.shape.rectangle
+    local widget_border_width = args.border_width or 0
+    local widget_border_color = args.border_color or '#00000000'
 
     local old_cursor, old_wibox
 
     local container = wibox.widget{
         widget = wibox.container.background,
         widget,
-        shape = widget_shape
+        shape = widget_shape,
+        shape_border_width = widget_border_width,
+        shape_border_color = widget_border_color
     }
 
     container:connect_signal(
