@@ -8,8 +8,8 @@ local icon_dir   = theme_dir .. '/icons'
 local theme = {}
 local pallet = {}
 
-theme.system_font = 'Roboto'
-theme.font = theme.system_font .. '10'
+theme.system_font = 'Roboto '
+theme.font = theme.system_font .. '12'
 
 -- Color Pallets
     -- Primary System Color
@@ -32,7 +32,8 @@ theme.top_panel_height = 30
 
 -- Borders
 theme.border_width     = 2
-theme.border_normal    = pallet.primary.shaden_70
+theme.border_width_reduced = math.max(theme.border_width - 1, 1)
+theme.border_normal    = pallet.primary.shaden_60
 theme.border_focus     = pallet.primary.true_color
 theme.border_secondary = pallet.primary.shaden_85
 
@@ -88,7 +89,7 @@ theme.prompt_font      = theme.system_font .. 'Mono 10'
 -- Tooltips
 theme.tooltip_border_color = pallet.primary.lighten_50
 theme.tooltip_border_width = 1
-theme.tooltip_bg           = pallet.background.shaden_75
+theme.tooltip_bg           = pallet.background.shaden_90
 theme.tooltip_fg           = theme.fg_color
 theme.tooltip_opacity      = 0.75
 theme.tooltip_shape        = gears.shape.rectangle
@@ -137,6 +138,7 @@ theme.checkbox_bg           = theme.bg_color
 theme.checkbox_color        = theme.border_focus
 theme.checkbox_check_color  = pallet.primary.shaden_20
 theme.checkbox_shape        = gears.shape.circle
+theme.checkbox_check_shape        = gears.shape.circle
 theme.checkbox_border_width = 1
 theme.checkbox_border_color = theme.border_focus
 theme.checkbox_paddings     = 2
