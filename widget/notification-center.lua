@@ -17,6 +17,7 @@ end
 local function Notification_center(s)
     local screen_width = s.geometry.width
     local notification_queue = {}
+    local notification_filtered_queue = {}
     local notification_limited_queue = {}
     local current_callback = nil
     local update_queue = true
@@ -149,6 +150,8 @@ local function Notification_center(s)
                 1,
                 function()
                     current_filter = filter_name
+                    update_queue = true
+                    update_notification_center()
                     log('Set var:current_filter =', current_filter)
                 end
             )
@@ -332,10 +335,18 @@ local function Notification_center(s)
 
     function update_notification_limited_queue()
         log('Start update_notification_limited_queue')
--- -- --Add argument to filter selecter filter from queue
--- -- --Revise number of notifications displayed
+        notification_filtered_queue = {}
+        if current_filter == "All" then
+            notification_filtered_queue = notification_queue
+        else
+            for i = 1, #notification_queue do
+                if notification_queue[i].filter_name == current_filter then
+                    table.insert(notification_filtered_queue, notification_queue[i])
+                end
+            end
+        end
         for i = 1, 6 do
-            notification_limited_queue[i] = notification_queue[i]
+            notification_limited_queue[i] = notification_filtered_queue[i]
         end
     end
 
@@ -352,6 +363,8 @@ local function Notification_center(s)
             end
         end
         delete_queue = {}
+        notif_counter = #notification_queue
+        count_textbox.text = notif_counter
         gears.debug.dump(notification_queue)
     end
 
@@ -366,9 +379,6 @@ local function Notification_center(s)
         end
         for index, notification in ipairs(notification_limited_queue) do
 -- -- --Substitute 'time' for 'time ago'
--- -- --Make checkbox button work -> signal to all visible notifications
--- -- --Make Trash button work
--- -- --Manipute notification_queue{,limited} tables
             local notification_text = wibox.widget{
                 widget = wibox.widget.textbox,
                 text = notification.text,
@@ -430,7 +440,8 @@ local function Notification_center(s)
                     },
                     {
                         border_width = beautiful.border_width_reduced,
-                        border_color = beautiful.border_normal
+                        border_color = beautiful.border_normal,
+                        enter_border_color = beautiful.border_focus
                     }
                 ),
                 bg = '#00000000',
@@ -464,7 +475,6 @@ local function Notification_center(s)
                     )
                 )
             )
--- -- --    Notification body signals: red delete/scroll expand/change border hover
             notification_rows[index] = notification_body
             log('Created notification object identified by', notification.identifier)
         end
@@ -481,16 +491,37 @@ local function Notification_center(s)
 
     function naughty.config.notify_callback(args)
         update_queue = true
+
+        filters = {
+            'Bitcoin Magazine',
+            'Walter Bloomberg',
+            'Raicher',
+            'Central CryptoTraders',
+            'Agenda-Free TV',
+            'MMCrypto',
+            'TechDev'
+        }
+
+        if args.appname == 'Telegram Desktop' then
+            args.filter_name = 'Telegram'
+        else
+            for _, name in ipairs(filters) do
+                if string.find(args.title, name) then
+                    args.filter_name = 'X'
+                end
+            end
+        end
+
         args.time = os.date("%H:%M:%S")
         all_notif_counter = all_notif_counter + 1
--- -- --Add args.filter according to args.title
         table.insert(notification_queue, 1, {
             title = args.title or args.appname,
             text = args.text or "",
             icon = args.icon or icons.notification_icon,
 -- -- --Add icon substitution for icon=file:///tmp...
             time = args.time,
-            identifier = all_notif_counter
+            identifier = all_notif_counter,
+            filter_name = args.filter_name or 'Misc'
         })
         if popup.visible then
             update_notification_center()
