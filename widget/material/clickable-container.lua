@@ -27,7 +27,7 @@ local function build_container(...)
         'mouse::enter',
         function()
             container.bg = enter_bg
-            container.shape.border_color = enter_border_color
+            container.shape_border_color = enter_border_color
             local w = _G.mouse.current_wibox
             if w then
                 old_cursor, old_wibox = w.cursor, w
@@ -40,7 +40,7 @@ local function build_container(...)
         'mouse::leave',
         function()
             container.bg = leave_bg
-            container.shape.border_color = widget_border_color
+            container.shape_border_color = widget_border_color
             if old_wibox then
                 old_wibox.cursor = old_cursor
                 old_wibox = nil
