@@ -34,8 +34,6 @@ local function Notification_center(s)
         layout = wibox.layout.fixed.vertical
     }
 
-    log('Started function Notification_center')
-
     local count_textbox = wibox.widget{
         widget = wibox.widget.textbox,
         text = 0
@@ -124,7 +122,6 @@ local function Notification_center(s)
     }
 
     local function create_filter_widget(filter_name)
-        log('Start function create_filter_widget | arg:', filter_name)
         filter_widget = clickable_container(
             {
                 widget = wibox.widget.textbox,
@@ -155,7 +152,6 @@ local function Notification_center(s)
                     current_filter = filter_name
                     update_queue = true
                     update_notification_center()
-                    log('Set var:current_filter =', current_filter)
                 end
             )
         )
@@ -187,7 +183,6 @@ local function Notification_center(s)
     end
 
     local function create_page_widget()
-        log('Start function create_page_widget')
         num_pages = wibox.widget{
             widget = wibox.widget.textbox,
             text = current_page .. ' / ' .. 1,
@@ -206,7 +201,6 @@ local function Notification_center(s)
                         current_page = current_page - 1
                         update_queue = true
                         update_notification_center()
-                        log('Update num_pages.text = ', num_pages.text)
                     end
                 end
             )
@@ -221,7 +215,6 @@ local function Notification_center(s)
                         current_page = current_page + 1
                         update_queue = true
                         update_notification_center()
-                        log('Update num_pages.text = ', num_pages.text)
                     end
                 end
             )
@@ -250,7 +243,6 @@ local function Notification_center(s)
     end
 
     local function create_trash_widget()
-        log('Start function create_trash_widget')
         local select_checkbox = wibox.widget{
             widget = wibox.widget.checkbox,
             checked = false,
@@ -268,7 +260,6 @@ local function Notification_center(s)
                     else
                         bg = '#00000000'
                     end
-                    gears.debug.dump(notification_rows,nil,2)
                     for _, notification_body in ipairs(notification_rows) do
                         notification_body.bg = bg
                         if select_checkbox.checked then
@@ -308,7 +299,6 @@ local function Notification_center(s)
                 1,
                 nil,
                 function()
-                    log('Clicked trash_icon')
                     select_checkbox.checked = false
                     delete_notifications()
                     update_notification_center()
@@ -349,7 +339,6 @@ local function Notification_center(s)
     }
 
     function update_notification_limited_queue()
-        log('Start update_notification_limited_queue')
         notification_filtered_queue = {}
         notification_limited_queue = {}
         if current_filter == "All" then
@@ -375,11 +364,9 @@ local function Notification_center(s)
     end
 
     function delete_notifications()
-        log('Start delete_notifications')
         for _, d_identifier in ipairs(delete_queue) do
             for i = #notification_queue, 1, -1 do
                 if notification_queue[i].identifier == d_identifier then
-                    log('Remove notification identifier', d_identifier)
                     table.remove(notification_queue, i)
                     update_queue = true
                     break
@@ -389,14 +376,12 @@ local function Notification_center(s)
         delete_queue = {}
         notif_counter = #notification_queue
         count_textbox.text = notif_counter
-        gears.debug.dump(notification_queue)
     end
 
     function update_notification_center()
         if not update_queue then
             return
         end
-        log('Start update_notification_center')
         update_notification_limited_queue()
         update_page()
         for i = 0, #notification_rows do
@@ -478,10 +463,8 @@ local function Notification_center(s)
                         {},
                         3,
                         function()
-                            log('Add notification identifier', notification.identifier, 'to delete_queue')
                             table.insert(delete_queue, notification.identifier)
                             notification_body.bg = '#ff000066'
-                            gears.debug.dump(delete_queue)
                         end
                     ),
                     awful.button(
@@ -501,7 +484,6 @@ local function Notification_center(s)
                 )
             )
             notification_rows[index] = notification_body
-            log('Created notification object identified by', notification.identifier)
         end
         popup:setup(
             {
@@ -557,7 +539,6 @@ local function Notification_center(s)
         end
         notif_counter = notif_counter + 1
         count_textbox.text = notif_counter
-        log('Received notification identified by', all_notif_counter)
         return args
     end
 
