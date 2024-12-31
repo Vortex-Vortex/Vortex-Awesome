@@ -29,6 +29,7 @@ local function Notification_center(s)
     local delete_queue = {}
     local delete_notifications
     local popup_clicked_on = false
+    local notif_on_widget = 6
     local notification_rows = {
         layout = wibox.layout.fixed.vertical
     }
@@ -124,21 +125,23 @@ local function Notification_center(s)
 
     local function create_filter_widget(filter_name)
         log('Start function create_filter_widget | arg:', filter_name)
-        filter_widget = wibox.widget{
+        filter_widget = clickable_container(
+            {
+                widget = wibox.widget.textbox,
+                text = filter_name,
+                font = beautiful.system_font .. '12',
+                align = 'center',
+                valign = 'center'
+            },
+            {
+                border_width = beautiful.border_width_reduced,
+                border_color = beautiful.border_focus
+            }
+        )
+
+        constrained_filter_widget = wibox.widget{
             widget = wibox.container.margin,
-            clickable_container(
-                {
-                    widget = wibox.widget.textbox,
-                    text = filter_name,
-                    font = beautiful.system_font .. '12',
-                    align = 'center',
-                    valign = 'center'
-                },
-                {
-                    border_width = beautiful.border_width_reduced,
-                    border_color = beautiful.border_focus
-                }
-            ),
+            filter_widget,
             margins = 5,
             forced_width = 200,
             forced_height = 40
@@ -157,7 +160,7 @@ local function Notification_center(s)
             )
         )
 
-        return filter_widget
+        return constrained_filter_widget
     end
 
     local filter_box_widget = wibox.widget{
@@ -177,9 +180,15 @@ local function Notification_center(s)
 
     local num_pages = {}
     local current_page = 1
+    local page_limit = 1
+    local function update_page()
+        page_limit = math.ceil(notif_counter/notif_on_widget)
+        num_pages.text = current_page .. ' / ' .. page_limit
+    end
+
     local function create_page_widget()
         log('Start function create_page_widget')
-        local num_pages = wibox.widget{
+        num_pages = wibox.widget{
             widget = wibox.widget.textbox,
             text = current_page .. ' / ' .. 1,
             align = 'center',
@@ -193,9 +202,12 @@ local function Notification_center(s)
                 {},
                 1,
                 function()
-                    current_page = current_page - 1
-                    num_pages.text = current_page .. ' / ' .. 1
-                    log('Update num_pages.text = ', num_pages.text)
+                    if current_page > 1 then
+                        current_page = current_page - 1
+                        update_queue = true
+                        update_notification_center()
+                        log('Update num_pages.text = ', num_pages.text)
+                    end
                 end
             )
         )
@@ -205,9 +217,12 @@ local function Notification_center(s)
                 {},
                 1,
                 function()
-                    current_page = current_page + 1
-                    num_pages.text = current_page .. ' / ' .. 1
-                    log('Update num_pages.text = ', num_pages.text)
+                    if current_page < page_limit then
+                        current_page = current_page + 1
+                        update_queue = true
+                        update_notification_center()
+                        log('Update num_pages.text = ', num_pages.text)
+                    end
                 end
             )
         )
@@ -336,6 +351,7 @@ local function Notification_center(s)
     function update_notification_limited_queue()
         log('Start update_notification_limited_queue')
         notification_filtered_queue = {}
+        notification_limited_queue = {}
         if current_filter == "All" then
             notification_filtered_queue = notification_queue
         else
@@ -345,8 +361,16 @@ local function Notification_center(s)
                 end
             end
         end
-        for i = 1, 6 do
-            notification_limited_queue[i] = notification_filtered_queue[i]
+        local start_index = (current_page - 1) * notif_on_widget + 1
+        local end_index = start_index + notif_on_widget - 1
+        for i = start_index, end_index do
+            if notification_filtered_queue[i] then
+                table.insert(notification_limited_queue, notification_filtered_queue[i])
+            end
+        end
+        if #notification_filtered_queue > 0 and #notification_limited_queue == 0 then
+            current_page = current_page - 1
+            update_notification_limited_queue()
         end
     end
 
@@ -374,11 +398,12 @@ local function Notification_center(s)
         end
         log('Start update_notification_center')
         update_notification_limited_queue()
+        update_page()
         for i = 0, #notification_rows do
             notification_rows[i] = nil
         end
         for index, notification in ipairs(notification_limited_queue) do
--- -- --Substitute 'time' for 'time ago'
+
             local notification_text = wibox.widget{
                 widget = wibox.widget.textbox,
                 text = notification.text,
@@ -513,12 +538,16 @@ local function Notification_center(s)
         end
 
         args.time = os.date("%H:%M:%S")
+
+        if string.find(tostring(args.icon), 'file:///') then
+            args.icon = string.gsub(tostring(args.icon), 'file:', '')
+        end
+
         all_notif_counter = all_notif_counter + 1
         table.insert(notification_queue, 1, {
             title = args.title or args.appname,
             text = args.text or "",
             icon = args.icon or icons.notification_icon,
--- -- --Add icon substitution for icon=file:///tmp...
             time = args.time,
             identifier = all_notif_counter,
             filter_name = args.filter_name or 'Misc'
