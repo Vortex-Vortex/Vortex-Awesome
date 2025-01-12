@@ -513,7 +513,7 @@ local function Notification_center(s)
             args.filter_name = 'Telegram'
         else
             for _, name in ipairs(filters) do
-                if string.find(args.title, name) then
+                if string.find(args.title or "", name) then
                     args.filter_name = 'X'
                 end
             end
