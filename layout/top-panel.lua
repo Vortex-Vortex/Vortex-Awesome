@@ -45,6 +45,13 @@ local function TopPanel(s)
             nil,
             {
                 layout = wibox.layout.fixed.horizontal,
+                spacing = 3,
+                spacing_widget = wibox.widget{
+                    widget = wibox.widget.separator,
+                    orientation = 'vertical',
+                    thickness = 3,
+                    color = beautiful.bg_neutral
+                },
                 nil,
                 calendar_widget(s),
                 notification_center(s)
