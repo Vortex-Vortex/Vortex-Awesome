@@ -26,6 +26,10 @@ theme.bg_color = pallet.background.shaden_100
 theme.fg_color = pallet.background.lighten_100
 theme.bg_focus = theme.bg_color
 theme.fg_focus = theme.fg_color
+theme.bg_primary_darkened = pallet.primary.shaden_50
+theme.bg_primary_lightened = pallet.primary.lighten_50
+theme.bg_primary_subtle = pallet.primary.shaden_95
+theme.bg_primary_blatant = pallet.primary.lighten_95
 
 -- Top Panel
 theme.top_panel_height = 30
