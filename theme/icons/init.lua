@@ -20,5 +20,9 @@ return {
     half_arrow_up = dir .. '/misc/half-arrow-up.svg',
     half_arrow_left = dir .. '/misc/half-arrow-left.svg',
     half_arrow_right = dir .. '/misc/half-arrow-right.svg',
-    trash_icon = dir .. '/misc/trash.svg'
+    trash_icon = dir .. '/misc/trash.svg',
+    arrow_down = dir .. '/misc/arrow-down.svg',
+    arrow_up = dir .. '/misc/arrow-up.svg',
+    arrow_left = dir .. '/misc/arrow-left.svg',
+    arrow_right = dir .. '/misc/arrow-right.svg'
 }
