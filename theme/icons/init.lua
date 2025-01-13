@@ -24,5 +24,6 @@ return {
     arrow_down = dir .. '/misc/arrow-down.svg',
     arrow_up = dir .. '/misc/arrow-up.svg',
     arrow_left = dir .. '/misc/arrow-left.svg',
-    arrow_right = dir .. '/misc/arrow-right.svg'
+    arrow_right = dir .. '/misc/arrow-right.svg',
+    alarm_clock = dir .. '/misc/alarm-clock.svg'
 }
