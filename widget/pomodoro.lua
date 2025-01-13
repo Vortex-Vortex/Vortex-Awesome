@@ -95,8 +95,8 @@ local function Pomodoro_widget(s)
         value = 0.5,
         thickness = 4,
         start_angle = 1.5 * math.pi,
-        forced_height = 28,
-        forced_width = 28,
+        forced_height = 29,
+        forced_width = 29,
         rounded_edge = false,
         paddings = 0
     }
@@ -105,7 +105,7 @@ local function Pomodoro_widget(s)
         wibox.widget{
             widget = wibox.container.margin,
             pomodoro_arc,
-            margins = 2
+            margins = 1
         },
         {
             shape = gears.shape.circle
@@ -139,6 +139,7 @@ local function Pomodoro_widget(s)
             if popup.visible or immediate_update then
                 clock_text.text = minutes .. ':' .. string.format('%02d', seconds)
             end
+            pomodoro_counter.text = is_on_pause and pomodoro_counter.text or minutes
             pomodoro_arc.value = is_on_break and tonumber((break_time - timer_value) / break_time) or tonumber((work_time - timer_value) / work_time)
             pomodoro_arc.color = minutes < 5 and {'#ff0000'} or {beautiful.border_focus}
         end
@@ -194,7 +195,7 @@ local function Pomodoro_widget(s)
                     clock_text.text = math.floor(work_time / 60) .. ':00'
                     pomodoro_arc.colors = {beautiful.border_focus}
                     timer_value = 0
-                    pomodoro_timer:start()
+                    if not pomodoro_timer.started then pomodoro_timer:start() end
                 end
             ),
             awful.button(
@@ -210,7 +211,7 @@ local function Pomodoro_widget(s)
                                 status_text.text = 'Work!'
                                 pomodoro_arc.colors = {beautiful.border_focus}
                             end
-                            pomodoro_timer:start()
+                            if not pomodoro_timer.started then pomodoro_timer:start() end
                             is_on_pause = false
                         else
                             if is_on_break then
