@@ -8,6 +8,7 @@ awesome.register_xproperty("AWESOME", "string")
 local taglist = require('widget.tag-list')
 local tasklist = require('widget.task-list')
 local clock = require('widget.clock')
+local music_widget = require('widget.music-widget')
 local pomodoro_widget = require('widget.pomodoro')
 local net_speed_widget = require('widget.net-speed')
 local calendar_widget = require('widget.calendar')
@@ -55,6 +56,7 @@ local function TopPanel(s)
                     color = beautiful.bg_neutral
                 },
                 nil,
+                music_widget(s),
                 pomodoro_widget(s),
                 net_speed_widget(),
                 calendar_widget(s),
