@@ -25,5 +25,13 @@ return {
     arrow_up = dir .. '/misc/arrow-up.svg',
     arrow_left = dir .. '/misc/arrow-left.svg',
     arrow_right = dir .. '/misc/arrow-right.svg',
-    alarm_clock = dir .. '/misc/alarm-clock.svg'
+    alarm_clock = dir .. '/misc/alarm-clock.svg',
+    music_icon = dir .. '/misc/music.svg',
+    shuffle_icon = dir .. '/misc/shuffle.svg',
+    loop_icon = dir .. '/misc/loop.svg',
+    play_icon = dir .. '/misc/play.svg',
+    pause_icon = dir .. '/misc/pause.svg',
+    volume_full_icon = dir .. '/misc/volume-full.svg',
+    volume_muted_icon = dir .. '/misc/volume-muted.svg',
+    music_album_icon = dir .. '/misc/music-album.svg'
 }
