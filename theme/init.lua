@@ -149,9 +149,9 @@ theme.checkbox_border_color = theme.border_focus
 theme.checkbox_paddings     = 2
 
 -- Progressbar
-theme.progressbar_bg           = theme.bg_color
+theme.progressbar_bg           = theme.bg_neutral
 theme.progressbar_fg           = pallet.primary.true_color
-theme.progressbar_shape        = gears.shape.rectangle
+theme.progressbar_shape        = gears.shape.hexagon
 theme.progressbar_border_width = 0
 theme.progressbar_margins      = 0
 theme.progressbar_paddings     = 0
