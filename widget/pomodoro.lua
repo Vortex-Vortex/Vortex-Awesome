@@ -105,7 +105,11 @@ local function Pomodoro_widget(s)
         wibox.widget{
             widget = wibox.container.margin,
             pomodoro_arc,
-            margins = 1
+            forced_width = 33,
+            left = 3,
+            right = 3,
+            top = 1,
+            bottom = 1
         },
         {
             shape = gears.shape.circle
