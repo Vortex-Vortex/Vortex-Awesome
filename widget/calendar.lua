@@ -158,7 +158,7 @@ local function Calendar(s)
                 current_week = week_number
             end
 
-            local day = string.format("%2d", d)
+            local day = string.format("%02d", d)
             local focus = date.day == d
             local day_box_widget = wibox.widget{
                 widget = wibox.container.background,
@@ -281,6 +281,3 @@ local function Calendar(s)
 end
 
 return Calendar
-
-
-
