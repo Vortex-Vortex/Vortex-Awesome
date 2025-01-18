@@ -1,87 +1,47 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <svg
-   viewBox="0 0 100 100"
    version="1.1"
-   x="0px"
-   y="0px"
-   id="svg3"
-   sodipodi:docname="volume-muted.svg"
-   width="100"
-   height="100"
-   inkscape:version="1.4 (e7c3feb100, 2024-10-09)"
+   width="240"
+   height="240"
+   viewBox="0 0 24 24"
+   id="svg1"
+   sodipodi:docname="no-volume.svg"
+   inkscape:version="1.3.2 (091e20ef0f, 2023-11-25, custom)"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns="http://www.w3.org/2000/svg"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:cc="http://creativecommons.org/ns#"
-   xmlns:dc="http://purl.org/dc/elements/1.1/">
+   xmlns:svg="http://www.w3.org/2000/svg">
   <defs
-     id="defs3" />
+     id="defs1" />
   <sodipodi:namedview
-     id="namedview3"
-     pagecolor="#ffffff"
+     id="namedview1"
+     pagecolor="#000000"
      bordercolor="#000000"
      borderopacity="0.25"
      inkscape:showpageshadow="2"
      inkscape:pageopacity="0.0"
      inkscape:pagecheckerboard="0"
      inkscape:deskcolor="#d1d1d1"
-     inkscape:zoom="5.1265242"
-     inkscape:cx="50.424028"
-     inkscape:cy="46.620282"
+     inkscape:zoom="1.7583333"
+     inkscape:cx="34.123223"
+     inkscape:cy="111.46919"
      inkscape:window-width="1920"
      inkscape:window-height="1050"
      inkscape:window-x="0"
      inkscape:window-y="30"
      inkscape:window-maximized="0"
-     inkscape:current-layer="g1" />
-  <title
-     id="title1">Mute</title>
-  <desc
-     id="desc1">Created with Sketch.</desc>
-  <g
-     stroke="none"
-     stroke-width="1"
-     fill="none"
-     fill-rule="evenodd"
-     id="g2"
-     transform="translate(1.7225967,1.9287475)"
-     style="fill:#000000;fill-opacity:1">
-    <g
-       fill="#000000"
-       id="g1"
-       style="fill:#000000;fill-opacity:1">
-      <path
-         d="m 22.68341,38.071498 h -6.00077 c -2.206762,0 -3.99923,1.790516 -3.99923,3.99923 v 12.00154 c 0,2.206762 1.790516,3.99923 3.99923,3.99923 h 6.00077 l 17.176907,17.176907 c 1.556831,1.556831 2.823093,1.029297 2.823093,-1.183463 V 22.078054 c 0,-2.210875 -1.263942,-2.742614 -2.823093,-1.183463 z"
-         id="path1"
-         style="fill:#ffffff;fill-opacity:1;stroke:none;stroke-opacity:1"
-         sodipodi:nodetypes="csssscssssc" />
-      <rect
-         style="fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.00000014;stroke-linecap:square;stroke-dasharray:none;stroke-opacity:1;paint-order:fill markers stroke"
-         id="rect1"
-         width="6.9004326"
-         height="42.018703"
-         x="76.800552"
-         y="-34.911083"
-         transform="rotate(45)" />
-      <rect
-         style="fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0;stroke-linecap:square;stroke-dasharray:none;stroke-opacity:1;paint-order:fill markers stroke"
-         id="rect1-6"
-         width="6.9004326"
-         height="42.018703"
-         x="-17.35195"
-         y="-101.26012"
-         transform="rotate(135)" />
-    </g>
-  </g>
-  <metadata
-     id="metadata3">
-    <rdf:RDF>
-      <cc:Work
-         rdf:about="">
-        <dc:title>Mute</dc:title>
-      </cc:Work>
-    </rdf:RDF>
-  </metadata>
+     inkscape:current-layer="svg1" />
+  <path
+     fill="#ffffff"
+     d="m 3,9 v 6 h 4 l 5,5 V 4 L 7,9 Z"
+     id="path1"
+     sodipodi:nodetypes="ccccccc" />
+  <path
+     style="fill:none;fill-opacity:1;stroke:#ff0000;stroke-width:2;stroke-linecap:square;stroke-dasharray:none;stroke-opacity:1;paint-order:fill markers stroke"
+     d="M 4.8238718,19.176128 19.176128,4.8238717"
+     id="path2" />
+  <path
+     style="fill:none;fill-opacity:1;stroke:#ff0000;stroke-width:2;stroke-linecap:square;stroke-dasharray:none;stroke-opacity:1;paint-order:fill markers stroke"
+     d="M 4.823872,4.8238719 19.176128,19.176128"
+     id="path2-2" />
 </svg>
