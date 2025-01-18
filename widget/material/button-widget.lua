@@ -8,6 +8,7 @@ local function create_button(icon)
     local button = clickable_container(
         {
             widget = wibox.widget.imagebox,
+            id = 'image_id',
             image = icons[icon]
         },
         {
