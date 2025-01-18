@@ -343,9 +343,11 @@ local function Music_widget(s)
             awful.spawn.easy_async(
                 'playerctl -p ' .. player .. ' position',
                 function(stdout)
-                    stdout = string.gsub(stdout, '\n', '')
-                    song_slider_handle.value = tonumber(stdout)
-                    song_slider_bar.value = tonumber(stdout)
+                    if string.find(stdout, '%w') then
+                        stdout = string.gsub(stdout, '\n', '')
+                        song_slider_handle.value = tonumber(stdout)
+                        song_slider_bar.value = tonumber(stdout)
+                    end
                 end
             )
         else
