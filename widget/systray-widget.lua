@@ -28,8 +28,10 @@ local function Systray_widget(s)
             widget = wibox.widget.systray,
             horizontal = false,
             base_size = 26,
-            forced_width = 26
+            forced_width = 26,
+            screen = s
         },
+        forced_height = 180,
         margins = 2
     }
 
@@ -43,6 +45,7 @@ local function Systray_widget(s)
             nil,
             function()
                 popup.visible = not popup.visible
+                systray_widget_button.image_id.image = popup.visible and icons.half_arrow_up or icons.half_arrow_down
             end
         )
     )
