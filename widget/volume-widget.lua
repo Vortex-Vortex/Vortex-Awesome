@@ -148,7 +148,7 @@ local function Volume_widget(s)
 
     update_volume()
 
-    popup_timer = gears.timer{
+    local popup_timer = gears.timer{
         timeout = 1,
         callback = function()
             popup.visible = false
