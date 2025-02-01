@@ -2,12 +2,13 @@ local awful = require('awful')
 local gears = require('gears')
 local naughty = require('naughty')
 
-local hotkeys_popup = require('awful.hotkeys_popup').widget
+local hotkeys_popup = require('awful.hotkeys_popup')
 local modkey = require('configuration.keys.mod').modkey
 local altkey = require('configuration.keys.mod').altkey
 local apps = require('configuration.apps')
 
 local global_keys = gears.table.join(
+
         -- Undefined
 
     awful.key(
@@ -26,13 +27,13 @@ local global_keys = gears.table.join(
         end,
         {description = nil, group = nil}
     ),
+
         -- Awesome WM
+
     awful.key(
         {modkey},
         'F1',
-        function()
-            hotkeys_popup.show_help()
-        end,
+        hotkeys_popup.show_help
         {description = "Show help menu", group = 'Awesome WM'}
     ),
     awful.key(
