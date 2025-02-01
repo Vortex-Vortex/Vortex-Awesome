@@ -2,8 +2,7 @@ local gears = require('gears')
 
 local filesystem = require('gears.filesystem')
 local colors     = require('theme.colors')
-local theme_dir  = filesystem.get_configuration_dir() .. '/theme'
-local icon_dir   = theme_dir .. '/icons'
+local icon_dir   = require('gears.filesystem').get_configuration_dir() .. '/theme/icons'
 
 local theme = {}
 local pallet = {}
@@ -26,6 +25,7 @@ theme.bg_color = pallet.background.shaden_100
 theme.fg_color = pallet.background.lighten_100
 theme.bg_focus = theme.bg_color
 theme.fg_focus = theme.fg_color
+theme.bg_primary = pallet.primary.true_color
 theme.bg_primary_darkened = pallet.primary.shaden_50
 theme.bg_primary_lightened = pallet.primary.lighten_50
 theme.bg_primary_subtle = pallet.primary.shaden_95
@@ -63,20 +63,44 @@ theme.hotkeys_description_font = theme.system_font .. '8'
 theme.hotkeys_group_margin     = 0
 
 -- Layouts
-theme.layout_max      = icon_dir .. '/icons/layouts/max.png'
-theme.layout_floating = icon_dir .. '/icons/layouts/float.png'
-theme.layout_fairh    = icon_dir .. '/icons/layouts/fair-h.png'
-theme.layout_fairv    = icon_dir .. '/icons/layouts/fair-v.png'
-theme.layout_tile     = icon_dir .. '/icons/layouts/tile.png'
+theme.layout_max      = icon_dir .. '/layouts/max.svg'
+theme.layout_floating = icon_dir .. '/layouts/float.svg'
+theme.layout_fairh    = icon_dir .. '/layouts/fair-h.svg'
+theme.layout_fairv    = icon_dir .. '/layouts/fair-v.svg'
+theme.layout_tile     = icon_dir .. '/layouts/tile.svg'
 
 -- Menus
-    -- not implemented yet
+theme.menu_submenu_icon = icon_dir .. '/misc/half-arrow-right.svg'
+theme.menu_font = theme.system_font .. '10'
+theme.menu_height = 20
+theme.menu_width = 175
+theme.menu_border_color = theme.border_focus
+theme.menu_border_width = theme.border_width
+theme.menu_fg_focus = theme.fg_color
+theme.menu_bg_focus = theme.bg_primary
+theme.menu_fg_normal = theme.fg_color
+theme.menu_bg_normal = theme.bg_color
+
 -- Titlebars
     -- not implemented yet
 -- Wibar
     -- not implemented yet
+
 -- Layoutlist
-    -- not implemented yet
+theme.layoutlist_fg_normal = theme.fg_color
+theme.layoutlist_bg_normal = theme.bg_color
+theme.layoutlist_fg_selected = theme.fg_color
+theme.layoutlist_bg_selected = theme.bg_primary_darkened
+theme.layoutlist_font = theme.system_font .. '12'
+theme.layoutlist_font_selected = theme.system_font .. 'bold 13'
+theme.layoutlist_spacing = 5
+theme.layoutlist_shape = gears.shape.rectangle
+theme.layoutlist_shape_border_width = theme.border_width_reduced
+theme.layoutlist_shape_border_color = theme.border_secondary
+theme.layoutlist_shape_selected = gears.shape.rectangle
+theme.layoutlist_shape_border_width_selected = theme.border_width
+theme.layoutlist_shape_border_color_selected = theme.border_focus
+
 -- Separators
     -- not implemented yet
 
