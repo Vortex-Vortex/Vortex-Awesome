@@ -5,7 +5,6 @@ local wibox = require('wibox')
 
 local icons = require('theme.icons')
 local button_widget = require('widget.material.button-widget')
-local clickable_container = require('widget.material.clickable-container')
 
 local function Systray_widget(s)
     local screen_width = s.geometry.width
@@ -28,8 +27,7 @@ local function Systray_widget(s)
             widget = wibox.widget.systray,
             horizontal = false,
             base_size = 26,
-            forced_width = 26,
-            screen = s
+            forced_width = 26
         },
         forced_height = 180,
         margins = 2
