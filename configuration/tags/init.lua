@@ -87,3 +87,15 @@ awful.screen.connect_for_each_screen(
         end
     end
 )
+
+_G.tag.connect_signal(
+    'property::layout',
+    function(t)
+        local currentLayout = awful.tag.getproperty(t, 'layout')
+        if (currentLayout == awful.layout.suit.max) then
+            t.gap = 0
+        else
+            t.gap = 4
+        end
+    end
+)
