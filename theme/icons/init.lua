@@ -34,4 +34,6 @@ return {
     volume_full_icon = dir .. '/misc/volume-full.svg',
     volume_muted_icon = dir .. '/misc/volume-muted.svg',
     music_album_icon = dir .. '/misc/music-album.svg'
+    bell_icon = dir .. '/misc/bell.svg',
+    bell_mute_icon = dir .. '/misc/bell-mute.svg',
 }
