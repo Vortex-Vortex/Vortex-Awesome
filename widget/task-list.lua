@@ -6,6 +6,88 @@ local wibox = require('wibox')
 local button_widget = require('widget.material.button-widget')
 local clickable_container = require('widget.material.clickable-container')
 
+local target_client
+local properties_menu = {
+    {
+        'Toggle Floating',
+        function()
+            if target_client then
+                target_client.floating = not target_client.floating
+            end
+        end
+    },
+    {
+        'Toggle Ontop',
+        function()
+            if target_client then
+                target_client.ontop = not target_client.ontop
+            end
+        end
+    },
+    {
+        'Toggle Sticky',
+        function()
+            if target_client then
+                target_client.sticky = not target_client.sticky
+            end
+        end
+    },
+    {
+        'Change Opacity',
+        {
+            {
+                '25%',
+                function()
+                    if target_client then
+                        target_client.opacity = 0.25
+                    end
+                end
+            },
+            {
+                '50%',
+                function()
+                    if target_client then
+                        target_client.opacity = 0.5
+                    end
+                end
+            },
+            {
+                '75%',
+                function()
+                    if target_client then
+                        target_client.opacity = 0.75
+                    end
+                end
+            },
+            {
+                '100%',
+                function()
+                    if target_client then
+                        target_client.opacity = 1.0
+                    end
+                end
+            }
+        }
+    },
+    {
+        'Close Client',
+        function()
+            if target_client then
+                target_client:kill()
+            end
+        end
+    },
+    {
+        'Kill Client',
+        function()
+            if target_client then
+                target_client:kill(9)
+            end
+        end
+    }
+}
+local tasklist_menu = awful.menu.new(properties_menu)
+
 local tasklist_buttons = gears.table.join(
     awful.button(
         {},
@@ -18,6 +100,45 @@ local tasklist_buttons = gears.table.join(
             end
             _G.client.focus = c
             c:raise()
+        end
+    ),
+    awful.button(
+        {},
+        2,
+        function(c)
+            c:kill()
+        end
+    ),
+    awful.button(
+        {},
+        3,
+        function(c)
+            _G.client.focus = c
+            c:raise()
+            target_client = c
+            tasklist_menu:update()
+            tasklist_menu:toggle()
+        end
+    ),
+    awful.button(
+        {},
+        4,
+        function()
+            awful.client.focus.byidx(-1)
+        end
+    ),
+    awful.button(
+        {},
+        5,
+        function()
+            awful.client.focus.byidx(1)
+        end
+    ),
+    awful.button(
+        {},
+        8,
+        function()
+            awful.client.focus.history.previous()
         end
     )
 )
@@ -159,7 +280,7 @@ local function Tasklist(s)
         update_function = list_update
     }
 
-    local width = (s.geometry.width / 2) - 40 - 330
+    local width = (s.geometry.width / 2) - 45 - 330
 
     local tasklist_widget = wibox.widget{
         widget = wibox.container.margin,
