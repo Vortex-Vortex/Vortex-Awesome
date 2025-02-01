@@ -31,9 +31,7 @@ _G.client.connect_signal(
     function(c)
         if not _G.awesome.startup then
             awful.client.setslave(c)
-        end
-
-        if _G.awesome.startup and not c.size_hints.user_position and not c.size_hints.program_position then
+        elseif not c.size_hints.user_position and not c.size_hints.program_position then
             awful.placement.no_offscreen(c)
         end
     end
