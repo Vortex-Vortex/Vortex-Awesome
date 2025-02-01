@@ -8,12 +8,6 @@ local icons     = require('theme.icons')
 local button_widget = require('widget.material.button-widget')
 local clickable_container = require('widget.material.clickable-container')
 
-local function log(...)
-    local timestamp = os.date("%Y/%m/%d - %H:%M:%S")
-    local args = table.concat({...}, " ")
-    gears.debug.dump(timestamp .. " " .. args)
-end
-
 local function Notification_center(s)
     local screen_width = s.geometry.width
     local notification_queue = {}
@@ -78,15 +72,26 @@ local function Notification_center(s)
     )
 
     notification_center_button:buttons(
-        awful.button(
-            {},
-            1,
-            function()
-                if not popup.visible or popup_clicked_on then
-                    popup.visible = not popup.visible
+        gears.table.join(
+            awful.button(
+                {},
+                1,
+                function()
+                    if not popup.visible or popup_clicked_on then
+                        popup.visible = not popup.visible
+                    end
+                    popup_clicked_on = popup.visible
                 end
-                popup_clicked_on = popup.visible
-            end
+            ),
+            awful.button(
+                {},
+                3,
+                function()
+                    if current_callback then
+                        current_callback()
+                    end
+                end
+            )
         )
     )
     notification_center_button:connect_signal("mouse::enter", function()
@@ -101,7 +106,11 @@ local function Notification_center(s)
         end
     end)
 
-    notification_center_header = wibox.widget{
+    function toggle_notification_center()
+        popup.visible = not popup.visible
+    end
+
+    local notification_center_header = wibox.widget{
         widget = wibox.container.margin,
         {
             widget = wibox.container.background,
@@ -121,8 +130,10 @@ local function Notification_center(s)
         margins = 5
     }
 
+    local mute_filter = {}
     local function create_filter_widget(filter_name)
-        filter_widget = clickable_container(
+        mute_filter[filter_name] = false
+        local filter_widget = clickable_container(
             {
                 widget = wibox.widget.textbox,
                 text = filter_name,
@@ -136,7 +147,14 @@ local function Notification_center(s)
             }
         )
 
-        constrained_filter_widget = wibox.widget{
+        local muted_indicator = wibox.widget{
+            widget = wibox.widget.imagebox,
+            image = icons.bell_icon,
+            forced_height = 25,
+            forced_width = 25
+        }
+
+        local constrained_filter_widget = wibox.widget{
             widget = wibox.container.margin,
             filter_widget,
             margins = 5,
@@ -144,19 +162,45 @@ local function Notification_center(s)
             forced_height = 40
         }
 
+        local stacked_filter_widget = wibox.widget{
+            layout = wibox.layout.stack,
+            constrained_filter_widget,
+            {
+                widget = wibox.container.place,
+                {
+                    widget = wibox.container.margin,
+                    muted_indicator,
+                    right = 10,
+                },
+                valign = 'center',
+                halign = 'right',
+                forced_height = 20
+            }
+        }
+
         filter_widget:buttons(
-            awful.button(
-                {},
-                1,
-                function()
-                    current_filter = filter_name
-                    update_queue = true
-                    update_notification_center()
-                end
+            gears.table.join(
+                awful.button(
+                    {},
+                    1,
+                    function()
+                        current_filter = filter_name
+                        update_queue = true
+                        update_notification_center()
+                    end
+                ),
+                awful.button(
+                    {},
+                    3,
+                    function()
+                        mute_filter[filter_name] = not mute_filter[filter_name]
+                        muted_indicator.image = mute_filter[filter_name] and icons.bell_mute_icon or icons.bell_icon
+                    end
+                )
             )
         )
 
-        return constrained_filter_widget
+        return stacked_filter_widget
     end
 
     local filter_box_widget = wibox.widget{
@@ -178,7 +222,7 @@ local function Notification_center(s)
     local current_page = 1
     local page_limit = 1
     local function update_page()
-        page_limit = math.ceil(notif_counter/notif_on_widget)
+        page_limit = math.ceil(#notification_filtered_queue/notif_on_widget)
         num_pages.text = current_page .. ' / ' .. page_limit
     end
 
@@ -496,28 +540,20 @@ local function Notification_center(s)
         update_queue = false
     end
 
+    local filters = {
+        ['Bitcoin Magazine'] = true,
+        ['Walter Bloomberg'] = true,
+        ['Raicher'] = true,
+        ['Agenda-Free TV'] = true,
+        ['MMCrypto'] = true,
+        ['TechDev'] = true
+    }
+    local notification_sound = os.getenv('HOME') .. '/.config/awesome/theme/notification.wav'
+
     function naughty.config.notify_callback(args)
         update_queue = true
 
-        filters = {
-            'Bitcoin Magazine',
-            'Walter Bloomberg',
-            'Raicher',
-            'Central CryptoTraders',
-            'Agenda-Free TV',
-            'MMCrypto',
-            'TechDev'
-        }
-
-        if args.appname == 'Telegram Desktop' then
-            args.filter_name = 'Telegram'
-        else
-            for _, name in ipairs(filters) do
-                if string.find(args.title or "", name) then
-                    args.filter_name = 'X'
-                end
-            end
-        end
+        args.filter_name = args.appname == 'Telegram Desktop' and 'Telegram' or filters[args.title] and 'X' or 'Misc'
 
         args.time = os.date("%H:%M:%S")
 
@@ -534,12 +570,19 @@ local function Notification_center(s)
             identifier = all_notif_counter,
             filter_name = args.filter_name or 'Misc'
         })
+        current_callback = args.run
         if popup.visible then
             update_notification_center()
         end
         notif_counter = notif_counter + 1
         count_textbox.text = notif_counter
-        return args
+
+        if mute_filter['All'] or mute_filter[args.filter_name] then
+            return
+        else
+            awful.spawn('aplay ' .. notification_sound)
+            return args
+        end
     end
 
     return notification_center_button
