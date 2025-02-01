@@ -7,15 +7,11 @@ local naughty = require('naughty')
 local icons = require('theme.icons')
 local clickable_container = require('widget.material.clickable-container')
 
-local function log(...)
-    local timestamp = os.date("%Y/%m/%d - %H:%M:%S")
-    local args = table.concat({...}, " ")
-    gears.debug.dump(timestamp .. " " .. args)
-end
-
 local function Music_widget(s)
     local screen_width = s.geometry.width
     local player = 'pragha'
+
+    local popup_set_timer
 
     local shuffle_off_icon = gears.color.recolor_image(icons.shuffle_icon, beautiful.bg_neutral)
     local shuffle_on_icon = gears.color.recolor_image(icons.shuffle_icon, beautiful.border_focus)
@@ -387,11 +383,14 @@ local function Music_widget(s)
         end
     end
 
-    local function change_song(side)
+    function change_song(side, external)
         awful.spawn('playerctl -sp ' .. player .. ' ' .. side)
+        if external then
+            popup_set_timer()
+        end
     end
 
-    local function toggle_parameter(parameter, get_only)
+    function parameter_song(parameter, get_only)
         local change = not get_only
         local new_status = ''
         if parameter == 'shuffle' then
@@ -432,10 +431,14 @@ local function Music_widget(s)
                     end
                 end
             )
+        elseif parameter == 'play' or parameter == 'pause' then
+            awful.spawn('playerctl -sp ' .. player .. ' ' .. parameter)
+            player_status_bar.container_id.status_container_id.status_id.image = parameter == 'play' and icons.pause_icon or icons.play_icon
+            popup_set_timer()
         elseif parameter == nil then
-            toggle_parameter('shuffle', true)
-            toggle_parameter('loop', true)
-            toggle_parameter('play-pause', true)
+            parameter_song('shuffle', true)
+            parameter_song('loop', true)
+            parameter_song('play-pause', true)
         end
     end
 
@@ -469,13 +472,13 @@ local function Music_widget(s)
                 stdout = function(line)
                     if first_line then
                         update_volume()
-                        toggle_parameter()
+                        parameter_song()
                         first_line = false
                     end
                     if gears.string.startswith(line, '|') then return end
                     local title, artist, album_name, length, track, album_image = string.match(line, '^(.*)||(.*)|(.*)||(.*)000000|(.*)||file://(.*)$')
                     update_song_data(title, artist, album_name, length, track, album_image)
-                    toggle_parameter('play-pause', true)
+                    parameter_song('play-pause', true)
                 end
             }
         )
@@ -494,7 +497,7 @@ local function Music_widget(s)
                 {},
                 2,
                 function()
-                    toggle_parameter('play-pause')
+                    parameter_song('play-pause')
                 end
             ),
             awful.button(
@@ -536,14 +539,14 @@ local function Music_widget(s)
                 {},
                 9,
                 function()
-                    toggle_parameter('loop')
+                    parameter_song('loop')
                 end
             ),
             awful.button(
                 {},
                 8,
                 function()
-                    toggle_parameter('shuffle')
+                    parameter_song('shuffle')
                 end
             )
         )
@@ -567,6 +570,21 @@ local function Music_widget(s)
     }
 
     local not_following = true
+    function popup_set_timer()
+        if not_following then
+            follow_player()
+            not_following = false
+        end
+        if not position_timer.started then position_timer:start() end
+        update_position()
+        popup.visible = true
+        if popup_timer.started then
+            popup_timer:again()
+        else
+            popup_timer:start()
+        end
+    end
+
     music_widget:connect_signal("mouse::enter", function()
         if not_following then
             follow_player()
