@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="100mm"
+   height="100mm"
+   viewBox="0 0 100 100"
+   version="1.1"
+   id="svg1"
+   sodipodi:docname="max.svg"
+   inkscape:version="1.4 (e7c3feb100, 2024-10-09)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="mm"
+     inkscape:zoom="1.4142136"
+     inkscape:cx="121.62237"
+     inkscape:cy="216.37467"
+     inkscape:window-width="1920"
+     inkscape:window-height="1050"
+     inkscape:window-x="0"
+     inkscape:window-y="30"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="svg1" />
+  <defs
+     id="defs1" />
+  <path
+     id="rect30"
+     style="display:inline;fill:#ffffff;fill-opacity:1;stroke:none;image-rendering:optimizeQuality;shape-rendering:geometricPrecision;text-rendering:geometricPrecision;stroke-width:0.000000000909675;stroke-linecap:square;paint-order:fill markers stroke"
+     d="M 1.1330462 0.21325676 L 1.1330462 0.81747568 L 0.81747001 0.81747568 L 1.2084395 1.2084452 L 1.599409 0.81747568 L 1.2838401 0.81748302 L 1.2838401 0.21324941 L 1.1330462 0.21325676 z "
+     transform="matrix(35.16915,35.16915,-35.16915,35.16915,7.5000001,7.5000001)" />
+  <path
+     id="path39"
+     style="display:inline;fill:#ffffff;fill-opacity:1;stroke:none;image-rendering:optimizeQuality;shape-rendering:geometricPrecision;text-rendering:geometricPrecision;stroke-width:0.000000000909675;stroke-linecap:square;paint-order:fill markers stroke"
+     d="M 0.81747001 -0.81747568 L 1.1330462 -0.81747568 L 1.1330462 -0.21325676 L 1.2838401 -0.21324941 L 1.2838401 -0.81748302 L 1.599409 -0.81747568 L 1.2084395 -1.2084452 L 0.81747001 -0.81747568 z "
+     transform="matrix(35.16915,35.16915,-35.16915,35.16915,7.5000001,7.5000001)" />
+  <path
+     id="rect30-3"
+     style="display:inline;fill:#ffffff;fill-opacity:1;stroke:none;image-rendering:optimizeQuality;shape-rendering:geometricPrecision;text-rendering:geometricPrecision;stroke-width:0.000000000909675;stroke-linecap:square;paint-order:fill markers stroke"
+     d="M -0.075400632 -1.4217036 L 0.075400632 -1.4217036 L 0.075400632 -2.0259225 L 0.39096216 -2.0259225 L 0 -2.4168847 L -0.39096216 -2.0259225 L -0.075400632 -2.0259225 L -0.075400632 -1.4217036 z "
+     transform="matrix(-35.16915,35.16915,-35.16915,-35.16915,7.5000001,7.5000001)" />
+  <path
+     id="path41"
+     style="display:inline;fill:#ffffff;fill-opacity:1;stroke:none;image-rendering:optimizeQuality;shape-rendering:geometricPrecision;text-rendering:geometricPrecision;stroke-width:0.000000000909675;stroke-linecap:square;paint-order:fill markers stroke"
+     d="M 0 5.6720595e-06 L 0.39097685 -0.39097118 L 0.075400632 -0.39097118 L 0.075400632 -0.99519009 L -0.075400632 -0.99519009 L -0.075400632 -0.39097118 L -0.39097685 -0.39097118 L 0 5.6720595e-06 z "
+     transform="matrix(-35.16915,35.16915,-35.16915,-35.16915,7.5000001,7.5000001)" />
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <g
+       id="g2"
+       style="display:inline;fill:#ffffff;fill-opacity:1;stroke:none;image-rendering:optimizeQuality;shape-rendering:geometricPrecision;text-rendering:geometricPrecision"
+       transform="matrix(49.736688,0,0,49.736688,7.5,7.5)" />
+  </g>
+</svg>
