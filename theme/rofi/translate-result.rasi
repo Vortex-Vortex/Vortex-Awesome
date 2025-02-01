@@ -1,0 +1,53 @@
+/**
+ * ROFI Color theme
+ * User: vortex
+ * Copyright: None
+ */
+
+* {
+    background:     #000000FF;
+    foreground:     #FFFFFFFF;
+    background-subtle-1: #002020FF;
+    background-subtle-2: #000F0FFF;
+    bordercolor:    #00FFFFFF;
+    font:           "Roboto monospace bold 11";
+}
+
+window {
+    transparency:                "real";
+    location:                    center;
+    anchor:                      center;
+    fullscreen:                  false;
+    width:                       50%;
+    x-offset:                    0px;
+    y-offset:                    0px;
+    enabled:                     true;
+    margin:                      0px;
+    padding:                     5px;
+    border:                      2px solid;
+    border-radius:               0px;
+    border-color:                @bordercolor;
+    background-color:            @background;
+    cursor:                      "default";
+}
+
+mainbox {
+    enabled:                     true;
+    spacing:                     0px;
+    margin:                      0px;
+    padding:                     0px;
+    border:                      0px;
+    border-color:                @bordercolor;
+    background-color:            transparent;
+    children:                    [ "message" ];
+}
+
+message {
+    enabled:                     true;
+    spacing:                     0px;
+    margin:                      0px;
+    padding:                     10px;
+    border:                      2px;
+    border-color:                @background-subtle-1;
+    background-color:            @background-subtle-2;
+}
