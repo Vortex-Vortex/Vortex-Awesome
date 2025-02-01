@@ -7,12 +7,6 @@ local naughty = require('naughty')
 local clickable_container = require('widget.material.clickable-container')
 local json = require('widget.utils.json')
 
-local function log(...)
-    local timestamp = os.date("%Y/%m/%d - %H:%M:%S")
-    local args = table.concat({...}, " ")
-    gears.debug.dump(timestamp .. " " .. args)
-end
-
 local function Calendar(s)
     local screen_width = s.geometry.width
 
