@@ -1,0 +1,5 @@
+#!/bin/bash
+
+qr=$(flameshot gui --raw | zbarimg -q --raw -)
+
+[[ -n "$qr" ]] && xdg-open "$qr"
