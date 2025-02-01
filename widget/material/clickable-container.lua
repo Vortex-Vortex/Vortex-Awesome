@@ -6,7 +6,7 @@ local function build_container(...)
     local args = args or {}
 
     local enter_bg = args.enter or '#ffffff22'
-    local leave_bg = '#ffffff00'
+    local leave_bg = args.leave or '#ffffff00'
     local click_bg = args.click or '#ffffff44'
     local widget_shape = args.shape or gears.shape.rectangle
     local widget_border_width = args.border_width or 0
@@ -17,7 +17,9 @@ local function build_container(...)
 
     local container = wibox.widget{
         widget = wibox.container.background,
+        id = 'clickable_widget_id',
         widget,
+        bg = leave_bg,
         shape = widget_shape,
         shape_border_width = widget_border_width,
         shape_border_color = widget_border_color
