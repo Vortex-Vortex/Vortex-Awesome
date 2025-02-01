@@ -7,16 +7,12 @@ local naughty = require('naughty')
 local icons = require('theme.icons')
 local clickable_container = require('widget.material.clickable-container')
 
-local function log(...)
-    local timestamp = os.date("%Y/%m/%d - %H:%M:%S")
-    local args = table.concat({...}, " ")
-    gears.debug.dump(timestamp .. " " .. args)
-end
-
 local function Pomodoro_widget(s)
     local screen_width = s.geometry.width
     local work_time = 60 * 45
     local break_time = 60 * 7
+
+    local set_popup_timer
 
     local function create_textbox(args)
         return wibox.widget{
@@ -178,6 +174,7 @@ local function Pomodoro_widget(s)
                     pomodoro_arc.colors = {'#00ff00'}
                     status_text.text = 'Break!'
                 end
+                set_popup_timer()
                 timer_value = 0
                 minutes, seconds = format_time(0)
             end
@@ -299,12 +296,34 @@ local function Pomodoro_widget(s)
         )
     )
 
+    local popup_timer = gears.timer{
+        timeout = 1,
+        callback = function()
+            popup.visible = false
+        end,
+        single_shot = true
+    }
+
+    function set_popup_timer()
+        popup.visible = true
+        if popup_timer.started == true then
+            popup_timer:again()
+        else
+            popup_timer:start()
+        end
+    end
+
     pomodoro_widget:connect_signal("mouse::enter", function()
         update_graphic(minutes, seconds, true)
         popup.visible = true
+        if popup_timer.started then popup_timer:stop() end
     end)
     pomodoro_widget:connect_signal("mouse::leave", function()
-        popup.visible = false
+        if popup_timer.started == true then
+            popup_timer:again()
+        else
+            popup_timer:start()
+        end
     end)
 
     return pomodoro_widget
