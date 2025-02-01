@@ -6,20 +6,16 @@ local wibox = require('wibox')
 local icons = require('theme.icons')
 local clickable_container = require('widget.material.clickable-container')
 
-local function log(...)
-    local timestamp = os.date("%Y/%m/%d - %H:%M:%S")
-    local args = table.concat({...}, " ")
-    gears.debug.dump(timestamp .. " " .. args)
-end
-
 local function Volume_widget(s)
     local screen_width = s.geometry.width
+
+    local popup_set_timer
 
     local popup = awful.popup{
         ontop   = true,
         visible = false,
         shape   = gears.shape.rectangle,
-        x       = screen_width - 85,
+        x       = screen_width - 80,
         y       = 50,
         maximum_width = 30,
         maximum_height = 180,
@@ -43,7 +39,7 @@ local function Volume_widget(s)
                 valign ='center'
             },
             forced_height = 25,
-            forced_width = 29,
+            forced_width = 30,
             left = 2,
             right = 2
         }
@@ -100,7 +96,7 @@ local function Volume_widget(s)
         end
     end
 
-    local function update_volume(offset)
+    function update_volume(offset)
         local get_set = offset and 'sset' or 'sget'
         offset = offset or ''
 
@@ -118,6 +114,7 @@ local function Volume_widget(s)
                 update_volume_widget(stdout)
             end
         )
+        popup_set_timer()
     end
 
     volume_widget:buttons(
@@ -146,7 +143,6 @@ local function Volume_widget(s)
         )
     )
 
-    update_volume()
 
     local popup_timer = gears.timer{
         timeout = 1,
@@ -155,6 +151,17 @@ local function Volume_widget(s)
         end,
         single_shot = true
     }
+
+    function popup_set_timer()
+        popup.visible = true
+        if popup_timer.started == true then
+            popup_timer:again()
+        else
+            popup_timer:start()
+        end
+    end
+
+    update_volume()
 
     volume_widget:connect_signal('mouse::enter', function()
         popup.visible = true
