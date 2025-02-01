@@ -79,12 +79,16 @@ local function Net_speed()
     end
 
     if gears.filesystem.dir_readable('/sys/class/net/' .. interface) then
-        gears.timer{
-            timeout = 1,
-            call_now = true,
-            autostart = true,
-            callback = update_widget
-        }
+        gears.timer.delayed_call(
+            function()
+                gears.timer{
+                    timeout = 1,
+                    call_now = true,
+                    autostart = true,
+                    callback = update_widget
+                }
+            end
+        )
     end
 
     return net_speed_widget
