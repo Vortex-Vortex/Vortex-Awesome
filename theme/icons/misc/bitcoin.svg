@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   version="1.1"
+   viewBox="-5 -10 100 100"
+   id="svg2"
+   sodipodi:docname="bitcoin.svg"
+   width="100"
+   height="100"
+   inkscape:version="1.4 (e7c3feb100, 2024-10-09)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs2" />
+  <sodipodi:namedview
+     id="namedview2"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:zoom="6.2222222"
+     inkscape:cx="55.526786"
+     inkscape:cy="45.642857"
+     inkscape:window-width="1920"
+     inkscape:window-height="1050"
+     inkscape:window-x="0"
+     inkscape:window-y="30"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="svg2" />
+  <path
+     id="path9"
+     style="fill:#ffffff;fill-opacity:1;stroke-width:0.000000219031;stroke-linecap:square;paint-order:fill markers stroke"
+     d="m 44.854795,-0.20312505 c -2.193474,0 -3.977679,1.76160525 -4.007705,3.94318815 V 7.7443395 H 27.307718 c -2.093219,0.040222 -3.798021,1.6814649 -3.928223,3.7629815 -0.120001,2.081464 1.371923,3.912602 3.44522,4.202809 v 48.072695 h -3.005014 c -2.183322,0.03998 -3.925165,1.82269 -3.925165,4.004277 0,2.181583 1.741715,3.964245 3.925165,4.004275 H 40.84709 v 4.001222 c 0,2.211606 1.794179,4.004276 4.007705,4.004276 2.213501,0 4.004646,-1.79267 4.004646,-4.004276 v -4.001222 c 5.248346,0.720397 10.55935,-0.830424 14.575691,-4.273061 4.026291,-3.452624 6.369251,-8.447761 6.459404,-13.7416 C 69.884205,48.332752 67.409655,43.178736 63.163061,39.766332 77.465122,28.217954 67.088332,5.3826072 48.859441,7.7443395 V 3.7400631 c -0.03,-2.1816845 -1.811197,-3.94319285 -4.004646,-3.94318815 z M 34.840122,15.749838 h 17.024333 c 5.528624,0 10.017732,4.482215 10.017732,10.006108 0,5.523895 -4.489108,10.009164 -10.017732,10.009164 H 34.840122 Z m 0,28.02077 h 17.024333 c 5.528624,0 10.017732,4.482213 10.017732,10.006108 0,5.523894 -4.489108,10.006109 -10.017732,10.006109 H 34.840122 Z" />
+</svg>
