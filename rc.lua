@@ -6,19 +6,20 @@ require('awful.autofocus')
 
 beautiful.init(require('theme'))
 
-require('module.notifications')
 require('layout')
+require('module.notifications')
 
--- modules
+-- Modules
+require('module.exit-screen')
+require('module.decorate-client')
+require('module.auto-start')
+require('module.quake-terminal')
+require('module.wallpaper')
 
 -- Setup configurations
 require('configuration.client')
 require('configuration.tags')
 _G.root.keys(require('configuration.keys.global'))
-
---
-gears.wallpaper.set('#ffffff')
---
 
 gears.timer{
     timeout = 30,
