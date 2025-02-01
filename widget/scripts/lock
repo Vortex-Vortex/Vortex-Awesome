@@ -1,0 +1,3 @@
+#!/bin/bash
+scrot /tmp/screenshot.png -o
+i3lock -i /tmp/screenshot.png -f
