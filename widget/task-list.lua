@@ -260,7 +260,7 @@ local function list_update(w, buttons, label, data, objects)
 
         background_box.bg = bg
         image_box.image = icon
-        text_box.text = text_only
+        text_box.markup = text
         tooltip.text = text_only
 
         background_box.shape = args.shape
