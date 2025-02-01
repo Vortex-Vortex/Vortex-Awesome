@@ -38,3 +38,27 @@ _G.client.connect_signal(
         end
     end
 )
+
+_G.client.connect_signal(
+    'mouse::enter',
+    function(c)
+        c:emit_signal(
+            'request::activate',
+            'mouse_enter',
+            {raise = true}
+        )
+    end
+)
+
+_G.client.connect_signal(
+  'focus',
+  function(c)
+    c.border_color = beautiful.border_focus
+  end
+)
+_G.client.connect_signal(
+  'unfocus',
+  function(c)
+    c.border_color = beautiful.border_normal
+  end
+)
