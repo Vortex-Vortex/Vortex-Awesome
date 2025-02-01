@@ -476,8 +476,8 @@ local function Music_widget(s)
                         first_line = false
                     end
                     if gears.string.startswith(line, '|') then return end
-                    local title, artist, album_name, length, track, album_image = string.match(line, '^(.*)||(.*)|(.*)||(.*)000000|(.*)||file://(.*)$')
-                    update_song_data(title, artist, album_name, length, track, album_image)
+                    local title, artist, album_name, length, track, album_image = string.match(line, '^(.*)||(.*)|(.*)||(.*)000000|(.*)||(.*)$')
+                    update_song_data(title, artist, album_name, length, track, album_image:gsub('^file://', ''))
                     parameter_song('play-pause', true)
                 end
             }
