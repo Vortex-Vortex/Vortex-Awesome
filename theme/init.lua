@@ -58,8 +58,8 @@ theme.hotkeys_border_color     = theme.border_focus
 theme.hotkeys_modifiers_fg     = pallet.background.shaden_15
 theme.hotkeys_label_bg         = theme.hotkeys_bg
 theme.hotkeys_label_fg         = theme.hotkeys_fg
-theme.hotkeys_font             = theme.system_font .. '14'
-theme.hotkeys_description_font = theme.system_font .. '10'
+theme.hotkeys_font             = theme.system_font .. 'mono bold 13'
+theme.hotkeys_description_font = theme.system_font .. 'mono 10'
 theme.hotkeys_group_margin     = 10
 
 -- Layouts
