@@ -33,7 +33,19 @@ return {
     pause_icon = dir .. '/misc/pause.svg',
     volume_full_icon = dir .. '/misc/volume-full.svg',
     volume_muted_icon = dir .. '/misc/volume-muted.svg',
-    music_album_icon = dir .. '/misc/music-album.svg'
+    music_album_icon = dir .. '/misc/music-album.svg',
+    search_icon = dir .. '/misc/search.svg',
+    ram_icon = dir .. '/misc/ram.svg',
+    storage_icon = dir .. '/misc/storage.svg',
+    bluetooth_battery_icon = dir .. '/misc/bluetooth-battery.svg',
+    power_icon = dir .. '/misc/power.svg',
+    restart_icon = dir .. '/misc/restart.svg',
+    suspend_icon = dir .. '/misc/suspend.svg',
+    logout_icon = dir .. '/misc/logout.svg',
+    lock_icon = dir .. '/misc/lock.svg',
     bell_icon = dir .. '/misc/bell.svg',
     bell_mute_icon = dir .. '/misc/bell-mute.svg',
+    circle_icon = dir .. '/misc/circle.svg',
+    square_icon = dir .. '/misc/square.svg',
+    bitcoin_icon = dir .. '/misc/bitcoin.svg'
 }
