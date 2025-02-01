@@ -469,14 +469,6 @@ local global_keys = gears.table.join(
     ),
     awful.key(
         {modkey},
-        'n',
-        function()
-            _G.toggle_notification_center()
-        end,
-        {description = "Toggle notification center", group = "Widgets"}
-    ),
-    awful.key(
-        {modkey},
         '\'',
         function()
             toggle_layout_list()
