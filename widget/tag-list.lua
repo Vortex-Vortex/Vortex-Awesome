@@ -12,7 +12,65 @@ local taglist_buttons = gears.table.join(
         {},
         1,
         function(t)
-            t:view_only()
+            change_tag(
+                function()
+                    t:view_only()
+                end
+            )
+        end
+    ),
+    awful.button(
+        {modkey},
+        1,
+        function(t)
+            change_tag(
+                function()
+                    _G.client.focus:move_to_tag(t)
+                    t:view_only()
+                end
+            )
+        end
+    ),
+    awful.button(
+        {},
+        3,
+        function(t)
+            change_tag(
+                function()
+                    awful.tag.viewtoggle(t)
+                end
+            )
+        end
+    ),
+    awful.button(
+        {modkey},
+        3,
+        function(t)
+            if _G.client.focus then
+                _G.client.focus:toggle_tag(t)
+            end
+        end
+    ),
+    awful.button(
+        {},
+        4,
+        function(t)
+            change_tag(
+                function()
+                    awful.tag.viewprev(t.screen)
+                end
+            )
+        end
+    ),
+    awful.button(
+        {},
+        5,
+        function(t)
+            change_tag(
+                function()
+                    awful.tag.viewnext(t.screen)
+                end
+            )
         end
     )
 )
@@ -80,6 +138,43 @@ local function list_update(w, buttons, label, data, objects)
     end
 end
 
+gears.timer.delayed_call(
+    function()
+        for _, c in ipairs(client.get()) do
+            c.minimized = c.skip_taskbar and c.minimized or false
+        end
+    end
+)
+
+function change_tag(action)
+    local prev_tags = awful.screen.focused().selected_tags
+    action()
+    local cur_tags = awful.screen.focused().selected_tags
+
+    if #prev_tags == 1 and #cur_tags == 1 and prev_tags[1] == cur_tags[1] then
+        return
+    else
+        for _, tag in ipairs(cur_tags) do
+            for _, client in ipairs(tag:clients()) do
+                if client.marked and not client.skip_taskbar then
+                    client.minimized = false
+                end
+                client.marked = false
+            end
+        end
+        local cur_clients = cur_tags[1]:clients()
+        for _, tag in ipairs(prev_tags) do
+            if not gears.table.hasitem(cur_tags, tag) then
+                for _, client in ipairs(tag:clients()) do
+                    if not client.skip_taskbar and not gears.table.hasitem(cur_clients, client) then
+                        client.marked = not client.minimized
+                        client.minimized = true
+                    end
+                end
+            end
+        end
+    end
+end
 
 local function Taglist(s)
     local taglist = awful.widget.taglist{
