@@ -55,12 +55,12 @@ theme.hotkeys_bg               = theme.bg_color
 theme.hotkeys_fg               = theme.fg_color
 theme.hotkeys_border_width     = theme.border_width
 theme.hotkeys_border_color     = theme.border_focus
-theme.hotkeys_modifiers_fg     = theme.border_focus
-theme.hotkeys_label_bg         = theme.hotkeys_fg
-theme.hotkeys_label_fg         = theme.hotkeys_bg
-theme.hotkeys_font             = theme.system_font .. '12'
-theme.hotkeys_description_font = theme.system_font .. '8'
-theme.hotkeys_group_margin     = 0
+theme.hotkeys_modifiers_fg     = pallet.background.shaden_15
+theme.hotkeys_label_bg         = theme.hotkeys_bg
+theme.hotkeys_label_fg         = theme.hotkeys_fg
+theme.hotkeys_font             = theme.system_font .. '14'
+theme.hotkeys_description_font = theme.system_font .. '10'
+theme.hotkeys_group_margin     = 10
 
 -- Layouts
 theme.layout_max      = icon_dir .. '/layouts/max.svg'
