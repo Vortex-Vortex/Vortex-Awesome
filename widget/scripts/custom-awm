@@ -1,0 +1,2 @@
+#!/bin/bash
+notify-send 'Custom Script' 'This is a custom script'
