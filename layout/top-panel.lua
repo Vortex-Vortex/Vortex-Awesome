@@ -5,16 +5,21 @@ local wibox     = require('wibox')
 
 awesome.register_xproperty("AWESOME", "string")
 
+local left_panel = require('layout.left-panel')
 local taglist = require('widget.tag-list')
 local tasklist = require('widget.task-list')
 local clock = require('widget.clock')
 local systray_widget = require('widget.systray-widget')
+local crypto_widget = require('widget.crypto-screener')
 local volume_widget = require('widget.volume-widget')
 local music_widget = require('widget.music-widget')
 local pomodoro_widget = require('widget.pomodoro')
 local net_speed_widget = require('widget.net-speed')
+local layout_widget = require('widget.layout-widget')
 local calendar_widget = require('widget.calendar')
 local notification_center = require('widget.notification-center')
+
+local crypto_screener = require('widget.crypto-screener')
 
 local function TopPanel(s)
     local Panel = wibox(
@@ -26,7 +31,6 @@ local function TopPanel(s)
             width = s.geometry.width,
             x = s.geometry.x,
             y = s.geometry.y,
---             y = s.geometry.height - beautiful.top_panel_height,
             stretch = false
         }
     )
@@ -34,7 +38,6 @@ local function TopPanel(s)
     Panel:struts(
         {
             top = beautiful.top_panel_height
---             bottom = beautiful.top_panel_height
         }
     )
 
@@ -44,6 +47,7 @@ local function TopPanel(s)
             layout = wibox.layout.align.horizontal,
             {
                 layout = wibox.layout.fixed.horizontal,
+                left_panel(s),
                 taglist(s),
                 tasklist(s)
             },
@@ -59,10 +63,12 @@ local function TopPanel(s)
                 },
                 nil,
                 systray_widget(s),
+                crypto_widget(s),
                 volume_widget(s),
                 music_widget(s),
                 pomodoro_widget(s),
                 net_speed_widget(),
+                layout_widget(s),
                 calendar_widget(s),
                 notification_center(s)
             }
