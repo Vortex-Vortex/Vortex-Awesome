@@ -1,0 +1,5 @@
+#!/bin/bash
+ocr=$(flameshot gui --raw | tesseract -l eng - -)
+
+echo -n "$ocr" | xclip -selection clipboard
+notify-send 'Crop-OCR tesseract' "$ocr"
