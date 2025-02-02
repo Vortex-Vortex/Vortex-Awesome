@@ -23,7 +23,7 @@ local function Notification_center(s)
     local delete_queue = {}
     local delete_notifications
     local popup_clicked_on = false
-    local notif_on_widget = 6
+    local notif_on_widget = 10
     local notification_rows = {
         layout = wibox.layout.fixed.vertical
     }

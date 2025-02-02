@@ -17,7 +17,7 @@ local function Todo_widget(s)
     local todo_list_filtered_queue = {}
     local todo_list_limited_queue = {}
     local update_queue = true
-    local number_of_rows = 6
+    local number_of_rows = 8
     local current_filter = 'All'
     local todo_list = {}
 
