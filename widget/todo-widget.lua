@@ -395,8 +395,8 @@ local function Todo_widget(s)
             local filter_text = wibox.widget{
                 widget = wibox.widget.textbox,
                 text = todo.filter,
-                font = beautiful.system_font .. 'mono bold 8',
-                align = 'center',
+                font = beautiful.system_font .. 'mono bold 9',
+                align = 'right',
                 valign = 'center',
                 forced_width = 75,
                 forced_height = 12
@@ -414,8 +414,7 @@ local function Todo_widget(s)
                 widget = wibox.container.background,
                 clickable_container(
                     wibox.widget{
-                        layout = wibox.layout.stack,
-                        todo_text,
+                        layout = wibox.layout.fixed.vertical,
                         {
                             widget = wibox.container.place,
                             {
@@ -426,8 +425,10 @@ local function Todo_widget(s)
                                 filter_text
                             },
                             align = 'center',
-                            valign = 'top'
-                        }
+                            valign = 'bottom',
+                            forced_height = 15
+                        },
+                        todo_text
                     },
                     {
                         border_width = beautiful.border_width_reduced,
