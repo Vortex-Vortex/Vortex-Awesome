@@ -48,4 +48,4 @@ add_to_queue('telegram-desktop', 1, { tag = "3" }, true)
 add_to_queue('pragha', 1, { tag = "8" }, true)
 add_to_queue('nemo', 3, { tag = "5" })
 
-run_queue()
+gears.timer.delayed_call(run_queue)
