@@ -5,12 +5,6 @@ local icons = require('theme.icons')
 
 local function Net_speed()
     local interface = 'eno1'
-    awful.spawn.easy_async_with_shell(
-        [[ip route | grep default | head -n1 | awk '{print $5}']],
-        function(stdout)
-            interface = string.gsub(stdout, '\n', '')
-        end
-    )
 
     local function make_readable(bytes)
         bits = 8 * bytes
@@ -79,16 +73,12 @@ local function Net_speed()
     end
 
     if gears.filesystem.dir_readable('/sys/class/net/' .. interface) then
-        gears.timer.delayed_call(
-            function()
-                gears.timer{
-                    timeout = 1,
-                    call_now = true,
-                    autostart = true,
-                    callback = update_widget
-                }
-            end
-        )
+        gears.timer{
+            timeout = 1,
+            call_now = true,
+            autostart = true,
+            callback = update_widget
+        }
     end
 
     return net_speed_widget
