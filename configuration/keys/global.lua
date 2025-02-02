@@ -471,7 +471,14 @@ local global_keys = gears.table.join(
         {modkey},
         '\'',
         function()
-            toggle_layout_list()
+            _G.toggle_layout_list()
+        end
+    ),
+    awful.key(
+        {modkey},
+        'n',
+        function()
+            _G.toggle_notification_center()
         end
     ),
 
