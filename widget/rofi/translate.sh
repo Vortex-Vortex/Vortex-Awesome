@@ -23,5 +23,5 @@ elif [[ -n $source ]]; then
     target=${target:-pt}
 fi
 result="$(trans $source:${target:-pt} "${prompt% *}" -no-ansi -no-autocorrect && ${to_hist:-false} && echo $prompt >> ~/.local/share/rofi/rofi_trans_history)"
-rofi -config ~/.config/awesome/theme/rofi/translate-result.rasi -dmenu -mesg "$result" && echo -n "$(trans -b $source:${target:-pt} "${prompt% *}")" | xclip -selection clipboard
+rofi -config ~/.config/awesome/theme/rofi/translate-result.rasi -dmenu -p 'Translate:' -mesg "$result" && echo -n "$(trans -b $source:${target:-pt} "${prompt% *}")" | xclip -selection clipboard
 
