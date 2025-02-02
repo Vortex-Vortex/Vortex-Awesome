@@ -522,7 +522,7 @@ local function Notification_center(s)
                         {},
                         5,
                         function()
-                            notification_text.forced_height = notification_text:get_height_for_width(340)
+                            notification_text.forced_height = math.max(notification_text:get_height_for_width(340), 60)
                         end
                     )
                 )
@@ -542,7 +542,7 @@ local function Notification_center(s)
 
     local filters = {
         ['Bitcoin Magazine'] = true,
-        ['Walter Bloomberg'] = true,
+        ['*Walter Bloomberg'] = true,
         ['Raicher'] = true,
         ['Agenda-Free TV'] = true,
         ['MMCrypto'] = true,
