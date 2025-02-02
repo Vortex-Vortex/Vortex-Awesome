@@ -47,5 +47,6 @@ return {
     bell_mute_icon = dir .. '/misc/bell-mute.svg',
     circle_icon = dir .. '/misc/circle.svg',
     square_icon = dir .. '/misc/square.svg',
-    bitcoin_icon = dir .. '/misc/bitcoin.svg'
+    bitcoin_icon = dir .. '/misc/bitcoin.svg',
+    checkbox_icon = dir .. '/misc/checkbox.svg'
 }

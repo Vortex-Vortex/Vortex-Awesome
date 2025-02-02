@@ -16,6 +16,7 @@ local music_widget = require('widget.music-widget')
 local pomodoro_widget = require('widget.pomodoro')
 local net_speed_widget = require('widget.net-speed')
 local layout_widget = require('widget.layout-widget')
+local todo_widget = require('widget.todo-widget')
 local calendar_widget = require('widget.calendar')
 local notification_center = require('widget.notification-center')
 
@@ -69,6 +70,7 @@ local function TopPanel(s)
                 pomodoro_widget(s),
                 net_speed_widget(),
                 layout_widget(s),
+                todo_widget(s),
                 calendar_widget(s),
                 notification_center(s)
             }
