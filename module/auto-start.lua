@@ -45,7 +45,7 @@ end
 add_to_queue('waterfox', 1, { tag = "1" }, true)
 add_to_queue('terminator -r spawn_on_2', 3, { tag = "2" })
 add_to_queue('telegram-desktop', 1, { tag = "3" }, true)
-add_to_queue('pragha', 1, { tag = "8" }, true)
+add_to_queue('pragha ' .. os.getenv('HOME') .. '/Music', 1, { tag = "8" }, true)
 add_to_queue('nemo', 3, { tag = "5" })
 
 gears.timer.delayed_call(run_queue)
