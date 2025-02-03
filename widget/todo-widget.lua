@@ -386,7 +386,7 @@ local function Todo_widget(s)
             local date_text = wibox.widget{
                 widget = wibox.widget.textbox,
                 text = todo.due_date,
-                font = beautiful.system_font .. 'mono bold 10',
+                font = beautiful.system_font .. '9',
                 align = 'center',
                 valign = 'center',
                 forced_width = 80,
@@ -404,7 +404,7 @@ local function Todo_widget(s)
             local todo_text = wibox.widget{
                 widget = wibox.widget.textbox,
                 text = todo.entry,
-                font = beautiful.system_font .. '12',
+                font = beautiful.system_font .. '10',
                 align = 'center',
                 valign = 'center',
                 forced_height = 50
