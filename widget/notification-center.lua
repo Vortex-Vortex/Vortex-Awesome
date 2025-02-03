@@ -213,7 +213,7 @@ local function Notification_center(s)
         },
         {
             layout = wibox.layout.fixed.horizontal,
-            create_filter_widget('Telegram'),
+            create_filter_widget('Gmail'),
             create_filter_widget('Misc')
         }
     }
@@ -546,14 +546,15 @@ local function Notification_center(s)
         ['Raicher'] = true,
         ['Agenda-Free TV'] = true,
         ['MMCrypto'] = true,
-        ['TechDev'] = true
+        ['TechDev'] = true,
+        ['Benjamin Cowen'] = true
     }
     local notification_sound = os.getenv('HOME') .. '/.config/awesome/theme/notification.wav'
 
     function naughty.config.notify_callback(args)
         update_queue = true
 
-        args.filter_name = args.appname == 'Telegram Desktop' and 'Telegram' or filters[args.title] and 'X' or 'Misc'
+        args.filter_name = filters[args.title] and 'X' or args.title == 'Notifier for Gmail™' and 'Gmail' or 'Misc'
 
         args.time = os.date("%H:%M:%S")
 
