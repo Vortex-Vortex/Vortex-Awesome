@@ -547,7 +547,8 @@ local function Notification_center(s)
         ['Agenda-Free TV'] = true,
         ['MMCrypto'] = true,
         ['TechDev'] = true,
-        ['Benjamin Cowen'] = true
+        ['Benjamin Cowen'] = true,
+        ['Mises Capital'] = true
     }
     local notification_sound = os.getenv('HOME') .. '/.config/awesome/theme/notification.wav'
 
