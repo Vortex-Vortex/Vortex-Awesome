@@ -57,8 +57,8 @@ local function Calendar(s)
             forced_num_cols = num_cols
         }
 
-        local start_row = 3
-        local week_start = 2 -- 1=Sunday, 2=Monday
+        local start_row = 1
+        local week_start = 1 -- 1=Sunday, 2=Monday
         local last_day = os.date(
             "*t",
             os.time{
@@ -83,7 +83,16 @@ local function Calendar(s)
             margins = 5
         }
 
-        local weekdays = {
+        local weekdays = week_start == 1 and {
+            "",
+            "S",
+            "M",
+            "T",
+            "T",
+            "W",
+            "F",
+            "S"
+        } or {
             "",
             "M",
             "T",
@@ -123,7 +132,7 @@ local function Calendar(s)
         }
 
         local i = start_row
-        local j = column_first_day
+        local j = column_first_day + 1
         local current_week = nil
         local drawn_weekdays = 0
         for d=1, month_days do
