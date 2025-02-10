@@ -52,12 +52,14 @@ local function battery_bar()
         }
     }
 
+    local percentage = 0
+
     local function update_battery()
         awful.spawn.easy_async_with_shell(
             [[upower -i $(upower -e | grep -i headset) | grep percentage]],
             function(stdout)
                 if string.find(stdout, '%w') then
-                    percentage = string.find(stdout, '%s(%d+)%%')
+                    percentage = stdout:match('%s(%d+)%%')
                     battery_bar.value = tonumber(percentage)
                     battery_text_cur.text = percentage .. '%'
                 else
