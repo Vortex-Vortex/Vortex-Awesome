@@ -78,7 +78,7 @@ awful.screen.connect_for_each_screen(
                     icon_only         = true,
                     layout            = tag.layout,
                     gap_single_client = false,
-                    gap               = 4,
+                    gap               = 0,
                     screen            = s,
                     default_app       = tag.default_app,
                     selected          = i == 1
@@ -88,14 +88,14 @@ awful.screen.connect_for_each_screen(
     end
 )
 
-_G.tag.connect_signal(
-    'property::layout',
-    function(t)
-        local currentLayout = awful.tag.getproperty(t, 'layout')
-        if (currentLayout == awful.layout.suit.max) then
-            t.gap = 0
-        else
-            t.gap = 4
-        end
-    end
-)
+-- _G.tag.connect_signal(
+--     'property::layout',
+--     function(t)
+--         local currentLayout = awful.tag.getproperty(t, 'layout')
+--         if (currentLayout == awful.layout.suit.max) then
+--             t.gap = 0
+--         else
+--             t.gap = 0
+--         end
+--     end
+-- )
