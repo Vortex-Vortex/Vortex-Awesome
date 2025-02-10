@@ -10,7 +10,7 @@ local taglist = require('widget.tag-list')
 local tasklist = require('widget.task-list')
 local clock = require('widget.clock')
 local systray_widget = require('widget.systray-widget')
-local crypto_widget = require('widget.crypto-screener')
+-- local crypto_widget = require('widget.crypto-screener')
 local volume_widget = require('widget.volume-widget')
 local music_widget = require('widget.music-widget')
 local pomodoro_widget = require('widget.pomodoro')
@@ -64,7 +64,7 @@ local function TopPanel(s)
                 },
                 nil,
                 systray_widget(s),
-                crypto_widget(s),
+--                 crypto_widget(s),
                 volume_widget(s),
                 music_widget(s),
                 pomodoro_widget(s),
