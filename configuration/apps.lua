@@ -29,7 +29,7 @@ return {
         'numlockx on',
         'setxkbmap br',
         'nm-applet --indicator',
-        'picom --config ' .. home_dir .. '/.config/awesome/configuration/picom.conf',
+        'picom --vsync --config ' .. home_dir .. '/.config/awesome/configuration/picom.conf',
         'lxsession',
         'xmodmap -e "add mod3 = Scroll_Lock"',
         'flameshot'
