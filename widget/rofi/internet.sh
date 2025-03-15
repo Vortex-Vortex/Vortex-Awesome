@@ -23,9 +23,11 @@ entries=(
     "bash,manual,.bsh"
     "bybit,exchange,bitcoin,.bbt"
     "chatgpt,.gpt"
+    "deepseek,.dp"
     "gemini,google,.gem"
     "github,.gh"
     "gmail,google,mail,.gm"
+    "grok,x,.gk"
     "jstris,tetris,game,.js"
     "jupiterweb,usp,.jw"
     "lua,manual,.lua"
@@ -40,6 +42,7 @@ entries=(
     "whatsapp,.wp"
     "x,twitter,.tw,.x"
     "youtube,google,.yt"
+    "z-lib,z-library,books,.zlib"
 )
 
 chosen=$(for prompt in "${entries[@]}"; do
@@ -62,6 +65,9 @@ case "${chosen/,*}" in
     "chatgpt")
         site=chat.openai.com
         ;;
+    "deepseek")
+        site=chat.deepseek.com
+        ;;
     "gemini")
         site=gemini.google.com
         ;;
@@ -70,6 +76,9 @@ case "${chosen/,*}" in
         ;;
     "gmail")
         site=mail.google.com
+        ;;
+    "grok")
+        site=grok.com
         ;;
     "jstris")
         site=jstris.jezevec10.com
@@ -112,6 +121,9 @@ case "${chosen/,*}" in
         ;;
     "youtube")
         site=youtube.com
+        ;;
+    "z-lib")
+        site=z-library.sk
         ;;
     '\s'*|'/s'*)
         engine=$(cut -d' ' -f 2 <(echo "$chosen"))
