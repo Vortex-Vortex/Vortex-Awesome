@@ -49,5 +49,5 @@ awful.rules.rules = {
             skip_decoration = true,
             placement = awful.placement.centered
         }
-    },
+    }
 }

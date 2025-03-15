@@ -17,7 +17,7 @@ local function Net_speed()
         elseif bits < 1000000000 then
             speed = bits / 1024000
             dim = 'Mb/s'
-        elseif bits < 1000000000000 then
+        else
             speed = bits / 1024000000
             dim = 'Gb/s'
         end
